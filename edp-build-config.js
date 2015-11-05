@@ -38,11 +38,12 @@ exports.getProcessors = function () {
         files: ['src/**/*.js'],
         compileOptions: {
             stage: 0,
-            modules: 'commonStrict',
+            modules: 'common',
             compact: false,
             ast: false,
             blacklist: ['strict'],
             externalHelpers: true,
+            loose: 'all',
             moduleId: '',
             getModuleId: function (filename) {
                 return filename.replace('src/', '');
