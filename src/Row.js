@@ -23,7 +23,7 @@ class Row extends Component {
     render() {
 
         let {columnNum} = this.props;
-        let margin = 20 / (columnNum - 1) + '%';
+        let margin = -20 / (columnNum - 1) + '%';
         let style = {
             marginLeft: margin,
             marginRight: margin

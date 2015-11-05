@@ -32,10 +32,16 @@ define('melon/row/Span', [
             this.type = 'row-span';
         }
         RowSpan.prototype.render = function render() {
-            var occupy = this.props.occupy;
+            var _props = this.props;
+            var occupy = _props.occupy;
+            var style = _props.style;
+            var other = babelHelpers.objectWithoutProperties(_props, [
+                'occupy',
+                'style'
+            ]);
             var columnNum = this.context.columnNum;
             var padding = 20 / (columnNum - 1) + '%';
-            var style = {
+            style = babelHelpers._extends({
                 paddingLeft: padding,
                 paddingRight: padding,
                 width: occupy / columnNum * 100 + '%',
@@ -44,9 +50,11 @@ define('melon/row/Span', [
                     occupy,
                     occupy,
                     'auto'
-                ].join(' ')
-            };
-            return _react2['default'].createElement('div', babelHelpers._extends({}, this.props, {
+                ].join(' '),
+                WebkitBoxSizing: 'border-box',
+                boxSizing: 'border-box'
+            }, style);
+            return _react2['default'].createElement('div', babelHelpers._extends({}, other, {
                 className: this.getClassName(),
                 style: style
             }), this.props.children);

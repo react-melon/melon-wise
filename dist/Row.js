@@ -24,7 +24,7 @@ define('melon/Row', [
         };
         Row.prototype.render = function render() {
             var columnNum = this.props.columnNum;
-            var margin = 20 / (columnNum - 1) + '%';
+            var margin = -20 / (columnNum - 1) + '%';
             var style = {
                 marginLeft: margin,
                 marginRight: margin

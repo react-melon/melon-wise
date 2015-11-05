@@ -21,19 +21,22 @@ class RowSpan extends Component {
 
     render() {
 
-        let {occupy} = this.props;
+        let {occupy, style, ...other} = this.props;
         let {columnNum} = this.context;
         let padding = 20 / (columnNum - 1) + '%';
-        let style = {
+        style = {
             paddingLeft: padding,
             paddingRight: padding,
             width: (occupy / columnNum) * 100 + '%',
             WebkitBoxFlex: occupy,
-            WebkitFlex: [occupy, occupy, 'auto'].join(' ')
+            WebkitFlex: [occupy, occupy, 'auto'].join(' '),
+            WebkitBoxSizing: 'border-box',
+            boxSizing: 'border-box',
+            ...style
         };
 
         return (
-            <div {...this.props} className={this.getClassName()} style={style}>
+            <div {...other} className={this.getClassName()} style={style}>
                 {this.props.children}
             </div>
         );
@@ -45,10 +48,8 @@ RowSpan.defaultProps = {
     occupy: 4
 };
 
-
 RowSpan.propsTypes = {
     occupy: PropTypes.number
 };
-
 
 export default RowSpan;
