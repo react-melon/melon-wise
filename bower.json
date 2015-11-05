@@ -1,0 +1,33 @@
+{
+  "name": "melon-wise",
+  "version": "0.0.1",
+  "homepage": "https://github.com/cxtom/melon-wise",
+  "authors": [
+    "cxtom2010@gmail.com"
+  ],
+  "description": "react ui components on mobile",
+  "main": "src/main",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [
+    "react",
+    "ui"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "dep",
+    "test",
+    "tests",
+    "lib",
+    "doc",
+    "example"
+  ],
+  "dependencies": {
+    "react": "0.14.2",
+    "underscore": "~1.8.3"
+  }
+}

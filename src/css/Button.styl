@@ -1,0 +1,93 @@
+@import "./base.styl"
+
+@require('./Ripple.styl');
+
+$-melon-button = {
+
+    display: inline-block
+    box-sizing: border-box
+
+    padding: 0 1em
+    height: 2em
+
+    font-size: $-melon-medium-font-size
+    line-height: 2em
+    text-transform: uppercase
+
+    text-align: center
+
+    outline: 0
+    vertical-align: middle
+
+
+    border-radius: 2px
+    border: none
+
+    cursor: pointer
+    user-select: none
+
+    transition: all .3s
+
+    // Gets rid of tap active state
+    -webkit-tap-highlight-color: transparent
+
+    '&:disabled': {
+        cursor: not-allowed
+        color: rgba(#000, .26) !important
+        background-color: $-melon-colors.white !important
+    }
+
+}
+
+melon-button-swatch($swatches, $revert = false)
+
+    color: $revert ? $-melon-colors.white : $swatches.color
+    background-color: $revert ? $swatches.color : $swatches.background-color
+
+    & .{$-melon-class-prefix}-touch-ripple-circle
+        background-color: $swatches.color-ripple
+
+    &:hover
+        color: $revert ? $-melon-colors.white : $swatches.color-hover
+        background-color: rgba($swatches.background-color-hover, $revert ? .6 : .2)
+
+    &:active
+        color: $revert ? $-melon-colors.white : $swatches.color-active
+        background-color: rgba($swatches.background-color-active, $revert ? .8 : .4)
+
+
+.{$-melon-class-prefix}-button
+
+    {$-melon-button}
+
+    melon-button-swatch($-melon-button-default)
+
+    for $color-theme, $value in $-melon-button-color-themes
+        &.variant-{$color-theme}
+            melon-button-swatch($value)
+            &.variant-raised
+                melon-button-swatch($value, true)
+
+    &.variant-raised
+        {$-melon-button-raised}
+        &:disabled
+            color: rgba(#000, .26) !important
+            background-color: $-melon-colors.grey200 !important
+
+    .{$-melon-class-prefix}-icon
+        display: inline-block
+        font-size: 1em
+        line-height: 2em
+        vertical-align: top
+
+        & + span
+            display: inline-block
+            margin-left: 0.5em
+            vertical-align: top
+
+    &.variant-icon
+        padding: 0
+        min-width: 2em
+
+    &.variant-ripple
+        position: relative
