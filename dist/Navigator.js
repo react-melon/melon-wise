@@ -1,4 +1,4 @@
-define('melon/Button', [
+define('melon/Navigator', [
     'require',
     'exports',
     'module',
@@ -11,13 +11,13 @@ define('melon/Button', [
     var React = require('react');
     var Component = require('./Component');
     var Tapable = require('./Tappable');
-    var Button = function (_Component) {
-        babelHelpers.inherits(Button, _Component);
-        function Button() {
-            babelHelpers.classCallCheck(this, Button);
+    var Navigator = function (_Component) {
+        babelHelpers.inherits(Navigator, _Component);
+        function Navigator() {
+            babelHelpers.classCallCheck(this, Navigator);
             _Component.apply(this, arguments);
         }
-        Button.prototype.render = function render() {
+        Navigator.prototype.render = function render() {
             var _props = this.props;
             var label = _props.label;
             var children = _props.children;
@@ -27,17 +27,16 @@ define('melon/Button', [
             ]);
             var content = label || children;
             return React.createElement(Tapable, babelHelpers._extends({}, other, {
-                component: 'button',
                 classBase: 'variant',
                 className: this.getClassName()
             }), content);
         };
-        babelHelpers.createClass(Button, null, [{
+        babelHelpers.createClass(Navigator, null, [{
                 key: 'displayName',
-                value: 'Button',
+                value: 'Navigator',
                 enumerable: true
             }]);
-        return Button;
+        return Navigator;
     }(Component);
-    module.exports = Button;
+    module.exports = Navigator;
 });

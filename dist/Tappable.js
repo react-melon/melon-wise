@@ -309,7 +309,7 @@ define('melon/Tappable', [
             var props = this.props;
             var className = props.classBase + (this.state.isActive ? '-active' : '-inactive');
             if (props.className) {
-                className += ' ' + props.className;
+                className = (props.className + ' ' || '') + className;
             }
             var style = babelHelpers._extends({}, touchStyles, props.style);
             var newComponentProps = babelHelpers._extends({}, props, {

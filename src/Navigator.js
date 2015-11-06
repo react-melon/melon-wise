@@ -1,5 +1,5 @@
 /**
- * @file esui-react/Button
+ * @file esui-react/Navigator
  * @author cxtom<cxtom2010@gmail.com>
  */
 
@@ -8,9 +8,9 @@ var React = require('react');
 var Component = require('./Component');
 var Tapable = require('./Tappable');
 
-class Button extends Component {
+class Navigator extends Component {
 
-    static displayName = 'Button';
+    static displayName = 'Navigator';
 
     render() {
 
@@ -23,7 +23,7 @@ class Button extends Component {
         var content = label || children;
 
         return (
-            <Tapable {...other} component="button" classBase="variant" className={this.getClassName()}>
+            <Tapable {...other} classBase="variant" className={this.getClassName()}>
                 {content}
             </Tapable>
         );
@@ -32,4 +32,4 @@ class Button extends Component {
 
 }
 
-module.exports = Button;
+module.exports = Navigator;

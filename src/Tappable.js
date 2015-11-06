@@ -351,7 +351,7 @@ class Tappable extends React.Component {
         var className = props.classBase + (this.state.isActive ? '-active' : '-inactive');
 
         if (props.className) {
-            className += ' ' + props.className;
+            className = ((props.className + ' ') || '') + className;
         }
 
         var style = {
