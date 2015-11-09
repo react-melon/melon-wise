@@ -5,7 +5,7 @@
 
 var React = require('react');
 var config = require('./config');
-var cx = require('./common/util/classname');
+var cx = require('./util/classname');
 
 /**
  * 将参数用`-`连接成字符串

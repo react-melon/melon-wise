@@ -4,7 +4,7 @@
  */
 
 var React = require('react');
-var Validity = require('./common/util/Validity');
+var Validity = require('./util/Validity');
 var Validator = require('./Validator');
 
 var Component = require('./Component');

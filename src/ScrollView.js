@@ -5,8 +5,9 @@
 
 import React from 'react';
 import Component from './Component';
-import dom from './common/util/dom';
-import date from './common/util/date';
+import dom from './util/dom';
+import date from './util/date';
+import EASING from './util/easing';
 
 const {PropTypes} = React;
 
@@ -19,58 +20,6 @@ const transitionStyles = Object.assign({}, {
     transformOrigin: dom.prefixStyle('transformOrigin')
 });
 
-const EASING = Object.assign({}, {
-    quadratic: {
-        style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-        fn: function (k) {
-            return k * (2 - k);
-        }
-    },
-    circular: {
-        style: 'cubic-bezier(0.1, 0.57, 0.1, 1)',   // Not properly "circular" but this looks better, it should be (0.075, 0.82, 0.165, 1)
-        fn: function (k) {
-            return Math.sqrt(1 - (--k * k));
-        }
-    },
-    back: {
-        style: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-        fn: function (k) {
-            var b = 4;
-            return (k = k - 1) * k * ((b + 1) * k + b) + 1;
-        }
-    },
-    bounce: {
-        style: '',
-        fn: function (k) {
-            if ((k /= 1) < (1 / 2.75)) {
-                return 7.5625 * k * k;
-            }
-            else if (k < (2 / 2.75)) {
-                return 7.5625 * (k -= (1.5 / 2.75)) * k + 0.75;
-            }
-            else if (k < (2.5 / 2.75)) {
-                return 7.5625 * (k -= (2.25 / 2.75)) * k + 0.9375;
-            }
-            return 7.5625 * (k -= (2.625 / 2.75)) * k + 0.984375;
-        }
-    },
-    elastic: {
-        style: '',
-        fn: function (k) {
-            var f = 0.22;
-            var e = 0.4;
-
-            if (k === 0) {
-                return 0;
-            }
-            if (k === 1) {
-                return 1;
-            }
-
-            return (e * Math.pow(2, -10 * k) * Math.sin((k - f / 4) * (2 * Math.PI) / f) + 1);
-        }
-    }
-});
 
 let momentum = function (current, start, time, lowerMargin, wrapperSize, deceleration) {
     var distance = current - start;
@@ -115,7 +64,9 @@ class ScrollView extends Component {
         useTransition: PropTypes.bool,
         useTransform: PropTypes.bool,
 
-        directionLockThreshold: PropTypes.number
+        directionLockThreshold: PropTypes.number,
+
+        disableMouse: PropTypes.bool
     };
 
     static defaultProps = {
@@ -127,7 +78,9 @@ class ScrollView extends Component {
         bounceEasing: '',
 
         useTransform: true,
-        useTransition: true
+        useTransition: true,
+
+        disableMouse: true
     };
 
 
@@ -291,6 +244,12 @@ class ScrollView extends Component {
         dom.on(scroller, 'oTransitionEnd', this.onTransitionEnd);
         dom.on(scroller, 'MSTransitionEnd', this.onTransitionEnd);
 
+        if (!this.props.disableMouse) {
+            dom.on(window, 'mousemove', this.onTouchMove);
+            dom.on(window, 'mousecancel', this.onTouchEnd);
+            dom.on(window, 'mouseup', this.onTouchEnd);
+        }
+
     }
 
     clearEvents() {
@@ -304,6 +263,12 @@ class ScrollView extends Component {
         dom.off(scroller, 'webkitTransitionEnd', this.onTransitionEnd);
         dom.off(scroller, 'oTransitionEnd', this.onTransitionEnd);
         dom.off(scroller, 'MSTransitionEnd', this.onTransitionEnd);
+
+        if (!this.props.disableMouse) {
+            dom.off(window, 'mousemove', this.onTouchMove);
+            dom.off(window, 'mousecancel', this.onTouchEnd);
+            dom.off(window, 'mouseup', this.onTouchEnd);
+        }
     }
 
     onTouchEnd(e) {
@@ -532,6 +497,7 @@ class ScrollView extends Component {
             children,
             component,
             style,
+            disableMouse,
             ...other
         } = this.props;
 
@@ -548,7 +514,8 @@ class ScrollView extends Component {
                 {...other}
                 ref="main"
                 className={this.getClassName()}
-                onTouchStart={disabled ? null : this.onTouchStart}>
+                onTouchStart={disabled ? null : this.onTouchStart}
+                onMouseDown={(disabled || disableMouse) ? null : this.onTouchStart}>
                 {children}
             </div>
         );

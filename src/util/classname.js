@@ -3,7 +3,7 @@
  * @author leon(ludafa@outlook.com)
  */
 
-var config = require('../../config');
+var config = require('../config');
 
 exports.createClassName = function (type, value) {
     return config[type] + '-' + value;

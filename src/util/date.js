@@ -3,8 +3,6 @@
  * @author cxtom(cxtom2010@gmail.com)
  */
 
-var _ = require('underscore');
-
 module.exports = {
 
     addDays: function (d, days) {
@@ -121,7 +119,6 @@ module.exports = {
         }
         preArray.reverse();
 
-        weekArray[0] = _.compact(firstWeek);
         var last;
         var lastDay = this.getLastDayOfMonth(d);
         for (i = 0; i < 7; i++) {
