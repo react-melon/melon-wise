@@ -39,13 +39,14 @@ class LazyImage extends Component {
             return;
         }
 
-        this.loadImage();
+        setTimeout(() => {
+            this.loadImage();
+        }, 0);
     }
 
     componentWillReceiveProps(props) {
         if (!this.state.load && props.load && this.isControlled
             || props.src !== this.props.src) {
-
             this.loadImage();
         }
     }

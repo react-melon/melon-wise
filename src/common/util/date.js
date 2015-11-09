@@ -292,6 +292,15 @@ module.exports = {
 
     yearDiff: function (d1, d2) {
         return ~~(this.monthDiff(d1, d2) / 12);
+    },
+
+    now: function () {
+
+        if (Date.now) {
+            return Date.now();
+        }
+
+        return new Date().getTime();
     }
 
 };
