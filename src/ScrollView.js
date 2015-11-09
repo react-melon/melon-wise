@@ -294,12 +294,12 @@ class ScrollView extends Component {
 
         e.preventDefault();
 
-        let point       = e.touches ? e.touches[0] : e;
+        // let point       = e.touches ? e.touches[0] : e;
         let duration    = date.now() - this.startTime;
         let newX = Math.round(this.x);
         let newY = Math.round(this.y);
-        let distanceX = Math.abs(newX - this.startX);
-        let distanceY = Math.abs(newY - this.startY);
+        // let distanceX = Math.abs(newX - this.startX);
+        // let distanceY = Math.abs(newY - this.startY);
         let time = 0;
         let easing = '';
 
@@ -435,7 +435,7 @@ class ScrollView extends Component {
 
         this.moved = true;
 
-        console.log(e, newX, newY);
+        // console.log(e, newX, newY);
 
         this.translate(newX, newY);
 
