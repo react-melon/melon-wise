@@ -117,6 +117,12 @@ class Component extends React.Component {
         return this.getStateClasses().join(' ');
     }
 
+    fire(eventName, params) {
+        let event = this.props['on' + eventName];
+
+        event && event(params);
+    }
+
 }
 
 var PropTypes = React.PropTypes;

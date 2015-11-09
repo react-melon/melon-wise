@@ -136,8 +136,8 @@ class ScrollView extends Component {
 
         this.onTouchStart = this.onTouchStart.bind(this);
         this.onTouchMove = this.onTouchMove.bind(this);
-        this.onTouchCancel = this.onTouchCancel.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
+        this.onTransitionEnd = this.onTransitionEnd.bind(this);
     }
 
     componentDidMount() {
@@ -152,6 +152,10 @@ class ScrollView extends Component {
         this.directionY = 0;
 
         this.refresh();
+    }
+
+    componentWillUnMount() {
+        this.clearEvents();
     }
 
     refresh() {
@@ -207,15 +211,13 @@ class ScrollView extends Component {
         //     this.animate(x, y, time, easing.fn);
         // }
 
-        if (this.props.onScroll) {
-            this.props.onScroll({
-                target: this,
-                postion: {
-                    x: x,
-                    y: y
-                }
-            });
-        }
+        this.fire('Scroll', {
+            target: this,
+            postion: {
+                x: x,
+                y: y
+            }
+        });
     }
 
     transitionTime(time) {
@@ -280,14 +282,28 @@ class ScrollView extends Component {
 
         dom.on(window, 'touchmove', this.onTouchMove);
         dom.on(window, 'touchend', this.onTouchEnd);
-        dom.on(window, 'touchcancel', this.onTouchCancel);
+        dom.on(window, 'touchcancel', this.onTouchEnd);
+
+        let scroller = this.refs.scroller;
+
+        dom.on(scroller, 'transitionend', this.onTransitionEnd);
+        dom.on(scroller, 'webkitTransitionEnd', this.onTransitionEnd);
+        dom.on(scroller, 'oTransitionEnd', this.onTransitionEnd);
+        dom.on(scroller, 'MSTransitionEnd', this.onTransitionEnd);
 
     }
 
     clearEvents() {
         dom.off(window, 'touchmove', this.onTouchMove);
         dom.off(window, 'touchend', this.onTouchEnd);
-        dom.off(window, 'touchcancel', this.onTouchCancel);
+        dom.off(window, 'touchcancel', this.onTouchEnd);
+
+        let scroller = this.refs.scroller;
+
+        dom.off(scroller, 'transitionend', this.onTransitionEnd);
+        dom.off(scroller, 'webkitTransitionEnd', this.onTransitionEnd);
+        dom.off(scroller, 'oTransitionEnd', this.onTransitionEnd);
+        dom.off(scroller, 'MSTransitionEnd', this.onTransitionEnd);
     }
 
     onTouchEnd(e) {
@@ -316,12 +332,8 @@ class ScrollView extends Component {
         // we scrolled less than 10 pixels
         if (!this.moved) {
 
-            if (this.props.onClick) {
-                this.props.onClick(e);
-            }
-            if (this.props.onScrollCancel) {
-                this.props.onScrollCancel();
-            }
+            this.fire('Click');
+            this.fire('ScrollCancel');
 
             this.clearEvents();
             return;
@@ -450,8 +462,16 @@ class ScrollView extends Component {
 
     }
 
-    onTouchCancel(e) {
+    onTransitionEnd(e) {
+        if (e.target !== this.refs.scroller || !this.isInTransition) {
+            return;
+        }
 
+        this.transitionTime();
+        if (!this.resetPosition(this.props.bounceTime)) {
+            this.isInTransition = false;
+            this.fire('ScrollEnd');
+        }
     }
 
     getComputedPosition() {
