@@ -21,7 +21,7 @@ const transitionStyles = Object.assign({}, {
 });
 
 
-let momentum = function (current, start, time, lowerMargin, wrapperSize, deceleration) {
+const momentum = function (current, start, time, lowerMargin, wrapperSize, deceleration) {
     var distance = current - start;
     var speed = Math.abs(distance) / time;
     var destination;
@@ -65,7 +65,6 @@ class ScrollView extends Component {
         useTransform: PropTypes.bool,
 
         directionLockThreshold: PropTypes.number,
-
         disableMouse: PropTypes.bool
     };
 
@@ -91,16 +90,29 @@ class ScrollView extends Component {
         this.onTouchMove = this.onTouchMove.bind(this);
         this.onTouchEnd = this.onTouchEnd.bind(this);
         this.onTransitionEnd = this.onTransitionEnd.bind(this);
+
+        this.state = {
+            x: 0,
+            y: 0,
+            time: 0,
+            easing: ''
+        };
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+
+        return this.props !== nextProps
+            || nextState.x !== this.state.x
+            || nextState.y !== this.state.y
+            || nextState.time !== this.state.time
+            || nextState.easing !== this.state.easing;
     }
 
     componentDidMount() {
-        this.scrollerStyle = this.refs.scroller.style;
 
         this.useTransition = dom.hasTransition && this.props.useTransition;
         this.useTransform = dom.hasTransform && this.props.useTransform;
 
-        this.x = 0;
-        this.y = 0;
         this.directionX = 0;
         this.directionY = 0;
 
@@ -156,45 +168,44 @@ class ScrollView extends Component {
         this.isInTransition = this.useTransition && time > 0;
 
         // if (!time || (this.useTransition && easing.style)) {
-        this.transitionTimingFunction(easing.style);
-        this.transitionTime(time);
-        this.translate(x, y);
+
+        this.translate(x, y, time, easing.style);
         // }
         // else {
         //     this.animate(x, y, time, easing.fn);
         // }
 
-        this.fire('Scroll', {
-            target: this,
-            postion: {
-                x: x,
-                y: y
-            }
-        });
     }
 
     transitionTime(time) {
         time = time || 0;
-        this.scrollerStyle[transitionStyles.transitionDuration] = time + 'ms';
+        this.setState({
+            time: time
+        });
     }
 
-    transitionTimingFunction(easing) {
-        this.scrollerStyle[transitionStyles.transitionTimingFunction] = easing;
-    }
+    translate(x, y, time, easingStyle) {
+        // if (!this.useTransform) {
+        //     x = Math.round(x);
+        //     y = Math.round(y);
+        //     this.scrollerStyle.left = x + 'px';
+        //     this.scrollerStyle.top = y + 'px';
+        // }
 
-    translate(x, y) {
-        if (this.useTransform) {
-            this.scrollerStyle[transitionStyles.transform] = 'translate(' + x + 'px,' + y + 'px)' + ' translateZ(0)';
-        }
-        else {
-            x = Math.round(x);
-            y = Math.round(y);
-            this.scrollerStyle.left = x + 'px';
-            this.scrollerStyle.top = y + 'px';
-        }
-
-        this.x = x;
-        this.y = y;
+        this.setState({
+            x: x,
+            y: y,
+            time: time || this.state.time,
+            easing: easingStyle || this.state.easing
+        }, () => {
+            this.fire('Scroll', {
+                target: this,
+                postion: {
+                    x: x,
+                    y: y
+                }
+            });
+        });
     }
 
     onTouchStart(e) {
@@ -226,10 +237,10 @@ class ScrollView extends Component {
             onScrollEnd && onScrollEnd();
         }
 
-        this.startX    = this.x;
-        this.startY    = this.y;
-        this.absStartX = this.x;
-        this.absStartY = this.y;
+        this.startX    = this.state.x;
+        this.startY    = this.state.y;
+        this.absStartX = this.startX;
+        this.absStartY = this.startY;
         this.pointX    = point.pageX;
         this.pointY    = point.pageY;
 
@@ -277,8 +288,8 @@ class ScrollView extends Component {
 
         // let point       = e.touches ? e.touches[0] : e;
         let duration    = date.now() - this.startTime;
-        let newX = Math.round(this.x);
-        let newY = Math.round(this.y);
+        let newX = Math.round(this.state.x);
+        let newY = Math.round(this.state.y);
         // let distanceX = Math.abs(newX - this.startX);
         // let distanceY = Math.abs(newY - this.startY);
         let time = 0;
@@ -311,16 +322,16 @@ class ScrollView extends Component {
         if (this.props.momentum && duration < 300) {
             momentumX = this.hasHorizontalScroll
                     ? momentum(
-                        this.x, this.startX, duration, this.maxScrollX,
-                        this.options.bounce ? this.wrapperWidth : 0,
-                        this.options.deceleration
+                        this.state.x, this.startX, duration, this.maxScrollX,
+                        this.props.bounce ? this.wrapperWidth : 0,
+                        this.props.deceleration
                     )
                     : {destination: newX, duration: 0};
             momentumY = this.hasVerticalScroll
                     ? momentum(
-                        this.y, this.startY, duration, this.maxScrollY,
-                        this.options.bounce ? this.wrapperHeight : 0,
-                        this.options.deceleration
+                        this.state.y, this.startY, duration, this.maxScrollY,
+                        this.props.bounce ? this.wrapperHeight : 0,
+                        this.props.deceleration
                     )
                     : {destination: newY, duration: 0};
             newX = momentumX.destination;
@@ -332,7 +343,7 @@ class ScrollView extends Component {
 
 // INSERT POINT: _end
 
-        if (newX !== this.x || newY !== this.y) {
+        if (newX !== this.state.x || newY !== this.state.y) {
             // change easing function when scroller goes out of the boundaries
             if (newX > 0 || newX < this.maxScrollX || newY > 0 || newY < this.maxScrollY) {
                 easing = EASING.quadratic;
@@ -391,15 +402,15 @@ class ScrollView extends Component {
         deltaX = this.hasHorizontalScroll ? deltaX : 0;
         deltaY = this.hasVerticalScroll ? deltaY : 0;
 
-        let newX = this.x + deltaX;
-        let newY = this.y + deltaY;
+        let newX = this.state.x + deltaX;
+        let newY = this.state.y + deltaY;
 
         // Slow down if outside of the boundaries
         if (newX > 0 || newX < this.maxScrollX) {
-            newX = this.props.bounce ? this.x + deltaX / 3 : newX > 0 ? 0 : this.maxScrollX;
+            newX = this.props.bounce ? this.state.x + deltaX / 3 : newX > 0 ? 0 : this.maxScrollX;
         }
         if (newY > 0 || newY < this.maxScrollY) {
-            newY = this.props.bounce ? this.y + deltaY / 3 : newY > 0 ? 0 : this.maxScrollY;
+            newY = this.props.bounce ? this.state.y + deltaY / 3 : newY > 0 ? 0 : this.maxScrollY;
         }
 
         this.directionX = deltaX > 0 ? -1 : deltaX < 0 ? 1 : 0;
@@ -420,8 +431,8 @@ class ScrollView extends Component {
 
         if (timestamp - this.startTime > 300) {
             this.startTime = timestamp;
-            this.startX = this.x;
-            this.startY = this.y;
+            this.startX = this.state.x;
+            this.startY = this.state.y;
         }
 
 
@@ -463,25 +474,25 @@ class ScrollView extends Component {
 
     resetPosition(time) {
 
-        let {x, y} = this;
+        let {x, y} = this.state;
 
         time = time || 0;
 
-        if (!this.hasHorizontalScroll || this.x > 0) {
+        if (!this.hasHorizontalScroll || this.state.x > 0) {
             x = 0;
         }
-        else if (this.x < this.maxScrollX) {
+        else if (this.state.x < this.maxScrollX) {
             x = this.maxScrollX;
         }
 
-        if (!this.hasVerticalScroll || this.y > 0) {
+        if (!this.hasVerticalScroll || this.state.y > 0) {
             y = 0;
         }
-        else if (this.y < this.maxScrollY) {
+        else if (this.state.y < this.maxScrollY) {
             y = this.maxScrollY;
         }
 
-        if (x === this.x && y === this.y) {
+        if (x === this.state.x && y === this.state.y) {
             return false;
         }
 
@@ -493,7 +504,6 @@ class ScrollView extends Component {
     render() {
 
         let {
-            label,
             children,
             component,
             style,
@@ -503,10 +513,23 @@ class ScrollView extends Component {
 
         let disabled = this.props.disabled;
 
+        let {
+            x,
+            y,
+            time,
+            easing
+        } = this.state;
+
+        let scrollerStyle = {...style};
+
+        scrollerStyle[transitionStyles.transitionDuration] = time + 'ms';
+        scrollerStyle[transitionStyles.transitionTimingFunction] = easing;
+        scrollerStyle[transitionStyles.transform] = 'translate(' + x + 'px,' + y + 'px)' + ' translateZ(0)';
+
         children = React.createElement(component, {
             className: this.getPartClassName('scroller'),
             ref: 'scroller',
-            style: style
+            style: scrollerStyle
         }, children);
 
         return (
@@ -524,4 +547,4 @@ class ScrollView extends Component {
 
 }
 
-module.exports = ScrollView;
+export default ScrollView;
