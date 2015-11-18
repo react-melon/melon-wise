@@ -523,7 +523,7 @@ class ScrollView extends Component {
         let scrollerStyle = {...style};
 
         scrollerStyle[transitionStyles.transitionDuration] = time + 'ms';
-        scrollerStyle[transitionStyles.transitionTimingFunction] = easing;
+        scrollerStyle[transitionStyles.transitionTimingFunction] = easing || 'linear';
         scrollerStyle[transitionStyles.transform] = 'translate(' + x + 'px,' + y + 'px)' + ' translateZ(0)';
 
         children = React.createElement(component, {
