@@ -4,11 +4,11 @@
  */
 
 var React = require('react');
-var Validity = require('./util/Validity');
-var Validator = require('./Validator');
+// var Validity = require('./util/Validity');
+// var Validator = require('./Validator');
 
 var Component = require('./Component');
-var ValidityLabel = require('./Validity');
+// var ValidityLabel = require('./Validity');
 
 class InputComponent extends Component {
 
@@ -139,18 +139,18 @@ class InputComponent extends Component {
         return states;
     }
 
-    checkValidity(value) {
+    // checkValidity(value) {
 
-        var validity = new Validity();
-        var rules = Validator.resolve(this);
+    //     var validity = new Validity();
+    //     var rules = Validator.resolve(this);
 
-        rules.forEach((rule) => {
-            validity.addState(rule.name, rule.check(value, this));
-        });
+    //     rules.forEach((rule) => {
+    //         validity.addState(rule.name, rule.check(value, this));
+    //     });
 
-        return validity;
+    //     return validity;
 
-    }
+    // }
 
     /**
      * 获取检验提示消息
@@ -158,72 +158,72 @@ class InputComponent extends Component {
      * @param {module:Validity} validity 校验结果
      * @return {string}
      */
-    getValidateMessage(validity) {
-        var isValid = validity.isValid();
-        return isValid ? '' : validity.getErrorMessage();
-    }
+    // getValidateMessage(validity) {
+    //     var isValid = validity.isValid();
+    //     return isValid ? '' : validity.getErrorMessage();
+    // }
 
     /**
      * 显示校验消息
      *
      * @param {module:Validity} validity 校验结果
      */
-    showValidity(validity) {
+    // showValidity(validity) {
 
-        var isValid = validity.isValid();
+    //     var isValid = validity.isValid();
 
-        this.setState({
-            isValid: isValid,
-            validateMessage: this.getValidateMessage(validity)
-        });
+    //     this.setState({
+    //         isValid: isValid,
+    //         validateMessage: this.getValidateMessage(validity)
+    //     });
 
-    }
+    // }
 
     /**
      * 隐藏校验消息
      */
-    hideValidity() {
+    // hideValidity() {
 
-        this.setState({
-            isValid: void 0,
-            validateMessage: ''
-        });
+    //     this.setState({
+    //         isValid: void 0,
+    //         validateMessage: ''
+    //     });
 
-    }
+    // }
 
-    validate(value) {
+    // validate(value) {
 
-        var validity = this.checkValidity(value);
+    //     var validity = this.checkValidity(value);
 
-        if (validity.isValid()) {
-            this.props.onValid && this.props.onValid({
-                type: 'valid',
-                target: this,
-                validity: validity
-            });
-        }
-        else {
-            this.props.onInvalid && this.props.onInvalid({
-                type: 'invalid',
-                target: this,
-                validity: validity
-            });
-        }
+    //     if (validity.isValid()) {
+    //         this.props.onValid && this.props.onValid({
+    //             type: 'valid',
+    //             target: this,
+    //             validity: validity
+    //         });
+    //     }
+    //     else {
+    //         this.props.onInvalid && this.props.onInvalid({
+    //             type: 'invalid',
+    //             target: this,
+    //             validity: validity
+    //         });
+    //     }
 
-        this.showValidity(validity);
+    //     this.showValidity(validity);
 
-        return validity;
+    //     return validity;
 
-    }
+    // }
 
-    renderValidateMessage() {
-        var validateMessage = this.state.validateMessage;
-        return <ValidityLabel message={validateMessage} isValid={this.state.isValid} />;
-    }
+    // renderValidateMessage() {
+    //     var validateMessage = this.state.validateMessage;
+    //     return <ValidityLabel message={validateMessage} isValid={this.state.isValid} />;
+    // }
 
-    willValidate(eventName) {
-        return this.props.validateEvents.indexOf(eventName) !== -1;
-    }
+    // willValidate(eventName) {
+    //     return this.props.validateEvents.indexOf(eventName) !== -1;
+    // }
 
 }
 
