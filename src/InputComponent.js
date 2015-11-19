@@ -56,11 +56,11 @@ class InputComponent extends Component {
             return;
         }
 
-        var value = this.stringifyValue(rawValue);
-        var validity = this.checkValidity(value);
+        // var value = this.stringifyValue(rawValue);
+        // var validity = this.checkValidity(value);
 
         this.setState({rawValue});
-        this.showValidity(validity);
+        // this.showValidity(validity);
 
     }
 

@@ -1,5 +1,5 @@
 /**
- * @file esui-react/Select
+ * @file esui-react/TextBox
  * @author cxtom<cxtom2010@gmail.com>
  */
 
@@ -7,9 +7,9 @@ var React = require('react');
 
 var InputComponent = require('./InputComponent');
 
-class Select extends InputComponent {
+class TextBox extends InputComponent {
 
-    static displayName = 'Select';
+    static displayName = 'TextBox';
 
     constructor(props) {
         super(props);
@@ -20,7 +20,7 @@ class Select extends InputComponent {
     onChange(e) {
         // super.onChange(e);
 
-        let value = this.refs.select.value;
+        let value = e.target.value;
 
         let {onChange} = this.props;
 
@@ -35,7 +35,7 @@ class Select extends InputComponent {
         let {
             label,
             options,
-            renderOptions,
+            unit,
             className,
             ...rest
         } = this.props;
@@ -43,9 +43,8 @@ class Select extends InputComponent {
         return (
             <div className={this.getClassName()}>
                 <label>{label}</label>
-                <select {...rest} onChange={this.onChange} ref="select">
-                    {renderOptions()}
-                </select>
+                <input {...rest} onChange={this.onChange} type="text"></input>
+                {unit ? <label className={this.getPartClassName('unit')}>{unit}</label> : null}
             </div>
         );
 
@@ -53,4 +52,4 @@ class Select extends InputComponent {
 
 }
 
-module.exports = Select;
+module.exports = TextBox;
