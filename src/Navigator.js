@@ -3,10 +3,10 @@
  * @author cxtom<cxtom2010@gmail.com>
  */
 
-var React = require('react');
+const React = require('react');
 
-var Component = require('./Component');
-var Tapable = require('./Tappable');
+const Component = require('./Component');
+const Title = require('./Title');
 
 class Navigator extends Component {
 
@@ -14,22 +14,45 @@ class Navigator extends Component {
 
     render() {
 
-        var {
-            label,
-            children,
+        let {
+            title,
+            leftButton,
+            rightButton,
             ...other
         } = this.props;
 
-        var content = label || children;
+        leftButton = leftButton ? React.cloneElement(leftButton, {
+            className: this.getPartClassName('left')
+        }) : null;
+
+        rightButton = rightButton ? React.cloneElement(rightButton, {
+            className: this.getPartClassName('right')
+        }) : null;
 
         return (
-            <Tapable {...other} classBase="variant" className={this.getClassName()}>
-                {content}
-            </Tapable>
+            <nav className={this.getClassName()}>
+                {leftButton}
+                {rightButton}
+                <Title level={1}>{title}</Title>
+            </nav>
         );
 
     }
 
 }
+
+let {PropTypes} = React;
+
+Navigator.propTypes = {
+    hidden: PropTypes.bool,
+    title: PropTypes.any,
+    leftIcon: PropTypes.element,
+    rightIcon: PropTypes.element
+};
+
+Navigator.defaultProps = {
+    hidden: false
+};
+
 
 module.exports = Navigator;
