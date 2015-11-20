@@ -4,17 +4,11 @@ define('melon/InputComponent', [
     'module',
     './babelHelpers',
     'react',
-    './common/util/Validity',
-    './Validator',
-    './Component',
-    './Validity'
+    './Component'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var Validity = require('./common/util/Validity');
-    var Validator = require('./Validator');
     var Component = require('./Component');
-    var ValidityLabel = require('./Validity');
     var InputComponent = function (_Component) {
         babelHelpers.inherits(InputComponent, _Component);
         babelHelpers.createClass(InputComponent, null, [{
@@ -49,10 +43,7 @@ define('melon/InputComponent', [
             if (this.props.rawValue === rawValue || !this.isControlled()) {
                 return;
             }
-            var value = this.stringifyValue(rawValue);
-            var validity = this.checkValidity(value);
             this.setState({ rawValue: rawValue });
-            this.showValidity(validity);
         };
         InputComponent.prototype.isControlled = function isControlled() {
             var props = this.props;
@@ -98,60 +89,6 @@ define('melon/InputComponent', [
             }
             states.readOnly = !!props.readOnly;
             return states;
-        };
-        InputComponent.prototype.checkValidity = function checkValidity(value) {
-            var _this = this;
-            var validity = new Validity();
-            var rules = Validator.resolve(this);
-            rules.forEach(function (rule) {
-                validity.addState(rule.name, rule.check(value, _this));
-            });
-            return validity;
-        };
-        InputComponent.prototype.getValidateMessage = function getValidateMessage(validity) {
-            var isValid = validity.isValid();
-            return isValid ? '' : validity.getErrorMessage();
-        };
-        InputComponent.prototype.showValidity = function showValidity(validity) {
-            var isValid = validity.isValid();
-            this.setState({
-                isValid: isValid,
-                validateMessage: this.getValidateMessage(validity)
-            });
-        };
-        InputComponent.prototype.hideValidity = function hideValidity() {
-            this.setState({
-                isValid: void 0,
-                validateMessage: ''
-            });
-        };
-        InputComponent.prototype.validate = function validate(value) {
-            var validity = this.checkValidity(value);
-            if (validity.isValid()) {
-                this.props.onValid && this.props.onValid({
-                    type: 'valid',
-                    target: this,
-                    validity: validity
-                });
-            } else {
-                this.props.onInvalid && this.props.onInvalid({
-                    type: 'invalid',
-                    target: this,
-                    validity: validity
-                });
-            }
-            this.showValidity(validity);
-            return validity;
-        };
-        InputComponent.prototype.renderValidateMessage = function renderValidateMessage() {
-            var validateMessage = this.state.validateMessage;
-            return React.createElement(ValidityLabel, {
-                message: validateMessage,
-                isValid: this.state.isValid
-            });
-        };
-        InputComponent.prototype.willValidate = function willValidate(eventName) {
-            return this.props.validateEvents.indexOf(eventName) !== -1;
         };
         return InputComponent;
     }(Component);

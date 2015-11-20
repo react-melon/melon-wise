@@ -1,10 +1,10 @@
-define('melon/common/util/Validity', [
+define('melon/util/Validity', [
     'require',
     'exports',
     'module',
-    '../../babelHelpers'
+    '../babelHelpers'
 ], function (require, exports, module) {
-    var babelHelpers = require('../../babelHelpers');
+    var babelHelpers = require('../babelHelpers');
     'use strict';
     var Validity = function () {
         function Validity() {

@@ -1,10 +1,10 @@
-define('melon/common/util/classname', [
+define('melon/util/classname', [
     'require',
     'exports',
     'module',
-    '../../config'
+    '../config'
 ], function (require, exports, module) {
-    var config = require('../../config');
+    var config = require('../config');
     exports.createClassName = function (type, value) {
         return config[type] + '-' + value;
     };

@@ -5,12 +5,12 @@ define('melon/Component', [
     './babelHelpers',
     'react',
     './config',
-    './common/util/classname'
+    './util/classname'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var config = require('./config');
-    var cx = require('./common/util/classname');
+    var cx = require('./util/classname');
     function joinByStrike() {
         var result = [];
         for (var i = 0, len = arguments.length; i < len; ++i) {
@@ -76,6 +76,10 @@ define('melon/Component', [
         };
         Component.prototype.getStateClassName = function getStateClassName() {
             return this.getStateClasses().join(' ');
+        };
+        Component.prototype.fire = function fire(eventName, params) {
+            var event = this.props['on' + eventName];
+            event && event(params);
         };
         return Component;
     }(React.Component);

@@ -1,4 +1,4 @@
-define('melon/common/util/dom', [
+define('melon/util/dom', [
     'require',
     'exports',
     'module'
@@ -66,4 +66,36 @@ define('melon/common/util/dom', [
             element.className = element.className.replace(reg, ' ');
         }
     };
+    var elementStyle = document.createElement('div').style;
+    var vendor = function () {
+        var vendors = [
+            't',
+            'webkitT',
+            'MozT',
+            'msT',
+            'OT'
+        ];
+        var transform;
+        var i = 0;
+        var l = vendors.length;
+        for (; i < l; i++) {
+            transform = vendors[i] + 'ransform';
+            if (transform in elementStyle) {
+                return vendors[i].substr(0, vendors[i].length - 1);
+            }
+        }
+        return false;
+    }();
+    exports.prefixStyle = function (style) {
+        if (vendor === false) {
+            return false;
+        }
+        if (vendor === '') {
+            return style;
+        }
+        return vendor + style.charAt(0).toUpperCase() + style.substr(1);
+    };
+    exports.hasTransform = exports.prefixStyle('transform') !== false;
+    exports.hasTransition = exports.prefixStyle('transition') in elementStyle;
+    exports.hasTouch = 'ontouchstart' in window;
 });

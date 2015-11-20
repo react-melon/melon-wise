@@ -1,10 +1,8 @@
-define('melon/common/util/date', [
+define('melon/util/date', [
     'require',
     'exports',
-    'module',
-    'underscore'
+    'module'
 ], function (require, exports, module) {
-    var _ = require('underscore');
     module.exports = {
         addDays: function addDays(d, days) {
             var newDate = this.clone(d);
@@ -136,7 +134,6 @@ define('melon/common/util/date', [
                 preArray.push(this.addDays(firstDay, i - first));
             }
             preArray.reverse();
-            weekArray[0] = _.compact(firstWeek);
             var last;
             var lastDay = this.getLastDayOfMonth(d);
             for (i = 0; i < 7; i++) {
@@ -254,6 +251,12 @@ define('melon/common/util/date', [
         },
         yearDiff: function yearDiff(d1, d2) {
             return ~~(this.monthDiff(d1, d2) / 12);
+        },
+        now: function now() {
+            if (Date.now) {
+                return Date.now();
+            }
+            return new Date().getTime();
         }
     };
 });

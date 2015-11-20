@@ -41,10 +41,13 @@ define('melon/LazyImage', [
             this.isControlled = props.load === true || props.load === false;
         }
         LazyImage.prototype.componentDidMount = function componentDidMount() {
+            var _this = this;
             if (this.state.load || this.isControlled) {
                 return;
             }
-            this.loadImage();
+            setTimeout(function () {
+                _this.loadImage();
+            }, 0);
         };
         LazyImage.prototype.componentWillReceiveProps = function componentWillReceiveProps(props) {
             if (!this.state.load && props.load && this.isControlled || props.src !== this.props.src) {
