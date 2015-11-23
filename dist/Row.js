@@ -19,9 +19,6 @@ define('melon/Row', [
             babelHelpers.classCallCheck(this, Row);
             _Component.apply(this, arguments);
         }
-        Row.prototype.getChildContext = function getChildContext() {
-            return { columnNum: this.props.columnNum };
-        };
         Row.prototype.render = function render() {
             var columnNum = this.props.columnNum;
             var margin = -20 / (columnNum - 1) + '%';
@@ -32,20 +29,18 @@ define('melon/Row', [
             return _react2['default'].createElement('div', babelHelpers._extends({}, this.props, {
                 className: this.getClassName(),
                 style: style
-            }), this.props.children);
+            }), _react2['default'].Children.map(this.props.children, function (child, index) {
+                return _react2['default'].cloneElement(child, {
+                    key: index,
+                    columnNum: columnNum
+                });
+            }));
         };
-        babelHelpers.createClass(Row, null, [
-            {
+        babelHelpers.createClass(Row, null, [{
                 key: 'displayName',
                 value: 'Row',
                 enumerable: true
-            },
-            {
-                key: 'childContextTypes',
-                value: { columnNum: _react.PropTypes.number.isRequired },
-                enumerable: true
-            }
-        ]);
+            }]);
         return Row;
     }(_Component3['default']);
     Row.defaultProps = { columnNum: 12 };

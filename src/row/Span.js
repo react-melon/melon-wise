@@ -10,10 +10,6 @@ class RowSpan extends Component {
 
     static displayName = 'RowSpan';
 
-    static contextTypes = {
-        columnNum: PropTypes.number.isRequired
-    };
-
     constructor(props) {
         super(props);
         this.type = 'row-span';
@@ -21,8 +17,7 @@ class RowSpan extends Component {
 
     render() {
 
-        let {occupy, style, ...other} = this.props;
-        let {columnNum} = this.context;
+        let {occupy, style, columnNum, ...other} = this.props;
         let padding = 20 / (columnNum - 1) + '%';
         style = {
             paddingLeft: padding,
@@ -30,8 +25,6 @@ class RowSpan extends Component {
             width: (occupy / columnNum) * 100 + '%',
             WebkitBoxFlex: occupy,
             WebkitFlex: [occupy, occupy, 'auto'].join(' '),
-            WebkitBoxSizing: 'border-box',
-            boxSizing: 'border-box',
             ...style
         };
 
@@ -49,7 +42,8 @@ RowSpan.defaultProps = {
 };
 
 RowSpan.propsTypes = {
-    occupy: PropTypes.number
+    occupy: PropTypes.number,
+    columnNum: PropTypes.number.isRequired
 };
 
 export default RowSpan;

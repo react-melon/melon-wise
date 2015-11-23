@@ -14,18 +14,11 @@ define('melon/row/Span', [
     var _Component3 = babelHelpers.interopRequireDefault(_Component2);
     var RowSpan = function (_Component) {
         babelHelpers.inherits(RowSpan, _Component);
-        babelHelpers.createClass(RowSpan, null, [
-            {
+        babelHelpers.createClass(RowSpan, null, [{
                 key: 'displayName',
                 value: 'RowSpan',
                 enumerable: true
-            },
-            {
-                key: 'contextTypes',
-                value: { columnNum: _react.PropTypes.number.isRequired },
-                enumerable: true
-            }
-        ]);
+            }]);
         function RowSpan(props) {
             babelHelpers.classCallCheck(this, RowSpan);
             _Component.call(this, props);
@@ -35,11 +28,12 @@ define('melon/row/Span', [
             var _props = this.props;
             var occupy = _props.occupy;
             var style = _props.style;
+            var columnNum = _props.columnNum;
             var other = babelHelpers.objectWithoutProperties(_props, [
                 'occupy',
-                'style'
+                'style',
+                'columnNum'
             ]);
-            var columnNum = this.context.columnNum;
             var padding = 20 / (columnNum - 1) + '%';
             style = babelHelpers._extends({
                 paddingLeft: padding,
@@ -50,9 +44,7 @@ define('melon/row/Span', [
                     occupy,
                     occupy,
                     'auto'
-                ].join(' '),
-                WebkitBoxSizing: 'border-box',
-                boxSizing: 'border-box'
+                ].join(' ')
             }, style);
             return _react2['default'].createElement('div', babelHelpers._extends({}, other, {
                 className: this.getClassName(),
@@ -62,7 +54,10 @@ define('melon/row/Span', [
         return RowSpan;
     }(_Component3['default']);
     RowSpan.defaultProps = { occupy: 4 };
-    RowSpan.propsTypes = { occupy: _react.PropTypes.number };
+    RowSpan.propsTypes = {
+        occupy: _react.PropTypes.number,
+        columnNum: _react.PropTypes.number.isRequired
+    };
     exports['default'] = RowSpan;
     module.exports = exports['default'];
 });

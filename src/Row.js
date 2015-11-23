@@ -10,16 +10,6 @@ class Row extends Component {
 
     static displayName = 'Row';
 
-    static childContextTypes = {
-        columnNum: PropTypes.number.isRequired
-    };
-
-    getChildContext() {
-        return {
-            columnNum: this.props.columnNum
-        };
-    }
-
     render() {
 
         let {columnNum} = this.props;
@@ -31,7 +21,12 @@ class Row extends Component {
 
         return (
             <div {...this.props} className={this.getClassName()} style={style}>
-                {this.props.children}
+                {React.Children.map(this.props.children, function (child, index) {
+                    return React.cloneElement(child, {
+                        key: index,
+                        columnNum: columnNum
+                    });
+                })}
             </div>
         );
     }
@@ -41,7 +36,6 @@ class Row extends Component {
 Row.defaultProps = {
     columnNum: 12
 };
-
 
 Row.propsTypes = {
     columnNum: PropTypes.number
