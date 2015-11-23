@@ -1,4 +1,4 @@
-define('melon/Navigator', [
+define('melon/NavigationBar', [
     'require',
     'exports',
     'module',
@@ -11,13 +11,13 @@ define('melon/Navigator', [
     var React = require('react');
     var Component = require('./Component');
     var Title = require('./Title');
-    var Navigator = function (_Component) {
-        babelHelpers.inherits(Navigator, _Component);
-        function Navigator() {
-            babelHelpers.classCallCheck(this, Navigator);
+    var NavigationBar = function (_Component) {
+        babelHelpers.inherits(NavigationBar, _Component);
+        function NavigationBar() {
+            babelHelpers.classCallCheck(this, NavigationBar);
             _Component.apply(this, arguments);
         }
-        Navigator.prototype.render = function render() {
+        NavigationBar.prototype.render = function render() {
             var _props = this.props;
             var title = _props.title;
             var leftButton = _props.leftButton;
@@ -31,20 +31,20 @@ define('melon/Navigator', [
             rightButton = rightButton ? React.cloneElement(rightButton, { className: this.getPartClassName('right') }) : null;
             return React.createElement('nav', { className: this.getClassName() }, leftButton, rightButton, React.createElement(Title, { level: 1 }, title));
         };
-        babelHelpers.createClass(Navigator, null, [{
+        babelHelpers.createClass(NavigationBar, null, [{
                 key: 'displayName',
-                value: 'Navigator',
+                value: 'NavigationBar',
                 enumerable: true
             }]);
-        return Navigator;
+        return NavigationBar;
     }(Component);
     var PropTypes = React.PropTypes;
-    Navigator.propTypes = {
+    NavigationBar.propTypes = {
         hidden: PropTypes.bool,
         title: PropTypes.any,
         leftIcon: PropTypes.element,
         rightIcon: PropTypes.element
     };
-    Navigator.defaultProps = { hidden: false };
-    module.exports = Navigator;
+    NavigationBar.defaultProps = { hidden: false };
+    module.exports = NavigationBar;
 });

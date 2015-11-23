@@ -1,5 +1,5 @@
 /**
- * @file esui-react/Navigator
+ * @file esui-react/NavigationBar
  * @author cxtom<cxtom2010@gmail.com>
  */
 
@@ -8,9 +8,9 @@ const React = require('react');
 const Component = require('./Component');
 const Title = require('./Title');
 
-class Navigator extends Component {
+class NavigationBar extends Component {
 
-    static displayName = 'Navigator';
+    static displayName = 'NavigationBar';
 
     render() {
 
@@ -43,16 +43,16 @@ class Navigator extends Component {
 
 let {PropTypes} = React;
 
-Navigator.propTypes = {
+NavigationBar.propTypes = {
     hidden: PropTypes.bool,
     title: PropTypes.any,
     leftIcon: PropTypes.element,
     rightIcon: PropTypes.element
 };
 
-Navigator.defaultProps = {
+NavigationBar.defaultProps = {
     hidden: false
 };
 
 
-module.exports = Navigator;
+module.exports = NavigationBar;
