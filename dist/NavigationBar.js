@@ -4,40 +4,39 @@ define('melon/NavigationBar', [
     'module',
     './babelHelpers',
     'react',
-    './Component',
-    './Title'
+    './util/cxBuilder',
+    './Title',
+    './Tappable'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var Component = require('./Component');
+    var cx = require('./util/cxBuilder').create('NavigationBar');
     var Title = require('./Title');
-    var NavigationBar = function (_Component) {
-        babelHelpers.inherits(NavigationBar, _Component);
-        function NavigationBar() {
-            babelHelpers.classCallCheck(this, NavigationBar);
-            _Component.apply(this, arguments);
-        }
-        NavigationBar.prototype.render = function render() {
-            var _props = this.props;
-            var title = _props.title;
-            var leftButton = _props.leftButton;
-            var rightButton = _props.rightButton;
-            var other = babelHelpers.objectWithoutProperties(_props, [
-                'title',
-                'leftButton',
-                'rightButton'
-            ]);
-            leftButton = leftButton ? React.cloneElement(leftButton, { className: this.getPartClassName('left') }) : null;
-            rightButton = rightButton ? React.cloneElement(rightButton, { className: this.getPartClassName('right') }) : null;
-            return React.createElement('nav', { className: this.getClassName() }, leftButton, rightButton, React.createElement(Title, { level: 1 }, title));
-        };
-        babelHelpers.createClass(NavigationBar, null, [{
-                key: 'displayName',
-                value: 'NavigationBar',
-                enumerable: true
-            }]);
-        return NavigationBar;
-    }(Component);
+    var Tappable = require('./Tappable');
+    function NavigationBar(props) {
+        var title = props.title;
+        var leftIcon = props.leftIcon;
+        var rightIcon = props.rightIcon;
+        var onLeftTap = props.onLeftTap;
+        var onRightTap = props.onRightTap;
+        var other = babelHelpers.objectWithoutProperties(props, [
+            'title',
+            'leftIcon',
+            'rightIcon',
+            'onLeftTap',
+            'onRightTap'
+        ]);
+        var leftButton = leftIcon ? React.createElement(Tappable, {
+            className: cx().part('left').build(),
+            onTap: onLeftTap
+        }, leftIcon) : null;
+        var rightButton = rightIcon ? React.createElement(Tappable, {
+            className: cx().part('right').build(),
+            onTap: onRightTap
+        }, leftIcon) : null;
+        return React.createElement('nav', { className: this.getClassName() }, leftButton, rightButton, React.createElement(Title, { level: 1 }, title));
+    }
+    NavigationBar.displayName = 'NavigationBar';
     var PropTypes = React.PropTypes;
     NavigationBar.propTypes = {
         hidden: PropTypes.bool,

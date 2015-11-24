@@ -4,41 +4,39 @@
  */
 
 import React, {PropTypes} from 'react';
-import Component from './Component';
 
-class Row extends Component {
+const cx = require('./util/cxBuilder').create('Row');
 
-    static displayName = 'Row';
+function Row(props) {
 
-    render() {
+    let {columnNum} = props;
+    let margin = -20 / (columnNum - 1) + '%';
+    let style = {
+        marginLeft: margin,
+        marginRight: margin
+    };
 
-        let {columnNum} = this.props;
-        let margin = -20 / (columnNum - 1) + '%';
-        let style = {
-            marginLeft: margin,
-            marginRight: margin
-        };
-
-        return (
-            <div {...this.props} className={this.getClassName()} style={style}>
-                {React.Children.map(this.props.children, function (child, index) {
-                    return React.cloneElement(child, {
-                        key: index,
-                        columnNum: columnNum
-                    });
-                })}
-            </div>
-        );
-    }
+    return (
+        <div {...props} className={cx(props).build()} style={style}>
+            {React.Children.map(props.children, function (child, index) {
+                return React.cloneElement(child, {
+                    key: index,
+                    columnNum: columnNum
+                });
+            })}
+        </div>
+    );
 
 }
 
-Row.defaultProps = {
-    columnNum: 12
+Row.displayName = 'Row';
+
+Row.propTypes = {
+    columnNum: PropTypes.number
 };
 
-Row.propsTypes = {
-    columnNum: PropTypes.number
+Row.defaultProps = {
+    columnNum: 12
 };
 
 Row.Span = require('./row/Span');

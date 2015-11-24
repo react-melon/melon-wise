@@ -3,22 +3,15 @@
  * @author cxtom<cxtom2010@gmail.com>
  */
 
-var React = require('react');
+const React = require('react');
 
-var InputComponent = require('./InputComponent');
+const cx = require('./util/cxBuilder').create('textbox');
 
-class TextBox extends InputComponent {
+const TextBox = React.createClass({
 
-    static displayName = 'TextBox';
-
-    constructor(props) {
-        super(props);
-
-        this.onChange = this.onChange.bind(this);
-    }
+    displayName: 'TextBox',
 
     onChange(e) {
-        // super.onChange(e);
 
         let value = e.target.value;
 
@@ -28,7 +21,7 @@ class TextBox extends InputComponent {
             ...e,
             value
         });
-    }
+    },
 
     render() {
 
@@ -41,15 +34,15 @@ class TextBox extends InputComponent {
         } = this.props;
 
         return (
-            <div className={this.getClassName()}>
+            <div className={cx(this.props).build()}>
                 <label>{label}</label>
                 <input {...rest} onChange={this.onChange} type="text"></input>
-                {unit ? <label className={this.getPartClassName('unit')}>{unit}</label> : null}
+                {unit ? <label className={cx().part('unit').build()}>{unit}</label> : null}
             </div>
         );
 
     }
 
-}
+});
 
 module.exports = TextBox;

@@ -4,35 +4,15 @@ define('melon/tab/Panel', [
     'module',
     '../babelHelpers',
     'react',
-    '../Component'
+    '../util/cxBuilder'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
     var React = require('react');
-    var Component = require('../Component');
-    var TabPanel = function (_Component) {
-        babelHelpers.inherits(TabPanel, _Component);
-        function TabPanel() {
-            babelHelpers.classCallCheck(this, TabPanel);
-            _Component.apply(this, arguments);
-        }
-        TabPanel.prototype.getStates = function getStates(props) {
-            var states = {};
-            if (props.active) {
-                states.active = true;
-            }
-            return states;
-        };
-        TabPanel.prototype.render = function render() {
-            var props = this.props;
-            return React.createElement('div', babelHelpers._extends({}, props, { className: this.getClassName() }), props.children);
-        };
-        babelHelpers.createClass(TabPanel, null, [{
-                key: 'displayName',
-                value: 'TabPanel',
-                enumerable: true
-            }]);
-        return TabPanel;
-    }(Component);
-    TabPanel.propTypes = { active: React.PropTypes.bool };
+    var cx = require('../util/cxBuilder').create('TabPanel');
+    function TabPanel(props) {
+        var active = props.active;
+        var others = babelHelpers.objectWithoutProperties(props, ['active']);
+        return React.createElement('div', babelHelpers._extends({}, props, { className: cx(props).addStates({ active: active }).build() }));
+    }
     module.exports = TabPanel;
 });

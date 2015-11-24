@@ -3,47 +3,34 @@
  * @author cxtom(cxtom2010@gmail.com)
  */
 
-import React, {PropTypes} from 'react';
-import Component from '../Component';
+import React from 'react';
 
-class RowSpan extends Component {
+const cx = require('../util/cxBuilder').create('RowSpan');
 
-    static displayName = 'RowSpan';
+function RowSpan(props) {
 
-    constructor(props) {
-        super(props);
-        this.type = 'row-span';
-    }
+    let {occupy, style, columnNum, ...other} = props;
+    let padding = 20 / (columnNum - 1) + '%';
+    style = {
+        paddingLeft: padding,
+        paddingRight: padding,
+        width: (occupy / columnNum) * 100 + '%',
+        WebkitBoxFlex: occupy,
+        WebkitFlex: [occupy, occupy, 'auto'].join(' '),
+        ...style
+    };
 
-    render() {
-
-        let {occupy, style, columnNum, ...other} = this.props;
-        let padding = 20 / (columnNum - 1) + '%';
-        style = {
-            paddingLeft: padding,
-            paddingRight: padding,
-            width: (occupy / columnNum) * 100 + '%',
-            WebkitBoxFlex: occupy,
-            WebkitFlex: [occupy, occupy, 'auto'].join(' '),
-            ...style
-        };
-
-        return (
-            <div {...other} className={this.getClassName()} style={style}>
-                {this.props.children}
-            </div>
-        );
-    }
-
+    return (
+        <div {...other} className={cx(props).build()} style={style} />
+    );
 }
+
+RowSpan.propsTypes = {
+    occupy: React.PropTypes.number.isRequired
+};
 
 RowSpan.defaultProps = {
     occupy: 4
-};
-
-RowSpan.propsTypes = {
-    occupy: PropTypes.number,
-    columnNum: PropTypes.number.isRequired
 };
 
 export default RowSpan;

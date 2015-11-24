@@ -5,41 +5,44 @@
 
 const React = require('react');
 
-const Component = require('./Component');
+const cx = require('./util/cxBuilder').create('NavigationBar');
 const Title = require('./Title');
+const Tappable = require('./Tappable');
 
-class NavigationBar extends Component {
+function NavigationBar(props) {
 
-    static displayName = 'NavigationBar';
+    let {
+        title,
+        leftIcon,
+        rightIcon,
+        onLeftTap,
+        onRightTap,
+        ...other
+    } = props;
 
-    render() {
+    let leftButton = leftIcon ? (
+        <Tappable className={cx().part('left').build()} onTap={onLeftTap}>
+            {leftIcon}
+        </Tappable>
+    ) : null;
 
-        let {
-            title,
-            leftButton,
-            rightButton,
-            ...other
-        } = this.props;
+    let rightButton = rightIcon ? (
+        <Tappable className={cx().part('right').build()} onTap={onRightTap}>
+            {leftIcon}
+        </Tappable>
+    ) : null;
 
-        leftButton = leftButton ? React.cloneElement(leftButton, {
-            className: this.getPartClassName('left')
-        }) : null;
-
-        rightButton = rightButton ? React.cloneElement(rightButton, {
-            className: this.getPartClassName('right')
-        }) : null;
-
-        return (
-            <nav className={this.getClassName()}>
-                {leftButton}
-                {rightButton}
-                <Title level={1}>{title}</Title>
-            </nav>
-        );
-
-    }
+    return (
+        <nav className={this.getClassName()}>
+            {leftButton}
+            {rightButton}
+            <Title level={1}>{title}</Title>
+        </nav>
+    );
 
 }
+
+NavigationBar.displayName = 'NavigationBar';
 
 let {PropTypes} = React;
 

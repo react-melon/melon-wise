@@ -3,41 +3,21 @@
  * @author cxtom<cxtom2010@gmail.com>
  */
 
-var React = require('react');
+const React = require('react');
 
-var Component = require('../Component');
+const cx = require('../util/cxBuilder').create('TabPanel');
 
-class TabPanel extends Component {
+function TabPanel(props) {
 
-    static displayName = 'TabPanel';
+    let {
+        active,
+        ...others
+    } = props;
 
-    getStates(props) {
-
-        var states = {};
-
-        if (props.active) {
-            states.active = true;
-        }
-
-        return states;
-    }
-
-    render() {
-
-        var props = this.props;
-
-        return (
-            <div {...props} className={this.getClassName()}>
-                {props.children}
-            </div>
-        );
-
-    }
+    return (
+        <div {...props} className={cx(props).addStates({active}).build()} />
+    );
 
 }
-
-TabPanel.propTypes = {
-    active: React.PropTypes.bool
-};
 
 module.exports = TabPanel;

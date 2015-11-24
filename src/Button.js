@@ -3,32 +3,26 @@
  * @author cxtom<cxtom2010@gmail.com>
  */
 
-var React = require('react');
+const React = require('react');
 
-var Component = require('./Component');
-var Tapable = require('./Tappable');
+const cx = require('./util/cxBuilder').create('Button');
+const Tapable = require('./Tappable');
 
-class Button extends Component {
+function Button(props) {
 
-    static displayName = 'Button';
+    const {
+        label,
+        children,
+        ...other
+    } = props;
 
-    render() {
+    const content = label || children;
 
-        var {
-            label,
-            children,
-            ...other
-        } = this.props;
-
-        var content = label || children;
-
-        return (
-            <Tapable {...other} component="button" classBase="variant" className={this.getClassName()}>
-                {content}
-            </Tapable>
-        );
-
-    }
+    return (
+        <Tapable {...other} component="button" classBase="variant" className={cx(props).build()}>
+            {content}
+        </Tapable>
+    );
 
 }
 

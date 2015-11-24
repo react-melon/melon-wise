@@ -4,29 +4,19 @@ define('melon/Select', [
     'module',
     './babelHelpers',
     'react',
-    './InputComponent'
+    './util/cxBuilder'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var InputComponent = require('./InputComponent');
-    var Select = function (_InputComponent) {
-        babelHelpers.inherits(Select, _InputComponent);
-        babelHelpers.createClass(Select, null, [{
-                key: 'displayName',
-                value: 'Select',
-                enumerable: true
-            }]);
-        function Select(props) {
-            babelHelpers.classCallCheck(this, Select);
-            _InputComponent.call(this, props);
-            this.onChange = this.onChange.bind(this);
-        }
-        Select.prototype.onChange = function onChange(e) {
-            var value = this.refs.select.value;
+    var cx = require('./util/cxBuilder').create('select');
+    var Select = React.createClass({
+        displayName: 'Select',
+        onChange: function onChange(e) {
+            var value = e.target.value;
             var onChange = this.props.onChange;
             onChange && onChange(babelHelpers._extends({}, e, { value: value }));
-        };
-        Select.prototype.render = function render() {
+        },
+        render: function render() {
             var _props = this.props;
             var label = _props.label;
             var options = _props.options;
@@ -38,12 +28,8 @@ define('melon/Select', [
                 'renderOptions',
                 'className'
             ]);
-            return React.createElement('div', { className: this.getClassName() }, React.createElement('label', null, label), React.createElement('select', babelHelpers._extends({}, rest, {
-                onChange: this.onChange,
-                ref: 'select'
-            }), renderOptions()));
-        };
-        return Select;
-    }(InputComponent);
+            return React.createElement('div', { className: cx(this.props).build() }, React.createElement('label', null, label), React.createElement('select', babelHelpers._extends({}, rest, { onChange: this.onChange }), renderOptions()));
+        }
+    });
     module.exports = Select;
 });

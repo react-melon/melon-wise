@@ -3,21 +3,15 @@
  * @author cxtom<cxtom2010@gmail.com>
  */
 
-var React = require('react');
+const React = require('react');
 
-var Component = require('./Component');
+const cx = require('./util/cxBuilder').create('Icon');
 
-class Icon extends Component {
+function Icon(props) {
 
-    static displayName = 'Icon';
-
-    render() {
-
-        return (
-            <i {...this.props} className={this.getClassName()}>{this.props.children}</i>
-        );
-
-    }
+    return (
+        <i {...props} className={cx(props).build()} />
+    );
 
 }
 

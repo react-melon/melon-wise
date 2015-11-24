@@ -4,42 +4,39 @@ define('melon/Tab', [
     'module',
     './babelHelpers',
     'react',
-    './Component',
+    './util/cxBuilder',
     './tab/Item',
     './tab/Panel',
     './util/dom'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var Component = require('./Component');
+    var cx = require('./util/cxBuilder').create('Tab');
     var Item = require('./tab/Item');
     var TabPanel = require('./tab/Panel');
     var dom = require('./util/dom');
-    var Tab = function (_Component) {
-        babelHelpers.inherits(Tab, _Component);
-        babelHelpers.createClass(Tab, null, [{
-                key: 'displayName',
-                value: 'Tab',
-                enumerable: true
-            }]);
-        function Tab(props) {
-            babelHelpers.classCallCheck(this, Tab);
-            _Component.call(this, props);
+    var PropTypes = React.PropTypes;
+    var Tab = React.createClass({
+        displayName: 'Tab',
+        propTypes: {
+            selectedIndex: PropTypes.number,
+            onChange: PropTypes.func,
+            onBeforeChange: PropTypes.func
+        },
+        getDefaultProps: function getDefaultProps() {
+            return { selectedIndex: 0 };
+        },
+        getInitialState: function getInitialState() {
             var selectedIndex = this.props.selectedIndex;
-            this.state = { selectedIndex: selectedIndex };
-        }
-        Tab.prototype.componentWillReceiveProps = function componentWillReceiveProps(nextProps) {
-            if (nextProps.selectedIndex !== this.state.selectedIndex) {
-                this.setState({ selectedIndex: nextProps.selectedIndex });
-            }
-        };
-        Tab.prototype.getTabCount = function getTabCount() {
+            return { selectedIndex: selectedIndex };
+        },
+        getTabCount: function getTabCount() {
             return React.Children.count(this.props.children);
-        };
-        Tab.prototype.getSelected = function getSelected(tab, index) {
+        },
+        getSelected: function getSelected(tab, index) {
             return this.state.selectedIndex === index;
-        };
-        Tab.prototype.handleTabClick = function handleTabClick(index, e) {
+        },
+        handleTabClick: function handleTabClick(index, e) {
             if (index === this.state.selectedIndex) {
                 return;
             }
@@ -56,8 +53,8 @@ define('melon/Tab', [
                     selectedIndex: index
                 });
             });
-        };
-        Tab.prototype.render = function render() {
+        },
+        render: function render() {
             var _InkBarStyles;
             var props = this.props;
             var percent = 1 / this.getTabCount() * 100 + '%';
@@ -82,23 +79,16 @@ define('melon/Tab', [
                     tabIndex: index,
                     style: { width: percent },
                     onTap: disabled ? null : this.handleTabClick.bind(this, index),
-                    className: this.getPartClassName('item')
+                    className: cx().part('item').build()
                 });
             }, this);
             var InkBarStyles = (_InkBarStyles = { width: percent }, _InkBarStyles[dom.prefixStyle('transform')] = 'translate3d(' + 100 * tabIndex + '%, 0, 0)', _InkBarStyles);
-            return React.createElement('section', babelHelpers._extends({}, props, { className: this.getClassName() }), React.createElement('div', { className: this.getPartClassName('bar') }, tabs, React.createElement('i', {
-                className: this.getPartClassName('inkbar'),
+            return React.createElement('section', babelHelpers._extends({}, props, { className: cx(props).build() }), React.createElement('div', { className: cx().part('bar').build() }, tabs, React.createElement('i', {
+                className: cx().part('inkbar').build(),
                 style: InkBarStyles
             })), tabContent);
-        };
-        return Tab;
-    }(Component);
-    Tab.propTypes = {
-        selectedIndex: React.PropTypes.number,
-        onChange: React.PropTypes.func,
-        onBeforeChange: React.PropTypes.func
-    };
-    Tab.defaultProps = { selectedIndex: 0 };
+        }
+    });
     Tab.Item = Item;
     module.exports = Tab;
 });

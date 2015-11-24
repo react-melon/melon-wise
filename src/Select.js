@@ -3,24 +3,17 @@
  * @author cxtom<cxtom2010@gmail.com>
  */
 
-var React = require('react');
+const React = require('react');
 
-var InputComponent = require('./InputComponent');
+const cx = require('./util/cxBuilder').create('select');
 
-class Select extends InputComponent {
+const Select = React.createClass({
 
-    static displayName = 'Select';
-
-    constructor(props) {
-        super(props);
-
-        this.onChange = this.onChange.bind(this);
-    }
+    displayName: 'Select',
 
     onChange(e) {
-        // super.onChange(e);
 
-        let value = this.refs.select.value;
+        let value = e.target.value;
 
         let {onChange} = this.props;
 
@@ -28,7 +21,7 @@ class Select extends InputComponent {
             ...e,
             value
         });
-    }
+    },
 
     render() {
 
@@ -41,9 +34,9 @@ class Select extends InputComponent {
         } = this.props;
 
         return (
-            <div className={this.getClassName()}>
+            <div className={cx(this.props).build()}>
                 <label>{label}</label>
-                <select {...rest} onChange={this.onChange} ref="select">
+                <select {...rest} onChange={this.onChange}>
                     {renderOptions()}
                 </select>
             </div>
@@ -51,6 +44,6 @@ class Select extends InputComponent {
 
     }
 
-}
+});
 
 module.exports = Select;

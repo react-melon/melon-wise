@@ -3,28 +3,15 @@
  * @author cxtom<cxtom2010@gmail.com>
  */
 
-var React = require('react');
+const React = require('react');
 
-var Component = require('./Component');
+const cx = require('./util/cxBuilder').create('View');
 
-class View extends Component {
+function View(props) {
 
-    static displayName = 'View';
-
-    render() {
-
-        let {
-            children,
-            ...rest
-        } = this.props;
-
-        return (
-            <div {...rest} className={this.getClassName()}>
-                {children}
-            </div>
-        );
-
-    }
+    return (
+        <div {...props} className={cx(props).build()} />
+    );
 
 }
 

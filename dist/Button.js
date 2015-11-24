@@ -4,40 +4,26 @@ define('melon/Button', [
     'module',
     './babelHelpers',
     'react',
-    './Component',
+    './util/cxBuilder',
     './Tappable'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var Component = require('./Component');
+    var cx = require('./util/cxBuilder').create('Button');
     var Tapable = require('./Tappable');
-    var Button = function (_Component) {
-        babelHelpers.inherits(Button, _Component);
-        function Button() {
-            babelHelpers.classCallCheck(this, Button);
-            _Component.apply(this, arguments);
-        }
-        Button.prototype.render = function render() {
-            var _props = this.props;
-            var label = _props.label;
-            var children = _props.children;
-            var other = babelHelpers.objectWithoutProperties(_props, [
-                'label',
-                'children'
-            ]);
-            var content = label || children;
-            return React.createElement(Tapable, babelHelpers._extends({}, other, {
-                component: 'button',
-                classBase: 'variant',
-                className: this.getClassName()
-            }), content);
-        };
-        babelHelpers.createClass(Button, null, [{
-                key: 'displayName',
-                value: 'Button',
-                enumerable: true
-            }]);
-        return Button;
-    }(Component);
+    function Button(props) {
+        var label = props.label;
+        var children = props.children;
+        var other = babelHelpers.objectWithoutProperties(props, [
+            'label',
+            'children'
+        ]);
+        var content = label || children;
+        return React.createElement(Tapable, babelHelpers._extends({}, other, {
+            component: 'button',
+            classBase: 'variant',
+            className: cx(props).build()
+        }), content);
+    }
     module.exports = Button;
 });
