@@ -25,13 +25,14 @@ define('melon/createInputComponent', [
         },
         getInitialState: function getInitialState() {
             var _props = this.props;
-            var value = _props.value;
             var name = _props.name;
             var children = _props.children;
             this.validator = this.props.validator || this.context.validator || defaultValidator;
             var pointer = this.context.pointer;
             this.pointer = name != null && pointer ? '' + this.context.pointer + name : null;
-            return { value: value != null ? value : children.props.value };
+            var value = this.props.value;
+            var childValue = children.props.value;
+            return { value: value != null ? value : childValue };
         },
         contextTypes: {
             pointer: PropTypes.string,
@@ -57,10 +58,9 @@ define('melon/createInputComponent', [
             }
         },
         componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-            var props = this.props;
-            var value = nextProps.value;
             var customValidity = nextProps.customValidity;
-            if (value !== props.value || customValidity !== props.customValidity) {
+            var value = nextProps.value;
+            if (value !== this.getValue() || customValidity !== this.props.customValidity) {
                 this.setState({
                     value: value,
                     validity: customValidity ? this.validator.createCustomValidity(customValidity) : this.checkValidity(value)
@@ -76,12 +76,12 @@ define('melon/createInputComponent', [
             return this.validator.validate(value, this);
         },
         onChange: function onChange(e) {
-            var value = e.value;
             var onChange = this.props.onChange;
             if (onChange) {
                 onChange(e);
                 return;
             }
+            var value = e.value;
             if (value === this.state.value) {
                 return;
             }
@@ -142,7 +142,7 @@ define('melon/createInputComponent', [
             render: function render() {
                 var props = this.props;
                 var children = props.children;
-                return React.createElement(InputComponent, props, React.createElement(Component, null, children));
+                return React.createElement(InputComponent, props, React.createElement(Component, props, children));
             }
         });
         InputComponentWrapper.defaultProps = Component.defaultProps;

@@ -17,8 +17,9 @@ const TextBox = React.createClass({
 
         let {onChange} = this.props;
 
-        onChange && onChange({
-            ...e,
+        onChange({
+            type: 'change',
+            target: this,
             value
         });
     },
@@ -45,4 +46,4 @@ const TextBox = React.createClass({
 
 });
 
-module.exports = TextBox;
+module.exports = require('./createInputComponent').create(TextBox);

@@ -4,7 +4,8 @@ define('melon/TextBox', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder'
+    './util/cxBuilder',
+    './createInputComponent'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
@@ -14,7 +15,11 @@ define('melon/TextBox', [
         onChange: function onChange(e) {
             var value = e.target.value;
             var onChange = this.props.onChange;
-            onChange && onChange(babelHelpers._extends({}, e, { value: value }));
+            onChange({
+                type: 'change',
+                target: this,
+                value: value
+            });
         },
         render: function render() {
             var _props = this.props;
@@ -34,5 +39,5 @@ define('melon/TextBox', [
             })), unit ? React.createElement('label', { className: cx().part('unit').build() }, unit) : null);
         }
     });
-    module.exports = TextBox;
+    module.exports = require('./createInputComponent').create(TextBox);
 });

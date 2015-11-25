@@ -4,11 +4,11 @@
  */
 
 import React from 'react';
-import Component from './Component';
+const cx = require('./util/cxBuilder').create('Lazyimage');
 
 const {PropTypes} = React;
 
-class LazyImage extends Component {
+class LazyImage extends React.Component {
 
     static displayName = 'LazyImage';
 
@@ -95,7 +95,7 @@ class LazyImage extends Component {
                 onLoad={load ? this.onLoad : null}
                 onError={load ? this.onError : null}
                 src={image}
-                className={this.getClassName()} />
+                className={cx(this.props).build()} />
         );
 
     }

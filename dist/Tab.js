@@ -30,6 +30,11 @@ define('melon/Tab', [
             var selectedIndex = this.props.selectedIndex;
             return { selectedIndex: selectedIndex };
         },
+        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+            if (nextProps.selectedIndex !== this.state.selectedIndex) {
+                this.setState({ selectedIndex: nextProps.selectedIndex });
+            }
+        },
         getTabCount: function getTabCount() {
             return React.Children.count(this.props.children);
         },
@@ -40,18 +45,18 @@ define('melon/Tab', [
             if (index === this.state.selectedIndex) {
                 return;
             }
-            var onBeforeChange = this.props.onBeforeChange;
+            var _props = this.props;
+            var onBeforeChange = _props.onBeforeChange;
+            var onChange = _props.onChange;
+            e.selectedIndex = index;
             if (onBeforeChange) {
-                var cancel = onBeforeChange(index, e);
-                if (cancel === false) {
+                onBeforeChange(e);
+                if (e.isDefaultPrevented()) {
                     return;
                 }
             }
             this.setState({ selectedIndex: index }, function () {
-                this.props.onChange && this.props.onChange({
-                    target: this,
-                    selectedIndex: index
-                });
+                onChange && onChange(e);
             });
         },
         render: function render() {
@@ -75,11 +80,9 @@ define('melon/Tab', [
                 return React.cloneElement(tab, {
                     key: index,
                     selected: selected,
-                    disabled: disabled,
                     tabIndex: index,
                     style: { width: percent },
-                    onTap: disabled ? null : this.handleTabClick.bind(this, index),
-                    className: cx().part('item').build()
+                    onTap: disabled ? null : this.handleTabClick.bind(this, index)
                 });
             }, this);
             var InkBarStyles = (_InkBarStyles = { width: percent }, _InkBarStyles[dom.prefixStyle('transform')] = 'translate3d(' + 100 * tabIndex + '%, 0, 0)', _InkBarStyles);

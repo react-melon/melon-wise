@@ -5,7 +5,7 @@
 
 const React = require('react');
 
-const cx = require('./util/cxBuilder').create('select');
+const cx = require('./util/cxBuilder').create('Select');
 
 const Select = React.createClass({
 
@@ -17,8 +17,9 @@ const Select = React.createClass({
 
         let {onChange} = this.props;
 
-        onChange && onChange({
-            ...e,
+        onChange({
+            type: 'change',
+            target: this,
             value
         });
     },
@@ -46,4 +47,4 @@ const Select = React.createClass({
 
 });
 
-module.exports = Select;
+module.exports = require('./createInputComponent').create(Select);

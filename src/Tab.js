@@ -39,6 +39,15 @@ const Tab = React.createClass({
 
     },
 
+    componentWillReceiveProps(nextProps) {
+
+        if (nextProps.selectedIndex !== this.state.selectedIndex) {
+            this.setState({
+                selectedIndex: nextProps.selectedIndex
+            });
+        }
+    },
+
     getTabCount() {
         return React.Children.count(this.props.children);
     },
@@ -53,20 +62,19 @@ const Tab = React.createClass({
             return;
         }
 
-        var onBeforeChange = this.props.onBeforeChange;
+        let {onBeforeChange, onChange} = this.props;
+
+        e.selectedIndex = index;
 
         if (onBeforeChange) {
-            var cancel = onBeforeChange(index, e);
-            if (cancel === false) {
+            onBeforeChange(e);
+            if (e.isDefaultPrevented()) {
                 return;
             }
         }
 
         this.setState({selectedIndex: index}, function () {
-            this.props.onChange && this.props.onChange({
-                target: this,
-                selectedIndex: index
-            });
+            onChange && onChange(e);
         });
 
     },
@@ -101,11 +109,9 @@ const Tab = React.createClass({
             return React.cloneElement(tab, {
                 key: index,
                 selected: selected,
-                disabled: disabled,
                 tabIndex: index,
                 style: {width: percent},
-                onTap: disabled ? null : this.handleTabClick.bind(this, index),
-                className: cx().part('item').build()
+                onTap: disabled ? null : this.handleTabClick.bind(this, index)
             });
 
         }, this);

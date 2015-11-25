@@ -4,12 +4,13 @@
  */
 
 import React from 'react';
-import Component from './Component';
 import dom from './util/dom';
 import date from './util/date';
 import EASING from './util/easing';
 
 const {PropTypes} = React;
+
+const cx = require('./util/cxBuilder').create('Scrollview');
 
 
 const transitionStyles = Object.assign({}, {
@@ -49,7 +50,7 @@ const momentum = function (current, start, time, lowerMargin, wrapperSize, decel
     };
 };
 
-class ScrollView extends Component {
+class ScrollView extends React.Component {
 
     static displayName = 'ScrollView';
 
@@ -527,7 +528,7 @@ class ScrollView extends Component {
         scrollerStyle[transitionStyles.transform] = 'translate(' + x + 'px,' + y + 'px)' + ' translateZ(0)';
 
         children = React.createElement(component, {
-            className: this.getPartClassName('scroller'),
+            className: cx().part('scroller').build(),
             ref: 'scroller',
             style: scrollerStyle
         }, children);
@@ -536,7 +537,7 @@ class ScrollView extends Component {
             <div
                 {...other}
                 ref="main"
-                className={this.getClassName()}
+                className={cx(this.props).build()}
                 onTouchStart={disabled ? null : this.onTouchStart}
                 onMouseDown={(disabled || disableMouse) ? null : this.onTouchStart}>
                 {children}

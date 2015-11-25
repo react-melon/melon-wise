@@ -31,13 +31,12 @@
         background: #e5e5e5;
         position: absolute;
         width: 100%;
-        bottom: 0;
+        bottom: -3px;
         left: 0;
         z-index: 10;
 
     @media screen and (-webkit-min-device-pixel-ratio: 1.5)
         &:after
-            -webkit-transform: scaley(0.5)
             transform: scaley(0.5)
-            bottom: -1.5px
+            transform-origin: 0 0
 

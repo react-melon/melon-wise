@@ -4,17 +4,15 @@ define('melon/ScrollView', [
     'module',
     './babelHelpers',
     'react',
-    './Component',
     './util/dom',
     './util/date',
-    './util/easing'
+    './util/easing',
+    './util/cxBuilder'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     exports.__esModule = true;
     var _react = require('react');
     var _react2 = babelHelpers.interopRequireDefault(_react);
-    var _Component2 = require('./Component');
-    var _Component3 = babelHelpers.interopRequireDefault(_Component2);
     var _utilDom = require('./util/dom');
     var _utilDom2 = babelHelpers.interopRequireDefault(_utilDom);
     var _utilDate = require('./util/date');
@@ -22,6 +20,7 @@ define('melon/ScrollView', [
     var _utilEasing = require('./util/easing');
     var _utilEasing2 = babelHelpers.interopRequireDefault(_utilEasing);
     var PropTypes = _react2['default'].PropTypes;
+    var cx = require('./util/cxBuilder').create('Scrollview');
     var transitionStyles = Object.assign({}, {
         transform: _utilDom2['default'].prefixStyle('transform'),
         transitionTimingFunction: _utilDom2['default'].prefixStyle('transitionTimingFunction'),
@@ -51,8 +50,8 @@ define('melon/ScrollView', [
             duration: duration
         };
     };
-    var ScrollView = function (_Component) {
-        babelHelpers.inherits(ScrollView, _Component);
+    var ScrollView = function (_React$Component) {
+        babelHelpers.inherits(ScrollView, _React$Component);
         babelHelpers.createClass(ScrollView, null, [
             {
                 key: 'displayName',
@@ -91,7 +90,7 @@ define('melon/ScrollView', [
         ]);
         function ScrollView(props) {
             babelHelpers.classCallCheck(this, ScrollView);
-            _Component.call(this, props);
+            _React$Component.call(this, props);
             this.onTouchStart = this.onTouchStart.bind(this);
             this.onTouchMove = this.onTouchMove.bind(this);
             this.onTouchEnd = this.onTouchEnd.bind(this);
@@ -392,19 +391,19 @@ define('melon/ScrollView', [
             scrollerStyle[transitionStyles.transitionTimingFunction] = easing || 'linear';
             scrollerStyle[transitionStyles.transform] = 'translate(' + x + 'px,' + y + 'px)' + ' translateZ(0)';
             children = _react2['default'].createElement(component, {
-                className: this.getPartClassName('scroller'),
+                className: cx().part('scroller').build(),
                 ref: 'scroller',
                 style: scrollerStyle
             }, children);
             return _react2['default'].createElement('div', babelHelpers._extends({}, other, {
                 ref: 'main',
-                className: this.getClassName(),
+                className: cx(this.props).build(),
                 onTouchStart: disabled ? null : this.onTouchStart,
                 onMouseDown: disabled || disableMouse ? null : this.onTouchStart
             }), children);
         };
         return ScrollView;
-    }(_Component3['default']);
+    }(_react2['default'].Component);
     exports['default'] = ScrollView;
     module.exports = exports['default'];
 });

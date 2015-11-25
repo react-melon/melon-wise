@@ -1,4 +1,5 @@
 @require "./base.styl"
+@require "./Transitions.styl"
 
 
 .{$-melon-class-prefix}-view
@@ -8,15 +9,3 @@
     right: 0
     width: 100%
     overflow-x: hidden
-
-    &.view-transition-opacity-enter
-        opacity: 0.01
-        &.view-transition-opacity-enter-active
-            opacity: 1
-            transition: opacity 500ms ease-in
-
-    &.view-transition-opacity-leave
-        opacity: 1
-        &.view-transition-opacity-leave-active
-            opacity: 0.01
-            transition: opacity 500ms ease-in
