@@ -33,10 +33,7 @@ define('melon/TextBox', [
                 'unit',
                 'className'
             ]);
-            return React.createElement('div', { className: cx(this.props).build() }, React.createElement('label', null, label), React.createElement('input', babelHelpers._extends({}, rest, {
-                onChange: this.onChange,
-                type: 'text'
-            })), unit ? React.createElement('label', { className: cx().part('unit').build() }, unit) : null);
+            return React.createElement('div', { className: cx(this.props).build() }, React.createElement('label', null, label), React.createElement('input', babelHelpers._extends({}, rest, { onChange: this.onChange })), unit ? React.createElement('label', { className: cx().part('unit').build() }, unit) : null);
         }
     });
     module.exports = require('./createInputComponent').create(TextBox);

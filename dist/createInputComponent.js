@@ -30,9 +30,10 @@ define('melon/createInputComponent', [
             this.validator = this.props.validator || this.context.validator || defaultValidator;
             var pointer = this.context.pointer;
             this.pointer = name != null && pointer ? '' + this.context.pointer + name : null;
-            var value = this.props.value;
-            var childValue = children.props.value;
-            return { value: value != null ? value : childValue };
+            var _props2 = this.props;
+            var value = _props2.value;
+            var defaultValue = _props2.defaultValue;
+            return { value: value != null ? value : defaultValue };
         },
         contextTypes: {
             pointer: PropTypes.string,

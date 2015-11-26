@@ -51,9 +51,12 @@ define('melon/Form', [
             this.fields.push(field);
         },
         removeField: function removeField(field) {
-            this.fields = this.fields.filter(function (f) {
-                return f !== field;
-            });
+            var fields = this.fields;
+            if (fields) {
+                this.fields = this.fields.filter(function (f) {
+                    return f !== field;
+                });
+            }
         },
         isValidFormField: function isValidFormField(field) {
             var value = field.getValue();

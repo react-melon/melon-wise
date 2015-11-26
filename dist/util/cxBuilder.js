@@ -93,7 +93,7 @@ define('melon/util/cxBuilder', [
                 return builder;
             }
             function build() {
-                return cx.createClassName(props.className, getPartClassName(part), getVariantClassName(variants), getStateClassName(states));
+                return cx.createClassName(getPartClassName(part), getVariantClassName(variants), getStateClassName(states), props.className);
             }
             return builder;
         }
