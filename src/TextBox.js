@@ -37,7 +37,7 @@ const TextBox = React.createClass({
         return (
             <div className={cx(this.props).build()}>
                 <label>{label}</label>
-                <input {...rest} onChange={this.onChange} type="text"></input>
+                <input {...rest} onChange={this.onChange}></input>
                 {unit ? <label className={cx().part('unit').build()}>{unit}</label> : null}
             </div>
         );

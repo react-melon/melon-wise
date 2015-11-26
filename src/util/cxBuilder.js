@@ -128,10 +128,10 @@ exports.create = (type) => {
 
         function build() {
             return cx.createClassName(
-                props.className,
                 getPartClassName(part),
                 getVariantClassName(variants),
-                getStateClassName(states)
+                getStateClassName(states),
+                props.className
             );
         }
 
