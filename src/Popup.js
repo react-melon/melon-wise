@@ -105,7 +105,7 @@ const Popup = React.createClass({
                     transitionTimeout={transitionTimeout || 500}
                     transitionType={transitionType || 'instant'}
                     translateFrom={translateFrom || 'bottom'}>
-                    {show ? this.renderPopupBody() : null}
+                    {this.renderPopupBody()}
                 </TransitionGroup>
                 {mask ? <Mask show={show} onClick={maskClickClose ? this.onMaskClick : null} /> : null}
             </div>
