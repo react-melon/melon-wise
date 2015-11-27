@@ -1,13 +1,98 @@
+@require "./base.styl"
 
-
-.transition-opacity-enter
-    opacity: 0.01
-    &.view-transition-opacity-enter-active
-        opacity: 1
-        transition: opacity 500ms ease-in
-
-.transition-opacity-leave
-    opacity: 1
-    &.view-transition-opacity-leave-active
+.ui-transitiongroup
+    .transition-opacity-enter
         opacity: 0.01
-        transition: opacity 500ms ease-in
+        will-change: opacity
+        &.transition-opacity-enter-active
+            opacity: 1
+            transition: opacity 500ms ease-in
+
+    .transition-opacity-leave
+        opacity: 1
+        will-change: opacity
+        &.transition-opacity-leave-active
+            opacity: 0.01
+            transition: opacity 500ms ease-in
+
+
+
+    .transition-scale-enter
+        transform: scale(0.01, 0.01)!important
+        will-change: transform
+        &.transition-scale-enter-active
+            transform: scale(1, 1)!important
+            transition: transform 500ms ease-in
+
+    .transition-scale-leave
+        transform: scale(1, 1)!important
+        will-change: transform
+        &.transition-scale-leave-active
+            transform: scale(0.01, 0.01)!important
+            transition: transform 500ms ease-in
+
+
+
+    .transition-translate-bottom-enter
+        transform: translate(0, 100%) translateZ(0)
+        will-change: transform
+        &.transition-translate-bottom-enter-active
+            transform: translate(0, 0) translateZ(0)
+            transition: transform 500ms ease-in
+
+    .transition-translate-bottom-leave
+        transform: translate(0, 0) translateZ(0)
+        will-change: transform
+        &.transition-translate-bottom-leave-active
+            transform: translate(0, 100%) translateZ(0)
+            transition: transform 500ms ease-in
+
+
+
+    .transition-translate-top-enter
+        transform: translate(0, -100%) translateZ(0)
+        will-change: transform
+        &.transition-translate-top-enter-active
+            transform: translate(0, 0) translateZ(0)
+            transition: transform 500ms ease-in
+
+    .transition-translate-top-leave
+        transform: translate(0, 0) translateZ(0)
+        will-change: transform
+        &.transition-translate-top-leave-active
+            transform: translate(0, -100%) translateZ(0)
+            transition: transform 500ms ease-in
+
+
+
+
+    .transition-translate-left-enter
+        transform: translate(100%, 0) translateZ(0)!important
+        will-change: transform
+        &.transition-translate-left-enter-active
+            transform: translate(0, 0) translateZ(0)!important
+            transition: transform 500ms ease-in
+
+    .transition-translate-left-leave
+        transform: translate(0, 0) translateZ(0)!important
+        will-change: transform
+        &.transition-translate-left-leave-active
+            transform: translate(100%, 0) translateZ(0)!important
+            transition: transform 500ms ease-in
+
+
+
+
+    .transition-translate-right-enter
+        transform: translate(-100%, 0) translateZ(0)
+        will-change: transform
+        &.transition-translate-right-enter-active
+            transform: translate(0, 0) translateZ(0)
+            transition: transform 500ms ease-in
+
+    .transition-translate-right-leave
+        transform: translate(0, 0) translateZ(0)
+        will-change: transform
+        &.transition-translate-right-leave-active
+            transform: translate(-100%, 0) translateZ(0)
+            transition: transform 500ms ease-in

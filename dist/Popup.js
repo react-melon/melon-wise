@@ -6,15 +6,16 @@ define('melon/Popup', [
     'react',
     './util/cxBuilder',
     './popup/windowScrollHelper',
-    './Mask'
+    './Mask',
+    './TransitionGroup'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var cx = require('./util/cxBuilder').create('Popup');
     var windowScrollHelper = require('./popup/windowScrollHelper');
     var Mask = require('./Mask');
+    var TransitionGroup = require('./TransitionGroup');
     var PropTypes = React.PropTypes;
-    var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
     var Popup = React.createClass({
         displayName: 'Popup',
         propTypes: {
@@ -34,9 +35,6 @@ define('melon/Popup', [
         getInitialState: function getInitialState() {
             this.originalHTMLBodySize = {};
             return { show: this.props.show };
-        },
-        shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
-            return nextProps.show !== this.props.show || nextState.show !== this.state.show;
         },
         componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
             var show = nextProps.show;
@@ -67,23 +65,30 @@ define('melon/Popup', [
             var show = this.state.show;
             windowScrollHelper[show ? 'stop' : 'restore']();
         },
+        renderPopupBody: function renderPopupBody() {
+            return React.createElement('div', { className: cx().part('body').build() }, this.props.children);
+        },
         render: function render() {
             var props = this.props;
             var mask = props.mask;
             var maskClickClose = props.maskClickClose;
+            var translateFrom = props.translateFrom;
+            var transitionType = props.transitionType;
+            var transitionTimeout = props.transitionTimeout;
             var others = babelHelpers.objectWithoutProperties(props, [
                 'mask',
-                'maskClickClose'
+                'maskClickClose',
+                'translateFrom',
+                'transitionType',
+                'transitionTimeout'
             ]);
             var show = this.state.show;
-            return React.createElement('div', babelHelpers._extends({}, others, { className: cx(props).addStates({ show: show }).build() }), React.createElement(ReactCSSTransitionGroup, {
+            return React.createElement('div', babelHelpers._extends({}, others, { className: cx(props).addStates({ show: show }).build() }), React.createElement(TransitionGroup, {
                 component: 'div',
-                transitionName: 'popup-transition-opacity',
-                transitionEnterTimeout: 500,
-                transitionLeaveTimeout: 500,
-                transitionEnter: true,
-                transitionLeave: true
-            }, this.renderPopupBody()), mask ? React.createElement(Mask, {
+                transitionTimeout: transitionTimeout || 500,
+                transitionType: transitionType || 'instant',
+                translateFrom: translateFrom || 'bottom'
+            }, show ? this.renderPopupBody() : null), mask ? React.createElement(Mask, {
                 show: show,
                 onClick: maskClickClose ? this.onMaskClick : null
             }) : null);

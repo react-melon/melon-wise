@@ -7,9 +7,10 @@ const React = require('react');
 const cx = require('./util/cxBuilder').create('Popup');
 const windowScrollHelper = require('./popup/windowScrollHelper');
 const Mask = require('./Mask');
+const TransitionGroup = require('./TransitionGroup');
 
 const PropTypes = React.PropTypes;
-const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+
 
 const Popup = React.createClass({
 
@@ -36,11 +37,6 @@ const Popup = React.createClass({
         return {
             show: this.props.show
         };
-    },
-
-    shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.show !== this.props.show
-            || nextState.show !== this.state.show;
     },
 
     componentWillReceiveProps(nextProps) {
@@ -81,23 +77,36 @@ const Popup = React.createClass({
         windowScrollHelper[show ? 'stop' : 'restore']();
     },
 
+    renderPopupBody() {
+        return (
+            <div className={cx().part('body').build()}>
+                {this.props.children}
+            </div>
+        );
+    },
+
     render() {
 
         const {props} = this;
-        const {mask, maskClickClose, ...others} = props;
+        const {
+            mask,
+            maskClickClose,
+            translateFrom,
+            transitionType,
+            transitionTimeout,
+            ...others
+        } = props;
         const {show} = this.state;
 
         return (
             <div {...others} className={cx(props).addStates({show}).build()}>
-                <ReactCSSTransitionGroup
+                <TransitionGroup
                     component="div"
-                    transitionName={'popup-transition-opacity'}
-                    transitionEnterTimeout={500}
-                    transitionLeaveTimeout={500}
-                    transitionEnter={true}
-                    transitionLeave={true}>
-                    {this.renderPopupBody()}
-                </ReactCSSTransitionGroup>
+                    transitionTimeout={transitionTimeout || 500}
+                    transitionType={transitionType || 'instant'}
+                    translateFrom={translateFrom || 'bottom'}>
+                    {show ? this.renderPopupBody() : null}
+                </TransitionGroup>
                 {mask ? <Mask show={show} onClick={maskClickClose ? this.onMaskClick : null} /> : null}
             </div>
         );
