@@ -23,25 +23,25 @@ define('melon/Tab', [
             onChange: PropTypes.func,
             onBeforeChange: PropTypes.func
         },
-        getDefaultProps: function getDefaultProps() {
+        getDefaultProps: function () {
             return { selectedIndex: 0 };
         },
-        getInitialState: function getInitialState() {
+        getInitialState: function () {
             var selectedIndex = this.props.selectedIndex;
             return { selectedIndex: selectedIndex };
         },
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+        componentWillReceiveProps: function (nextProps) {
             if (nextProps.selectedIndex !== this.state.selectedIndex) {
                 this.setState({ selectedIndex: nextProps.selectedIndex });
             }
         },
-        getTabCount: function getTabCount() {
+        getTabCount: function () {
             return React.Children.count(this.props.children);
         },
-        getSelected: function getSelected(tab, index) {
+        getSelected: function (tab, index) {
             return this.state.selectedIndex === index;
         },
-        handleTabClick: function handleTabClick(index, e) {
+        handleTabClick: function (index, e) {
             if (index === this.state.selectedIndex) {
                 return;
             }
@@ -59,7 +59,7 @@ define('melon/Tab', [
                 onChange && onChange(e);
             });
         },
-        render: function render() {
+        render: function () {
             var _InkBarStyles;
             var props = this.props;
             var percent = 1 / this.getTabCount() * 100 + '%';

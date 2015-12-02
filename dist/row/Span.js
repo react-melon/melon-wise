@@ -32,13 +32,13 @@ define('melon/row/Span', [
                 'auto'
             ].join(' ')
         }, style);
-        return _react2['default'].createElement('div', babelHelpers._extends({}, other, {
+        return _react2.default.createElement('div', babelHelpers._extends({}, other, {
             className: cx(props).build(),
             style: style
         }));
     }
-    RowSpan.propsTypes = { occupy: _react2['default'].PropTypes.number.isRequired };
+    RowSpan.propsTypes = { occupy: _react2.default.PropTypes.number.isRequired };
     RowSpan.defaultProps = { occupy: 4 };
-    exports['default'] = RowSpan;
-    module.exports = exports['default'];
+    exports.default = RowSpan;
+    module.exports = exports.default;
 });

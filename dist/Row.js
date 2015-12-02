@@ -19,11 +19,11 @@ define('melon/Row', [
             marginLeft: margin,
             marginRight: margin
         };
-        return _react2['default'].createElement('div', babelHelpers._extends({}, props, {
+        return _react2.default.createElement('div', babelHelpers._extends({}, props, {
             className: cx(props).build(),
             style: style
-        }), _react2['default'].Children.map(props.children, function (child, index) {
-            return _react2['default'].cloneElement(child, {
+        }), _react2.default.Children.map(props.children, function (child, index) {
+            return _react2.default.cloneElement(child, {
                 key: index,
                 columnNum: columnNum
             });
@@ -33,6 +33,6 @@ define('melon/Row', [
     Row.propTypes = { columnNum: _react.PropTypes.number };
     Row.defaultProps = { columnNum: 12 };
     Row.Span = require('./row/Span');
-    exports['default'] = Row;
-    module.exports = exports['default'];
+    exports.default = Row;
+    module.exports = exports.default;
 });

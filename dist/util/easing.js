@@ -6,26 +6,26 @@ define('melon/util/easing', [
     module.exports = {
         quadratic: {
             style: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            fn: function fn(k) {
+            fn: function (k) {
                 return k * (2 - k);
             }
         },
         circular: {
             style: 'cubic-bezier(0.1, 0.57, 0.1, 1)',
-            fn: function fn(k) {
+            fn: function (k) {
                 return Math.sqrt(1 - --k * k);
             }
         },
         back: {
             style: 'cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-            fn: function fn(k) {
+            fn: function (k) {
                 var b = 4;
                 return (k = k - 1) * k * ((b + 1) * k + b) + 1;
             }
         },
         bounce: {
             style: '',
-            fn: function fn(k) {
+            fn: function (k) {
                 if ((k /= 1) < 1 / 2.75) {
                     return 7.5625 * k * k;
                 } else if (k < 2 / 2.75) {
@@ -38,7 +38,7 @@ define('melon/util/easing', [
         },
         elastic: {
             style: '',
-            fn: function fn(k) {
+            fn: function (k) {
                 var f = 0.22;
                 var e = 0.4;
                 if (k === 0) {

@@ -19,16 +19,16 @@ define('melon/ScrollView', [
     var _utilDate2 = babelHelpers.interopRequireDefault(_utilDate);
     var _utilEasing = require('./util/easing');
     var _utilEasing2 = babelHelpers.interopRequireDefault(_utilEasing);
-    var PropTypes = _react2['default'].PropTypes;
+    var PropTypes = _react2.default.PropTypes;
     var cx = require('./util/cxBuilder').create('Scrollview');
     var transitionStyles = Object.assign({}, {
-        transform: _utilDom2['default'].prefixStyle('transform'),
-        transitionTimingFunction: _utilDom2['default'].prefixStyle('transitionTimingFunction'),
-        transitionDuration: _utilDom2['default'].prefixStyle('transitionDuration'),
-        transitionDelay: _utilDom2['default'].prefixStyle('transitionDelay'),
-        transformOrigin: _utilDom2['default'].prefixStyle('transformOrigin')
+        transform: _utilDom2.default.prefixStyle('transform'),
+        transitionTimingFunction: _utilDom2.default.prefixStyle('transitionTimingFunction'),
+        transitionDuration: _utilDom2.default.prefixStyle('transitionDuration'),
+        transitionDelay: _utilDom2.default.prefixStyle('transitionDelay'),
+        transformOrigin: _utilDom2.default.prefixStyle('transformOrigin')
     });
-    var momentum = function momentum(current, start, time, lowerMargin, wrapperSize, deceleration) {
+    var momentum = function (current, start, time, lowerMargin, wrapperSize, deceleration) {
         var distance = current - start;
         var speed = Math.abs(distance) / time;
         var destination;
@@ -106,8 +106,8 @@ define('melon/ScrollView', [
             return this.props !== nextProps || nextState.x !== this.state.x || nextState.y !== this.state.y || nextState.time !== this.state.time || nextState.easing !== this.state.easing;
         };
         ScrollView.prototype.componentDidMount = function componentDidMount() {
-            this.useTransition = _utilDom2['default'].hasTransition && this.props.useTransition;
-            this.useTransform = _utilDom2['default'].hasTransform && this.props.useTransform;
+            this.useTransition = _utilDom2.default.hasTransition && this.props.useTransition;
+            this.useTransform = _utilDom2.default.hasTransform && this.props.useTransform;
             this.directionX = 0;
             this.directionY = 0;
             this.refresh();
@@ -136,11 +136,11 @@ define('melon/ScrollView', [
             this.endTime = 0;
             this.directionX = 0;
             this.directionY = 0;
-            this.wrapperOffset = _utilDom2['default'].getPosition(main);
+            this.wrapperOffset = _utilDom2.default.getPosition(main);
             this.resetPosition();
         };
         ScrollView.prototype.scrollTo = function scrollTo(x, y, time, easing) {
-            easing = easing || _utilEasing2['default'].circular;
+            easing = easing || _utilEasing2.default.circular;
             this.isInTransition = this.useTransition && time > 0;
             this.translate(x, y, time, easing.style);
         };
@@ -176,7 +176,7 @@ define('melon/ScrollView', [
             this.directionX = 0;
             this.directionY = 0;
             this.directionLocked = 0;
-            this.startTime = _utilDate2['default'].now();
+            this.startTime = _utilDate2.default.now();
             if (this.useTransition && this.isInTransition) {
                 this.isInTransition = false;
                 pos = this.getComputedPosition();
@@ -192,45 +192,45 @@ define('melon/ScrollView', [
             this.absStartY = this.startY;
             this.pointX = point.pageX;
             this.pointY = point.pageY;
-            _utilDom2['default'].on(window, 'touchmove', this.onTouchMove);
-            _utilDom2['default'].on(window, 'touchend', this.onTouchEnd);
-            _utilDom2['default'].on(window, 'touchcancel', this.onTouchEnd);
+            _utilDom2.default.on(window, 'touchmove', this.onTouchMove);
+            _utilDom2.default.on(window, 'touchend', this.onTouchEnd);
+            _utilDom2.default.on(window, 'touchcancel', this.onTouchEnd);
             var scroller = this.refs.scroller;
-            _utilDom2['default'].on(scroller, 'transitionend', this.onTransitionEnd);
-            _utilDom2['default'].on(scroller, 'webkitTransitionEnd', this.onTransitionEnd);
-            _utilDom2['default'].on(scroller, 'oTransitionEnd', this.onTransitionEnd);
-            _utilDom2['default'].on(scroller, 'MSTransitionEnd', this.onTransitionEnd);
+            _utilDom2.default.on(scroller, 'transitionend', this.onTransitionEnd);
+            _utilDom2.default.on(scroller, 'webkitTransitionEnd', this.onTransitionEnd);
+            _utilDom2.default.on(scroller, 'oTransitionEnd', this.onTransitionEnd);
+            _utilDom2.default.on(scroller, 'MSTransitionEnd', this.onTransitionEnd);
             if (!this.props.disableMouse) {
-                _utilDom2['default'].on(window, 'mousemove', this.onTouchMove);
-                _utilDom2['default'].on(window, 'mousecancel', this.onTouchEnd);
-                _utilDom2['default'].on(window, 'mouseup', this.onTouchEnd);
+                _utilDom2.default.on(window, 'mousemove', this.onTouchMove);
+                _utilDom2.default.on(window, 'mousecancel', this.onTouchEnd);
+                _utilDom2.default.on(window, 'mouseup', this.onTouchEnd);
             }
         };
         ScrollView.prototype.clearEvents = function clearEvents() {
-            _utilDom2['default'].off(window, 'touchmove', this.onTouchMove);
-            _utilDom2['default'].off(window, 'touchend', this.onTouchEnd);
-            _utilDom2['default'].off(window, 'touchcancel', this.onTouchEnd);
+            _utilDom2.default.off(window, 'touchmove', this.onTouchMove);
+            _utilDom2.default.off(window, 'touchend', this.onTouchEnd);
+            _utilDom2.default.off(window, 'touchcancel', this.onTouchEnd);
             var scroller = this.refs.scroller;
-            _utilDom2['default'].off(scroller, 'transitionend', this.onTransitionEnd);
-            _utilDom2['default'].off(scroller, 'webkitTransitionEnd', this.onTransitionEnd);
-            _utilDom2['default'].off(scroller, 'oTransitionEnd', this.onTransitionEnd);
-            _utilDom2['default'].off(scroller, 'MSTransitionEnd', this.onTransitionEnd);
+            _utilDom2.default.off(scroller, 'transitionend', this.onTransitionEnd);
+            _utilDom2.default.off(scroller, 'webkitTransitionEnd', this.onTransitionEnd);
+            _utilDom2.default.off(scroller, 'oTransitionEnd', this.onTransitionEnd);
+            _utilDom2.default.off(scroller, 'MSTransitionEnd', this.onTransitionEnd);
             if (!this.props.disableMouse) {
-                _utilDom2['default'].off(window, 'mousemove', this.onTouchMove);
-                _utilDom2['default'].off(window, 'mousecancel', this.onTouchEnd);
-                _utilDom2['default'].off(window, 'mouseup', this.onTouchEnd);
+                _utilDom2.default.off(window, 'mousemove', this.onTouchMove);
+                _utilDom2.default.off(window, 'mousecancel', this.onTouchEnd);
+                _utilDom2.default.off(window, 'mouseup', this.onTouchEnd);
             }
         };
         ScrollView.prototype.onTouchEnd = function onTouchEnd(e) {
             e.preventDefault();
-            var duration = _utilDate2['default'].now() - this.startTime;
+            var duration = _utilDate2.default.now() - this.startTime;
             var newX = Math.round(this.state.x);
             var newY = Math.round(this.state.y);
             var time = 0;
             var easing = '';
             this.isInTransition = 0;
             this.initiated = 0;
-            this.endTime = _utilDate2['default'].now();
+            this.endTime = _utilDate2.default.now();
             if (this.resetPosition(this.props.bounceTime)) {
                 this.clearEvents();
                 return;
@@ -259,7 +259,7 @@ define('melon/ScrollView', [
             }
             if (newX !== this.state.x || newY !== this.state.y) {
                 if (newX > 0 || newX < this.maxScrollX || newY > 0 || newY < this.maxScrollY) {
-                    easing = _utilEasing2['default'].quadratic;
+                    easing = _utilEasing2.default.quadratic;
                 }
                 this.scrollTo(newX, newY, time, easing);
                 this.clearEvents();
@@ -272,7 +272,7 @@ define('melon/ScrollView', [
             var point = e.touches ? e.touches[0] : e;
             var deltaX = point.pageX - this.pointX;
             var deltaY = point.pageY - this.pointY;
-            var timestamp = _utilDate2['default'].now();
+            var timestamp = _utilDate2.default.now();
             this.pointX = point.pageX;
             this.pointY = point.pageY;
             this.distX += deltaX;
@@ -390,12 +390,12 @@ define('melon/ScrollView', [
             scrollerStyle[transitionStyles.transitionDuration] = time + 'ms';
             scrollerStyle[transitionStyles.transitionTimingFunction] = easing || 'linear';
             scrollerStyle[transitionStyles.transform] = 'translate(' + x + 'px,' + y + 'px)' + ' translateZ(0)';
-            children = _react2['default'].createElement(component, {
+            children = _react2.default.createElement(component, {
                 className: cx().part('scroller').build(),
                 ref: 'scroller',
                 style: scrollerStyle
             }, children);
-            return _react2['default'].createElement('div', babelHelpers._extends({}, other, {
+            return _react2.default.createElement('div', babelHelpers._extends({}, other, {
                 ref: 'main',
                 className: cx(this.props).build(),
                 onTouchStart: disabled ? null : this.onTouchStart,
@@ -403,7 +403,7 @@ define('melon/ScrollView', [
             }), children);
         };
         return ScrollView;
-    }(_react2['default'].Component);
-    exports['default'] = ScrollView;
-    module.exports = exports['default'];
+    }(_react2.default.Component);
+    exports.default = ScrollView;
+    module.exports = exports.default;
 });

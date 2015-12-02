@@ -7,7 +7,7 @@ const React = require('react');
 
 const cx = require('./util/cxBuilder').create('Select');
 
-const Select = React.createClass({
+let Select = React.createClass({
 
     displayName: 'Select',
 
@@ -29,8 +29,8 @@ const Select = React.createClass({
         let {
             label,
             options,
-            renderOptions,
             className,
+            children,
             ...rest
         } = this.props;
 
@@ -38,7 +38,7 @@ const Select = React.createClass({
             <div className={cx(this.props).build()}>
                 <label>{label}</label>
                 <select {...rest} onChange={this.onChange}>
-                    {renderOptions()}
+                    {children}
                 </select>
             </div>
         );
@@ -47,4 +47,22 @@ const Select = React.createClass({
 
 });
 
-module.exports = require('./createInputComponent').create(Select);
+Select = require('./createInputComponent').create(Select);
+
+Select.createOptions = function (dataSource) {
+
+    return dataSource.map(function (option, index) {
+
+        return (
+            <option
+                key={index}
+                disabled={option.disabled}
+                value={option.value}
+                label={option.name} />
+        );
+
+    });
+
+};
+
+module.exports = Select;

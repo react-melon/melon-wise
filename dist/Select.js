@@ -12,7 +12,7 @@ define('melon/Select', [
     var cx = require('./util/cxBuilder').create('Select');
     var Select = React.createClass({
         displayName: 'Select',
-        onChange: function onChange(e) {
+        onChange: function (e) {
             var value = e.target.value;
             var onChange = this.props.onChange;
             onChange({
@@ -21,20 +21,31 @@ define('melon/Select', [
                 value: value
             });
         },
-        render: function render() {
+        render: function () {
             var _props = this.props;
             var label = _props.label;
             var options = _props.options;
-            var renderOptions = _props.renderOptions;
             var className = _props.className;
+            var children = _props.children;
             var rest = babelHelpers.objectWithoutProperties(_props, [
                 'label',
                 'options',
-                'renderOptions',
-                'className'
+                'className',
+                'children'
             ]);
-            return React.createElement('div', { className: cx(this.props).build() }, React.createElement('label', null, label), React.createElement('select', babelHelpers._extends({}, rest, { onChange: this.onChange }), renderOptions()));
+            return React.createElement('div', { className: cx(this.props).build() }, React.createElement('label', null, label), React.createElement('select', babelHelpers._extends({}, rest, { onChange: this.onChange }), children));
         }
     });
-    module.exports = require('./createInputComponent').create(Select);
+    Select = require('./createInputComponent').create(Select);
+    Select.createOptions = function (dataSource) {
+        return dataSource.map(function (option, index) {
+            return React.createElement('option', {
+                key: index,
+                disabled: option.disabled,
+                value: option.value,
+                label: option.name
+            });
+        });
+    };
+    module.exports = Select;
 });

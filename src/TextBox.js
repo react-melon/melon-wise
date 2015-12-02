@@ -31,12 +31,18 @@ const TextBox = React.createClass({
             options,
             unit,
             className,
+            placeholder,
             ...rest
         } = this.props;
 
         return (
             <div className={cx(this.props).build()}>
-                <label>{label}</label>
+                <label>
+                    {label}
+                </label>
+                <div className={cx().part('placeholder').build()}>
+                    {placeholder}
+                </div>
                 <input {...rest} onChange={this.onChange}></input>
                 {unit ? <label className={cx().part('unit').build()}>{unit}</label> : null}
             </div>

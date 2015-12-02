@@ -22,10 +22,10 @@ define('melon/Form', [
             ]),
             validator: PropTypes.shape({ validate: PropTypes.func.isRequired })
         },
-        getDefaultProps: function getDefaultProps() {
+        getDefaultProps: function () {
             return { validator: validator };
         },
-        getInitialState: function getInitialState() {
+        getInitialState: function () {
             this.fields = [];
             return {};
         },
@@ -35,7 +35,7 @@ define('melon/Form', [
             validator: PropTypes.shape({ validate: PropTypes.func.isRequired }),
             pointer: PropTypes.string.isRequired
         },
-        getChildContext: function getChildContext() {
+        getChildContext: function () {
             return {
                 pointer: '/',
                 attachForm: this.addField,
@@ -43,14 +43,14 @@ define('melon/Form', [
                 validator: this.props.validator
             };
         },
-        componentWillUnmount: function componentWillUnmount() {
+        componentWillUnmount: function () {
             this.fields.length = 0;
             this.fields = null;
         },
-        addField: function addField(field) {
+        addField: function (field) {
             this.fields.push(field);
         },
-        removeField: function removeField(field) {
+        removeField: function (field) {
             var fields = this.fields;
             if (fields) {
                 this.fields = this.fields.filter(function (f) {
@@ -58,7 +58,7 @@ define('melon/Form', [
                 });
             }
         },
-        isValidFormField: function isValidFormField(field) {
+        isValidFormField: function (field) {
             var value = field.getValue();
             var pointer = field.pointer;
             var props = field.props;
@@ -66,7 +66,7 @@ define('melon/Form', [
             var disabled = props.disabled;
             return name && !disabled && value != null && pointer && pointer.lastIndexOf('/') === 0;
         },
-        getData: function getData() {
+        getData: function () {
             var _this = this;
             return this.fields.reduce(function (data, field) {
                 if (_this.isValidFormField(field)) {
@@ -75,10 +75,10 @@ define('melon/Form', [
                 return data;
             }, {});
         },
-        validate: function validate() {
+        validate: function () {
             return this.checkValidity().isValid;
         },
-        checkValidity: function checkValidity() {
+        checkValidity: function () {
             var _this2 = this;
             return this.fields.reduce(function (formValidity, field) {
                 if (!_this2.isValidFormField(field)) {
@@ -97,7 +97,7 @@ define('melon/Form', [
                 errors: []
             });
         },
-        onSubmit: function onSubmit(e) {
+        onSubmit: function (e) {
             var _props = this.props;
             var onSubmit = _props.onSubmit;
             var noValidate = _props.noValidate;
@@ -112,7 +112,7 @@ define('melon/Form', [
                 onSubmit(e);
             }
         },
-        render: function render() {
+        render: function () {
             var props = this.props;
             return React.createElement('form', babelHelpers._extends({}, props, { onSubmit: this.onSubmit }));
         }

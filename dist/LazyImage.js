@@ -10,7 +10,7 @@ define('melon/LazyImage', [
     var _react = require('react');
     var _react2 = babelHelpers.interopRequireDefault(_react);
     var cx = require('./util/cxBuilder').create('Lazyimage');
-    var PropTypes = _react2['default'].PropTypes;
+    var PropTypes = _react2.default.PropTypes;
     var LazyImage = function (_React$Component) {
         babelHelpers.inherits(LazyImage, _React$Component);
         babelHelpers.createClass(LazyImage, null, [
@@ -80,7 +80,7 @@ define('melon/LazyImage', [
             ]);
             var load = this.state.load;
             var image = load ? src : defaultImageSrc;
-            return _react2['default'].createElement('img', babelHelpers._extends({}, other, {
+            return _react2.default.createElement('img', babelHelpers._extends({}, other, {
                 onLoad: load ? this.onLoad : null,
                 onError: load ? this.onError : null,
                 src: image,
@@ -88,7 +88,7 @@ define('melon/LazyImage', [
             }));
         };
         return LazyImage;
-    }(_react2['default'].Component);
+    }(_react2.default.Component);
     LazyImage.defaultImageSrc = 'http://m.baidu.com/static/search/image_default.png';
     LazyImage.defaultProps = { defaultImageSrc: LazyImage.defaultImageSrc };
     module.exports = LazyImage;

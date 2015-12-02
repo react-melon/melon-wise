@@ -25,18 +25,18 @@ define('melon/Popup', [
             maskClickClose: PropTypes.bool,
             mask: PropTypes.bool
         },
-        getDefaultProps: function getDefaultProps() {
+        getDefaultProps: function () {
             return {
                 maskClickClose: true,
                 show: false,
                 mask: true
             };
         },
-        getInitialState: function getInitialState() {
+        getInitialState: function () {
             this.originalHTMLBodySize = {};
             return { show: this.props.show };
         },
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+        componentWillReceiveProps: function (nextProps) {
             var show = nextProps.show;
             if (show === this.state.show) {
                 return;
@@ -44,31 +44,31 @@ define('melon/Popup', [
             var onEvent = show ? this.onShow : this.onHide;
             this.setState({ show: show }, onEvent);
         },
-        onShow: function onShow() {
+        onShow: function () {
             this.bodyScrolling();
             var onShow = this.props.onShow;
             if (onShow) {
                 onShow();
             }
         },
-        onHide: function onHide() {
+        onHide: function () {
             this.bodyScrolling();
             var onHide = this.props.onHide;
             if (onHide) {
                 onHide();
             }
         },
-        onMaskClick: function onMaskClick(e) {
+        onMaskClick: function (e) {
             this.setState({ show: false }, this.onHide);
         },
-        bodyScrolling: function bodyScrolling() {
+        bodyScrolling: function () {
             var show = this.state.show;
             windowScrollHelper[show ? 'stop' : 'restore']();
         },
-        renderPopupBody: function renderPopupBody() {
+        renderPopupBody: function () {
             return React.createElement('div', { className: cx().part('body').build() }, this.props.children);
         },
-        render: function render() {
+        render: function () {
             var props = this.props;
             var mask = props.mask;
             var maskClickClose = props.maskClickClose;

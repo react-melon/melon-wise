@@ -50,7 +50,7 @@ define('melon/Validator', [
     };
     validator.addRule({
         name: 'required',
-        check: function check(value, component) {
+        check: function (value, component) {
             var requiredErrorMessage = component.props.rules.requiredErrorMessage;
             var isValid = value instanceof Array ? value.length : typeof value === 'string' ? value !== '' : value != null;
             return {
