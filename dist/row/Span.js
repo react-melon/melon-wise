@@ -15,15 +15,14 @@ define('melon/row/Span', [
         var occupy = props.occupy;
         var style = props.style;
         var columnNum = props.columnNum;
+        var noGap = props.noGap;
         var other = babelHelpers.objectWithoutProperties(props, [
             'occupy',
             'style',
-            'columnNum'
+            'columnNum',
+            'noGap'
         ]);
-        var padding = 20 / (columnNum - 1) + '%';
         style = babelHelpers._extends({
-            paddingLeft: padding,
-            paddingRight: padding,
             width: occupy / columnNum * 100 + '%',
             WebkitBoxFlex: occupy,
             WebkitFlex: [
@@ -32,6 +31,13 @@ define('melon/row/Span', [
                 'auto'
             ].join(' ')
         }, style);
+        if (!noGap) {
+            var padding = 20 / (columnNum - 1) + '%';
+            style = babelHelpers._extends({}, style, {
+                paddingLeft: padding,
+                paddingRight: padding
+            });
+        }
         return _react2.default.createElement('div', babelHelpers._extends({}, other, {
             className: cx(props).build(),
             style: style

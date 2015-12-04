@@ -5,23 +5,22 @@ define('melon/Select', [
     './babelHelpers',
     'react',
     './util/cxBuilder',
+    './minxins/NativeInputMixin',
     './createInputComponent'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var cx = require('./util/cxBuilder').create('Select');
+    var nativeInputMixin = require('./minxins/NativeInputMixin');
     var Select = React.createClass({
         displayName: 'Select',
-        onChange: function (e) {
-            var value = e.target.value;
-            var onChange = this.props.onChange;
-            onChange({
-                type: 'change',
-                target: this,
-                value: value
-            });
+        mixins: [nativeInputMixin],
+        renderLabel: function () {
+            var label = this.props.label;
+            return label ? React.createElement('label', null, label) : null;
         },
         render: function () {
+            var _this = this;
             var _props = this.props;
             var label = _props.label;
             var options = _props.options;
@@ -33,7 +32,12 @@ define('melon/Select', [
                 'className',
                 'children'
             ]);
-            return React.createElement('div', { className: cx(this.props).build() }, React.createElement('label', null, label), React.createElement('select', babelHelpers._extends({}, rest, { onChange: this.onChange }), children));
+            return React.createElement('div', { className: cx(this.props).build() }, this.renderLabel(), React.createElement('select', babelHelpers._extends({}, rest, {
+                onChange: this.onChange,
+                ref: function (input) {
+                    _this.input = input;
+                }
+            }), children));
         }
     });
     Select = require('./createInputComponent').create(Select);

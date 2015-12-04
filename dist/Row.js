@@ -14,8 +14,9 @@ define('melon/Row', [
     var cx = require('./util/cxBuilder').create('Row');
     function Row(props) {
         var columnNum = props.columnNum;
+        var noGap = props.noGap;
         var margin = -20 / (columnNum - 1) + '%';
-        var style = {
+        var style = noGap ? null : {
             marginLeft: margin,
             marginRight: margin
         };
@@ -25,13 +26,20 @@ define('melon/Row', [
         }), _react2.default.Children.map(props.children, function (child, index) {
             return _react2.default.cloneElement(child, {
                 key: index,
-                columnNum: columnNum
+                columnNum: columnNum,
+                noGap: noGap
             });
         }));
     }
     Row.displayName = 'Row';
-    Row.propTypes = { columnNum: _react.PropTypes.number };
-    Row.defaultProps = { columnNum: 12 };
+    Row.propTypes = {
+        columnNum: _react.PropTypes.number,
+        noGap: _react.PropTypes.bool
+    };
+    Row.defaultProps = {
+        columnNum: 12,
+        noGap: false
+    };
     Row.Span = require('./row/Span');
     exports.default = Row;
     module.exports = exports.default;

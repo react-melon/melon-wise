@@ -24,15 +24,13 @@ define('melon/createInputComponent', [
             return { defaultValue: '' };
         },
         getInitialState: function () {
-            var _props = this.props;
-            var name = _props.name;
-            var children = _props.children;
+            var name = this.props.name;
             this.validator = this.props.validator || this.context.validator || defaultValidator;
             var pointer = this.context.pointer;
             this.pointer = name != null && pointer ? '' + this.context.pointer + name : null;
-            var _props2 = this.props;
-            var value = _props2.value;
-            var defaultValue = _props2.defaultValue;
+            var _props = this.props;
+            var value = _props.value;
+            var defaultValue = _props.defaultValue;
             return { value: value != null ? value : defaultValue };
         },
         contextTypes: {
@@ -112,18 +110,25 @@ define('melon/createInputComponent', [
             var children = props.children;
             var _props$validate = props.validate;
             var validate = _props$validate === undefined ? this.validate : _props$validate;
+            var _props$states = props.states;
+            var states = _props$states === undefined ? {} : _props$states;
             var restProps = babelHelpers.objectWithoutProperties(props, [
                 'children',
-                'validate'
+                'validate',
+                'states'
             ]);
             var _state = this.state;
             var value = _state.value;
             var validity = _state.validity;
+            if (value === '') {
+                states.empty = true;
+            }
             var input = React.cloneElement(React.Children.only(children), babelHelpers._extends({}, restProps, {
                 pointer: pointer,
                 validity: validity,
                 validate: validate,
                 value: value,
+                states: states,
                 onChange: onChange,
                 ref: function (child) {
                     if (child) {

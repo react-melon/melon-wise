@@ -9,16 +9,22 @@ const cx = require('../util/cxBuilder').create('RowSpan');
 
 function RowSpan(props) {
 
-    let {occupy, style, columnNum, ...other} = props;
-    let padding = 20 / (columnNum - 1) + '%';
+    let {occupy, style, columnNum, noGap, ...other} = props;
     style = {
-        paddingLeft: padding,
-        paddingRight: padding,
         width: (occupy / columnNum) * 100 + '%',
         WebkitBoxFlex: occupy,
         WebkitFlex: [occupy, occupy, 'auto'].join(' '),
         ...style
     };
+
+    if (!noGap) {
+        let padding = 20 / (columnNum - 1) + '%';
+        style = {
+            ...style,
+            paddingLeft: padding,
+            paddingRight: padding
+        };
+    }
 
     return (
         <div {...other} className={cx(props).build()} style={style} />

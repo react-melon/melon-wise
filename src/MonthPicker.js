@@ -1,39 +1,36 @@
 /**
- * @file esui-react/TextBox
+ * @file esui-react/MonthPicker
  * @author cxtom<cxtom2010@gmail.com>
  */
 
 const React = require('react');
 
-const cx = require('./util/cxBuilder').create('textbox');
+const cx = require('./util/cxBuilder').create('Monthpicker');
 
-const nativeInputMixin = require('./minxins/NativeInputMixin');
+const MonthPicker = React.createClass({
 
-const TextBox = React.createClass({
+    displayName: 'MonthPicker',
 
-    displayName: 'TextBox',
-
-    mixins: [nativeInputMixin],
 
     renderPlaceHolder() {
 
         const {placeholder, value} = this.props;
 
-        return placeholder && value ? (
+        return placeholder && value ? null : (
             <div className={cx().part('placeholder').build()}>
                 {placeholder}
             </div>
-        ) : null;
+        );
     },
 
     renderLabel() {
         const {label} = this.props;
 
-        return label ? (
+        return label ? null : (
             <label>
                 {label}
             </label>
-        ) : null;
+        );
     },
 
     render() {
@@ -43,7 +40,6 @@ const TextBox = React.createClass({
             options,
             unit,
             className,
-            placeholder,
             ...rest
         } = this.props;
 
@@ -51,13 +47,6 @@ const TextBox = React.createClass({
             <div className={cx(this.props).build()}>
                 {this.renderLabel()}
                 {this.renderPlaceHolder()}
-                <input
-                    {...rest}
-                    onChange={this.onChange}
-                    ref={(input) => {
-                        this.input = input;
-                    }} />
-                {unit ? <label className={cx().part('unit').build()}>{unit}</label> : null}
             </div>
         );
 
@@ -65,4 +54,4 @@ const TextBox = React.createClass({
 
 });
 
-module.exports = require('./createInputComponent').create(TextBox);
+module.exports = require('./createInputComponent').create(MonthPicker);

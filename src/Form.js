@@ -8,11 +8,20 @@ const validator = require('./Validator');
 
 const {PropTypes} = React;
 
-let Form = React.createClass({
+class Form extends React.Component {
 
-    displayName: 'Form',
+    static displayName = 'Form';
 
-    propTypes: {
+    constructor(props) {
+        super(props);
+        this.onSubmit = this.onSubmit.bind(this);
+        this.addField = this.addField.bind(this);
+        this.removeField = this.removeField.bind(this);
+
+        this.fields = [];
+    }
+
+    static propTypes = {
         onSumbit: PropTypes.func,
         target: PropTypes.string,
         action: PropTypes.string,
@@ -20,27 +29,20 @@ let Form = React.createClass({
         validator: PropTypes.shape({
             validate: PropTypes.func.isRequired
         })
-    },
+    };
 
-    getDefaultProps() {
-        return {
-            validator: validator
-        };
-    },
+    static defaultProps = {
+        validator: validator
+    };
 
-    getInitialState() {
-        this.fields = [];
-        return {};
-    },
-
-    childContextTypes: {
+    static childContextTypes = {
         attachForm: PropTypes.func,
         detachForm: PropTypes.func,
         validator: PropTypes.shape({
             validate: PropTypes.func.isRequired
         }),
         pointer: PropTypes.string.isRequired
-    },
+    };
 
     getChildContext() {
         return {
@@ -49,16 +51,16 @@ let Form = React.createClass({
             detachForm: this.removeField,
             validator: this.props.validator
         };
-    },
+    }
 
     componentWillUnmount() {
         this.fields.length = 0;
         this.fields = null;
-    },
+    }
 
     addField(field) {
         this.fields.push(field);
-    },
+    }
 
     removeField(field) {
 
@@ -70,7 +72,7 @@ let Form = React.createClass({
             });
         }
 
-    },
+    }
 
     isValidFormField(field) {
 
@@ -84,7 +86,7 @@ let Form = React.createClass({
             && pointer
             && pointer.lastIndexOf('/') === 0;
 
-    },
+    }
 
     getData() {
         return this
@@ -100,11 +102,11 @@ let Form = React.createClass({
                 },
                 {}
             );
-    },
+    }
 
     validate() {
         return this.checkValidity().isValid;
-    },
+    }
 
     checkValidity() {
         return this
@@ -131,7 +133,7 @@ let Form = React.createClass({
                 isValid: true,
                 errors: []
             });
-    },
+    }
 
     onSubmit(e) {
 
@@ -152,7 +154,7 @@ let Form = React.createClass({
             onSubmit(e);
         }
 
-    },
+    }
 
     render() {
 
@@ -164,6 +166,6 @@ let Form = React.createClass({
 
     }
 
-});
+}
 
 module.exports = Form;

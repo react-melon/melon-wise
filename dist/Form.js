@@ -10,63 +10,53 @@ define('melon/Form', [
     var React = require('react');
     var validator = require('./Validator');
     var PropTypes = React.PropTypes;
-    var Form = React.createClass({
-        displayName: 'Form',
-        propTypes: {
-            onSumbit: PropTypes.func,
-            target: PropTypes.string,
-            action: PropTypes.string,
-            method: PropTypes.oneOf([
-                'POST',
-                'GET'
-            ]),
-            validator: PropTypes.shape({ validate: PropTypes.func.isRequired })
-        },
-        getDefaultProps: function () {
-            return { validator: validator };
-        },
-        getInitialState: function () {
+    var Form = function (_React$Component) {
+        babelHelpers.inherits(Form, _React$Component);
+        babelHelpers.createClass(Form, null, [{
+                key: 'displayName',
+                value: 'Form',
+                enumerable: true
+            }]);
+        function Form(props) {
+            babelHelpers.classCallCheck(this, Form);
+            _React$Component.call(this, props);
+            this.onSubmit = this.onSubmit.bind(this);
+            this.addField = this.addField.bind(this);
+            this.removeField = this.removeField.bind(this);
             this.fields = [];
-            return {};
-        },
-        childContextTypes: {
-            attachForm: PropTypes.func,
-            detachForm: PropTypes.func,
-            validator: PropTypes.shape({ validate: PropTypes.func.isRequired }),
-            pointer: PropTypes.string.isRequired
-        },
-        getChildContext: function () {
+        }
+        Form.prototype.getChildContext = function getChildContext() {
             return {
                 pointer: '/',
                 attachForm: this.addField,
                 detachForm: this.removeField,
                 validator: this.props.validator
             };
-        },
-        componentWillUnmount: function () {
+        };
+        Form.prototype.componentWillUnmount = function componentWillUnmount() {
             this.fields.length = 0;
             this.fields = null;
-        },
-        addField: function (field) {
+        };
+        Form.prototype.addField = function addField(field) {
             this.fields.push(field);
-        },
-        removeField: function (field) {
+        };
+        Form.prototype.removeField = function removeField(field) {
             var fields = this.fields;
             if (fields) {
                 this.fields = this.fields.filter(function (f) {
                     return f !== field;
                 });
             }
-        },
-        isValidFormField: function (field) {
+        };
+        Form.prototype.isValidFormField = function isValidFormField(field) {
             var value = field.getValue();
             var pointer = field.pointer;
             var props = field.props;
             var name = props.name;
             var disabled = props.disabled;
             return name && !disabled && value != null && pointer && pointer.lastIndexOf('/') === 0;
-        },
-        getData: function () {
+        };
+        Form.prototype.getData = function getData() {
             var _this = this;
             return this.fields.reduce(function (data, field) {
                 if (_this.isValidFormField(field)) {
@@ -74,11 +64,11 @@ define('melon/Form', [
                 }
                 return data;
             }, {});
-        },
-        validate: function () {
+        };
+        Form.prototype.validate = function validate() {
             return this.checkValidity().isValid;
-        },
-        checkValidity: function () {
+        };
+        Form.prototype.checkValidity = function checkValidity() {
             var _this2 = this;
             return this.fields.reduce(function (formValidity, field) {
                 if (!_this2.isValidFormField(field)) {
@@ -96,8 +86,8 @@ define('melon/Form', [
                 isValid: true,
                 errors: []
             });
-        },
-        onSubmit: function (e) {
+        };
+        Form.prototype.onSubmit = function onSubmit(e) {
             var _props = this.props;
             var onSubmit = _props.onSubmit;
             var noValidate = _props.noValidate;
@@ -111,11 +101,43 @@ define('melon/Form', [
                 e.data = this.getData();
                 onSubmit(e);
             }
-        },
-        render: function () {
+        };
+        Form.prototype.render = function render() {
             var props = this.props;
             return React.createElement('form', babelHelpers._extends({}, props, { onSubmit: this.onSubmit }));
-        }
-    });
+        };
+        babelHelpers.createClass(Form, null, [
+            {
+                key: 'propTypes',
+                value: {
+                    onSumbit: PropTypes.func,
+                    target: PropTypes.string,
+                    action: PropTypes.string,
+                    method: PropTypes.oneOf([
+                        'POST',
+                        'GET'
+                    ]),
+                    validator: PropTypes.shape({ validate: PropTypes.func.isRequired })
+                },
+                enumerable: true
+            },
+            {
+                key: 'defaultProps',
+                value: { validator: validator },
+                enumerable: true
+            },
+            {
+                key: 'childContextTypes',
+                value: {
+                    attachForm: PropTypes.func,
+                    detachForm: PropTypes.func,
+                    validator: PropTypes.shape({ validate: PropTypes.func.isRequired }),
+                    pointer: PropTypes.string.isRequired
+                },
+                enumerable: true
+            }
+        ]);
+        return Form;
+    }(React.Component);
     module.exports = Form;
 });

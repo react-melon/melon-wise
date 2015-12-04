@@ -31,8 +31,7 @@ const InputComponent = React.createClass({
     getInitialState() {
 
         const {
-            name,
-            children
+            name
         } = this.props;
 
         // 这里 validator 有两种来源 #=-= 略多，提供了丰富的可能性，比如一个表单里混合使用两种校验规则
@@ -252,9 +251,10 @@ const InputComponent = React.createClass({
         // value, validity 等等
         // 但是 children 不能重复糊了
         // 所以，我们把 children 单独拎出来，其他属性糊上
-        const {
+        let {
             children,
             validate = this.validate,
+            states = {},
             ...restProps
         } = props;
 
@@ -262,6 +262,10 @@ const InputComponent = React.createClass({
             value,
             validity
         } = this.state;
+
+        if (value === '') {
+            states.empty = true;
+        }
 
         const input = React.cloneElement(
             React.Children.only(children),
@@ -271,6 +275,7 @@ const InputComponent = React.createClass({
                 validity,
                 validate,
                 value,
+                states,
                 onChange,
                 ref: (child) => {
                     if (child) {

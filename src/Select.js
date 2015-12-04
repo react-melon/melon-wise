@@ -7,21 +7,22 @@ const React = require('react');
 
 const cx = require('./util/cxBuilder').create('Select');
 
+const nativeInputMixin = require('./minxins/NativeInputMixin');
+
 let Select = React.createClass({
 
     displayName: 'Select',
 
-    onChange(e) {
+    mixins: [nativeInputMixin],
 
-        let value = e.target.value;
+    renderLabel() {
+        const {label} = this.props;
 
-        let {onChange} = this.props;
-
-        onChange({
-            type: 'change',
-            target: this,
-            value
-        });
+        return label ? (
+            <label>
+                {label}
+            </label>
+        ) : null;
     },
 
     render() {
@@ -36,8 +37,13 @@ let Select = React.createClass({
 
         return (
             <div className={cx(this.props).build()}>
-                <label>{label}</label>
-                <select {...rest} onChange={this.onChange}>
+                {this.renderLabel()}
+                <select
+                    {...rest}
+                    onChange={this.onChange}
+                    ref={(input) => {
+                        this.input = input;
+                    }}>
                     {children}
                 </select>
             </div>
