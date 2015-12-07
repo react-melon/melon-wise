@@ -79,7 +79,7 @@ const Popup = React.createClass({
 
     renderPopupBody() {
         return (
-            <div className={cx().part('body').build()}>
+            <div className={cx().part('body').build()} key="body">
                 {this.props.children}
             </div>
         );

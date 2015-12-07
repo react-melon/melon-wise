@@ -4,32 +4,129 @@
  */
 
 const React = require('react');
-
+const ReactDOM = require('react-dom');
 const cx = require('./util/cxBuilder').create('Monthpicker');
+const DateTime = require('./util/date');
+const Popup = require('./Popup');
+const ScrollView = require('./ScrollView');
+
+const nativeInputMixin = require('./minxins/NativeInputMixin');
 
 const MonthPicker = React.createClass({
 
     displayName: 'MonthPicker',
 
+    mixins: [nativeInputMixin],
 
-    renderPlaceHolder() {
+    getInitialState() {
 
-        const {placeholder, value} = this.props;
+        return {
+            date: this.parseDate(this.props.value)
+        };
+    },
 
-        return placeholder && value ? null : (
-            <div className={cx().part('placeholder').build()}>
-                {placeholder}
-            </div>
+    componentDidMount() {
+        let container = this.container = document.createElement('div');
+        container.className = cx().part('popup').build();
+        document.body.appendChild(container);
+        this.renderPopup(false);
+    },
+
+    componentWillReceiveProps(nextProps) {
+
+        const {value} = nextProps;
+
+        if (value !== this.props.value) {
+            this.setState({
+                date: this.parseDate(value)
+            });
+        }
+    },
+
+    componentWillUnmount() {
+
+        let {container} = this;
+        if (container) {
+            ReactDOM.unmountComponentAtNode(container);
+            container.parentElement.removeChild(container);
+            this.popup = this.container = container = null;
+        }
+    },
+
+    parseDate(date) {
+
+        let format = this.props.dateFormat.toLowerCase();
+
+        return DateTime.parse(date, format);
+    },
+
+    /**
+     * 格式化日期
+     *
+     * @param {Date} rawValue 源日期对象
+     * @param {string=} format 日期格式，默认为当前实例的dateFormat
+     * @return {string} 格式化后的日期字符串
+     * @private
+     */
+    stringifyValue(rawValue) {
+
+        let format = this.props.dateFormat.toLowerCase();
+
+        return DateTime.format(rawValue, format, this.props.lang);
+    },
+
+    onClick(e) {
+        this.renderPopup(true);
+    },
+
+    renderPopup(isOpen) {
+
+        const popup = (
+            <Popup
+                show={isOpen}
+                transitionTimeout={300}
+                transitionType="translate"
+                direction="bottom">
+                Hello
+            </Popup>
         );
+
+        ReactDOM.render(popup, this.container);
+
+    },
+
+    renderResult() {
+
+        const {value} = this.props;
+
+        return value ? (
+            <div className={cx().part('result').build()}>
+                {value}
+            </div>
+        ) : null;
     },
 
     renderLabel() {
         const {label} = this.props;
 
-        return label ? null : (
+        return label ? (
             <label>
                 {label}
             </label>
+        ) : null;
+    },
+
+    renderHiddenInput() {
+
+        const {name} = this.props;
+        const {date} = this.state;
+
+        return (
+            <input
+                type="hidden"
+                name={name}
+                value={this.stringifyValue(date)}
+                onChange={this.onChange} />
         );
     },
 
@@ -37,21 +134,31 @@ const MonthPicker = React.createClass({
 
         let {
             label,
-            options,
-            unit,
             className,
             ...rest
         } = this.props;
 
         return (
-            <div className={cx(this.props).build()}>
+            <div className={cx(this.props).build()} onClick={this.onClick}>
                 {this.renderLabel()}
-                {this.renderPlaceHolder()}
+                {this.renderResult()}
+                {this.renderHiddenInput()}
             </div>
         );
 
     }
 
 });
+
+MonthPicker.LANG = {
+    week: '周',
+    days: '日,一,二,三,四,五,六'
+};
+
+MonthPicker.defaultProps = {
+    value: DateTime.format(new Date(), 'yyyy/mm', MonthPicker.LANG),
+    dateFormat: 'yyyy/MM',
+    lang: MonthPicker.LANG
+};
 
 module.exports = require('./createInputComponent').create(MonthPicker);
