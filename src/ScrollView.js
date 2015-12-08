@@ -80,7 +80,8 @@ class ScrollView extends React.Component {
         useTransform: true,
         useTransition: true,
 
-        disableMouse: true
+        disableMouse: true,
+        momentum: true
     };
 
 
@@ -193,11 +194,14 @@ class ScrollView extends React.Component {
         //     this.scrollerStyle.top = y + 'px';
         // }
 
+        time = time || 0;
+        let easing = easingStyle || EASING.circular;
+
         this.setState({
-            x: x,
-            y: y,
-            time: time || this.state.time,
-            easing: easingStyle || this.state.easing
+            x,
+            y,
+            time,
+            easing
         }, () => {
             this.fire('Scroll', {
                 target: this,
@@ -231,10 +235,6 @@ class ScrollView extends React.Component {
             this.isInTransition = false;
             pos = this.getComputedPosition();
             this.translate(Math.round(pos.x), Math.round(pos.y));
-            onScrollEnd && onScrollEnd();
-        }
-        else if (!this.useTransition && this.isAnimating) {
-            this.isAnimating = false;
             onScrollEnd && onScrollEnd();
         }
 
@@ -418,8 +418,7 @@ class ScrollView extends React.Component {
         this.directionY = deltaY > 0 ? -1 : deltaY < 0 ? 1 : 0;
 
         if (!this.moved) {
-            let {onScrollStart} = this.props;
-            onScrollStart && onScrollStart(e);
+            this.fire('ScrollStart');
         }
 
         this.moved = true;
@@ -449,6 +448,12 @@ class ScrollView extends React.Component {
             this.isInTransition = false;
             this.fire('ScrollEnd');
         }
+    }
+
+    fire(eventName, data = {}) {
+        let eventHandler = this.props['on' + eventName];
+
+        eventHandler && eventHandler(data);
     }
 
     getComputedPosition() {

@@ -39,11 +39,9 @@ const TextBox = React.createClass({
     render() {
 
         let {
-            label,
-            options,
             unit,
+            value,
             className,
-            placeholder,
             ...rest
         } = this.props;
 
@@ -53,11 +51,12 @@ const TextBox = React.createClass({
                 {this.renderPlaceHolder()}
                 <input
                     {...rest}
+                    value={value}
                     onChange={this.onChange}
                     ref={(input) => {
                         this.input = input;
                     }} />
-                {unit ? <label className={cx().part('unit').build()}>{unit}</label> : null}
+                {unit ? <div className={cx().part('unit').build()}>{unit}</div> : null}
             </div>
         );
 

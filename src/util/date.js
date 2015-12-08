@@ -223,7 +223,7 @@ module.exports = {
     },
 
     datePad: function (num) {
-        num = num < 10 ? '0' + num : num;
+        num = num < 10 ? '0' + num : num + '';
         return num;
     },
 

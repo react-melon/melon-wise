@@ -19,7 +19,8 @@ const Popup = React.createClass({
         onHide: PropTypes.func,
         onShow: PropTypes.func,
         maskClickClose: PropTypes.bool,
-        mask: PropTypes.bool
+        mask: PropTypes.bool,
+        onMaskClick: PropTypes.func
     },
 
     getDefaultProps() {

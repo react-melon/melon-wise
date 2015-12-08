@@ -83,7 +83,8 @@ define('melon/ScrollView', [
                     bounceEasing: '',
                     useTransform: true,
                     useTransition: true,
-                    disableMouse: true
+                    disableMouse: true,
+                    momentum: true
                 },
                 enumerable: true
             }
@@ -150,11 +151,13 @@ define('melon/ScrollView', [
         };
         ScrollView.prototype.translate = function translate(x, y, time, easingStyle) {
             var _this = this;
+            time = time || 0;
+            var easing = easingStyle || _utilEasing2.default.circular;
             this.setState({
                 x: x,
                 y: y,
-                time: time || this.state.time,
-                easing: easingStyle || this.state.easing
+                time: time,
+                easing: easing
             }, function () {
                 _this.fire('Scroll', {
                     target: _this,
@@ -181,9 +184,6 @@ define('melon/ScrollView', [
                 this.isInTransition = false;
                 pos = this.getComputedPosition();
                 this.translate(Math.round(pos.x), Math.round(pos.y));
-                onScrollEnd && onScrollEnd();
-            } else if (!this.useTransition && this.isAnimating) {
-                this.isAnimating = false;
                 onScrollEnd && onScrollEnd();
             }
             this.startX = this.state.x;
@@ -309,8 +309,7 @@ define('melon/ScrollView', [
             this.directionX = deltaX > 0 ? -1 : deltaX < 0 ? 1 : 0;
             this.directionY = deltaY > 0 ? -1 : deltaY < 0 ? 1 : 0;
             if (!this.moved) {
-                var onScrollStart = this.props.onScrollStart;
-                onScrollStart && onScrollStart(e);
+                this.fire('ScrollStart');
             }
             this.moved = true;
             this.translate(newX, newY);
@@ -329,6 +328,11 @@ define('melon/ScrollView', [
                 this.isInTransition = false;
                 this.fire('ScrollEnd');
             }
+        };
+        ScrollView.prototype.fire = function fire(eventName) {
+            var data = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+            var eventHandler = this.props['on' + eventName];
+            eventHandler && eventHandler(data);
         };
         ScrollView.prototype.getComputedPosition = function getComputedPosition() {
             var matrix = window.getComputedStyle(this.refs.scroller, null);

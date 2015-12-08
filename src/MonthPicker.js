@@ -7,16 +7,11 @@ const React = require('react');
 const ReactDOM = require('react-dom');
 const cx = require('./util/cxBuilder').create('Monthpicker');
 const DateTime = require('./util/date');
-const Popup = require('./Popup');
-const ScrollView = require('./ScrollView');
-
-const nativeInputMixin = require('./minxins/NativeInputMixin');
+const SeperatePopup = require('./monthpicker/SeperatePopup');
 
 const MonthPicker = React.createClass({
 
     displayName: 'MonthPicker',
-
-    mixins: [nativeInputMixin],
 
     getInitialState() {
 
@@ -79,20 +74,32 @@ const MonthPicker = React.createClass({
         this.renderPopup(true);
     },
 
+    onDateChange({value}) {
+        this.setState({date: value}, () => {
+            this.props.onChange({
+                type: 'change',
+                target: this,
+                value: this.stringifyValue(value)
+            });
+        });
+    },
+
     renderPopup(isOpen) {
 
         const popup = (
-            <Popup
+            <SeperatePopup
                 show={isOpen}
                 transitionTimeout={300}
                 transitionType="translate"
-                direction="bottom">
-                Hello
-            </Popup>
+                direction="bottom"
+                date={this.props.value ? this.state.date : new Date()}
+                onHide={() => {
+                    this.renderPopup(false);
+                }}
+                onChange={this.onDateChange} />
         );
 
         ReactDOM.render(popup, this.container);
-
     },
 
     renderResult() {
@@ -107,6 +114,7 @@ const MonthPicker = React.createClass({
     },
 
     renderLabel() {
+
         const {label} = this.props;
 
         return label ? (
@@ -125,18 +133,11 @@ const MonthPicker = React.createClass({
             <input
                 type="hidden"
                 name={name}
-                value={this.stringifyValue(date)}
-                onChange={this.onChange} />
+                value={this.stringifyValue(date)} />
         );
     },
 
     render() {
-
-        let {
-            label,
-            className,
-            ...rest
-        } = this.props;
 
         return (
             <div className={cx(this.props).build()} onClick={this.onClick}>

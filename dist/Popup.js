@@ -23,7 +23,8 @@ define('melon/Popup', [
             onHide: PropTypes.func,
             onShow: PropTypes.func,
             maskClickClose: PropTypes.bool,
-            mask: PropTypes.bool
+            mask: PropTypes.bool,
+            onMaskClick: PropTypes.func
         },
         getDefaultProps: function () {
             return {

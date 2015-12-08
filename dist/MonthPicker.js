@@ -2,27 +2,20 @@ define('melon/MonthPicker', [
     'require',
     'exports',
     'module',
-    './babelHelpers',
     'react',
     'react-dom',
     './util/cxBuilder',
     './util/date',
-    './Popup',
-    './ScrollView',
-    './minxins/NativeInputMixin',
+    './monthpicker/SeperatePopup',
     './createInputComponent'
 ], function (require, exports, module) {
-    var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var ReactDOM = require('react-dom');
     var cx = require('./util/cxBuilder').create('Monthpicker');
     var DateTime = require('./util/date');
-    var Popup = require('./Popup');
-    var ScrollView = require('./ScrollView');
-    var nativeInputMixin = require('./minxins/NativeInputMixin');
+    var SeperatePopup = require('./monthpicker/SeperatePopup');
     var MonthPicker = React.createClass({
         displayName: 'MonthPicker',
-        mixins: [nativeInputMixin],
         getInitialState: function () {
             return { date: this.parseDate(this.props.value) };
         },
@@ -57,13 +50,30 @@ define('melon/MonthPicker', [
         onClick: function (e) {
             this.renderPopup(true);
         },
+        onDateChange: function (_ref) {
+            var _this = this;
+            var value = _ref.value;
+            this.setState({ date: value }, function () {
+                _this.props.onChange({
+                    type: 'change',
+                    target: _this,
+                    value: _this.stringifyValue(value)
+                });
+            });
+        },
         renderPopup: function (isOpen) {
-            var popup = React.createElement(Popup, {
+            var _this2 = this;
+            var popup = React.createElement(SeperatePopup, {
                 show: isOpen,
                 transitionTimeout: 300,
                 transitionType: 'translate',
-                direction: 'bottom'
-            }, 'Hello');
+                direction: 'bottom',
+                date: this.props.value ? this.state.date : new Date(),
+                onHide: function () {
+                    _this2.renderPopup(false);
+                },
+                onChange: this.onDateChange
+            });
             ReactDOM.render(popup, this.container);
         },
         renderResult: function () {
@@ -80,18 +90,10 @@ define('melon/MonthPicker', [
             return React.createElement('input', {
                 type: 'hidden',
                 name: name,
-                value: this.stringifyValue(date),
-                onChange: this.onChange
+                value: this.stringifyValue(date)
             });
         },
         render: function () {
-            var _props = this.props;
-            var label = _props.label;
-            var className = _props.className;
-            var rest = babelHelpers.objectWithoutProperties(_props, [
-                'label',
-                'className'
-            ]);
             return React.createElement('div', {
                 className: cx(this.props).build(),
                 onClick: this.onClick
