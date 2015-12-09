@@ -8,13 +8,27 @@ const cx = require('./util/cxBuilder').create('Transitiongroup');
 const PropTypes = React.PropTypes;
 const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
+const DEFAULT_DURATION = 300;
+
 const TransitionGroup = function TransitionGroup(props) {
 
-    const {translateFrom, transitionTimeout, transitionType, ...others} = props;
+    let {translateFrom, transitionTimeout, transitionType, children, ...others} = props;
 
     let type = transitionType === 'translate'
             ? transitionType + '-' + translateFrom
             : transitionType;
+
+    if (transitionTimeout !== DEFAULT_DURATION) {
+        children = React.Children.map(
+            children,
+            (child) => React.cloneElement(child, {
+                style: {
+                    transitionDuration: transitionTimeout + 'ms',
+                    WebkitTransitionDuration: transitionTimeout + 'ms'
+                }
+            })
+        );
+    }
 
     return (
         <ReactCSSTransitionGroup
@@ -25,7 +39,9 @@ const TransitionGroup = function TransitionGroup(props) {
             transitionEnterTimeout={transitionTimeout}
             transitionLeaveTimeout={transitionTimeout}
             transitionEnter={transitionType !== 'instant'}
-            transitionLeave={transitionType !== 'instant'} />
+            transitionLeave={transitionType !== 'instant'}>
+            {children}
+        </ReactCSSTransitionGroup>
     );
 
 };

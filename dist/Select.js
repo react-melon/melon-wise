@@ -26,17 +26,22 @@ define('melon/Select', [
             var options = _props.options;
             var className = _props.className;
             var children = _props.children;
+            var value = _props.value;
             var rest = babelHelpers.objectWithoutProperties(_props, [
                 'label',
                 'options',
                 'className',
-                'children'
+                'children',
+                'value'
             ]);
             return React.createElement('div', { className: cx(this.props).build() }, this.renderLabel(), React.createElement('select', babelHelpers._extends({}, rest, {
                 onChange: this.onChange,
                 ref: function (input) {
                     _this.input = input;
                 }
+            }), value ? null : React.createElement('option', {
+                label: '\u672A\u9009\u62E9',
+                value: ''
             }), children));
         }
     });

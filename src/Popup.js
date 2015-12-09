@@ -79,8 +79,10 @@ const Popup = React.createClass({
     },
 
     renderPopupBody() {
+        const key = React.Children.only(this.props.children).key || 'body';
+        // console.log(React.Children.only(this.props.children));
         return (
-            <div className={cx().part('body').build()} key="body">
+            <div className={cx().part('body').build()} key={key}>
                 {this.props.children}
             </div>
         );

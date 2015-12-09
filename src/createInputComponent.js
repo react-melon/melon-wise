@@ -267,6 +267,10 @@ const InputComponent = React.createClass({
             states.empty = true;
         }
 
+        if (validity && !validity.isValid()) {
+            states.invalid = true;
+        }
+
         const input = React.cloneElement(
             React.Children.only(children),
             {

@@ -15,17 +15,6 @@ const TextBox = React.createClass({
 
     mixins: [nativeInputMixin],
 
-    renderPlaceHolder() {
-
-        const {placeholder, value} = this.props;
-
-        return placeholder && value ? (
-            <div className={cx().part('placeholder').build()}>
-                {placeholder}
-            </div>
-        ) : null;
-    },
-
     renderLabel() {
         const {label} = this.props;
 
@@ -48,11 +37,11 @@ const TextBox = React.createClass({
         return (
             <div className={cx(this.props).build()}>
                 {this.renderLabel()}
-                {this.renderPlaceHolder()}
                 <input
                     {...rest}
                     value={value}
                     onChange={this.onChange}
+                    onBlur={this.onBlur}
                     ref={(input) => {
                         this.input = input;
                     }} />

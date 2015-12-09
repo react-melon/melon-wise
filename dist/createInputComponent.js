@@ -123,6 +123,9 @@ define('melon/createInputComponent', [
             if (value === '') {
                 states.empty = true;
             }
+            if (validity && !validity.isValid()) {
+                states.invalid = true;
+            }
             var input = React.cloneElement(React.Children.only(children), babelHelpers._extends({}, restProps, {
                 pointer: pointer,
                 validity: validity,

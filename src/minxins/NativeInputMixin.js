@@ -7,15 +7,31 @@ module.exports = {
 
     onChange(e) {
 
-        let value = e.target.value;
+        const value = e.target.value;
 
-        let {onChange} = this.props;
+        const {onChange} = this.props;
 
         onChange({
             type: 'change',
             target: this,
             value
         });
+    },
+
+    onBlur(e) {
+        const newValue = e.target.value;
+        const {value} = this.props;
+
+        if (value !== newValue) {
+
+            const {onChange} = this.props;
+
+            onChange({
+                type: 'change',
+                target: this,
+                value: newValue
+            });
+        }
     }
 
 };

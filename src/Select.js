@@ -32,6 +32,7 @@ let Select = React.createClass({
             options,
             className,
             children,
+            value,
             ...rest
         } = this.props;
 
@@ -44,6 +45,7 @@ let Select = React.createClass({
                     ref={(input) => {
                         this.input = input;
                     }}>
+                    {value ? null : <option label="未选择" value="" />}
                     {children}
                 </select>
             </div>

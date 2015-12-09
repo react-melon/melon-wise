@@ -67,9 +67,10 @@ define('melon/Popup', [
             windowScrollHelper[show ? 'stop' : 'restore']();
         },
         renderPopupBody: function () {
+            var key = React.Children.only(this.props.children).key || 'body';
             return React.createElement('div', {
                 className: cx().part('body').build(),
-                key: 'body'
+                key: key
             }, this.props.children);
         },
         render: function () {
