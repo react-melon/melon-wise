@@ -4,11 +4,13 @@ define('melon/Tappable', [
     'module',
     './babelHelpers',
     'react',
-    'react-dom'
+    'react-dom',
+    './util/cxBuilder'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var ReactDOM = require('react-dom');
+    var cx = require('./util/cxBuilder').create('Tappable');
     var PropTypes = React.PropTypes;
     function getTouchProps(touch) {
         if (!touch) {
@@ -307,10 +309,7 @@ define('melon/Tappable', [
         };
         Tappable.prototype.render = function render() {
             var props = this.props;
-            var className = props.classBase + (this.state.isActive ? '-active' : '-inactive');
-            if (props.className) {
-                className = (props.className + ' ' || '') + className;
-            }
+            var className = cx(props).addStates({ active: this.state.isActive }).build();
             var style = babelHelpers._extends({}, touchStyles, props.style);
             var newComponentProps = babelHelpers._extends({}, props, {
                 style: style,

@@ -112,7 +112,7 @@ define('melon/monthpicker/SeperatePopup', [
                 transitionTimeout: 300,
                 transitionType: 'translate',
                 direction: 'bottom'
-            }, _react2.default.createElement(_ScrollView2.default, {
+            }, _react2.default.createElement('div', null, _react2.default.createElement(_ScrollView2.default, {
                 ref: 'scroll',
                 className: cx().part('panel').build()
             }, _react2.default.createElement(_Selector2.default, {
@@ -125,7 +125,7 @@ define('melon/monthpicker/SeperatePopup', [
                 component: 'div',
                 onTap: this.onCancel,
                 className: cx().part('cancel').build()
-            }, '\u53D6\u6D88'));
+            }, '\u53D6\u6D88')));
         };
         return SeperatePopup;
     }(_react2.default.Component);

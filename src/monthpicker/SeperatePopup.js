@@ -116,20 +116,22 @@ class SeperatePopup extends React.Component {
                 transitionTimeout={300}
                 transitionType="translate"
                 direction="bottom">
-                <ScrollView ref="scroll" className={cx().part('panel').build()}>
-                    <Selector
-                        ref="selector"
-                        items={items}
-                        selectedIndex={index}
-                        variants={[mode]}
-                        onChange={this.onChange} />
-                </ScrollView>
-                <Tappable
-                    component="div"
-                    onTap={this.onCancel}
-                    className={cx().part('cancel').build()}>
-                    取消
-                </Tappable>
+                <div>
+                    <ScrollView ref="scroll" className={cx().part('panel').build()}>
+                        <Selector
+                            ref="selector"
+                            items={items}
+                            selectedIndex={index}
+                            variants={[mode]}
+                            onChange={this.onChange} />
+                    </ScrollView>
+                    <Tappable
+                        component="div"
+                        onTap={this.onCancel}
+                        className={cx().part('cancel').build()}>
+                        取消
+                    </Tappable>
+                </div>
             </Popup>
         );
     }

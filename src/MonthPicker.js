@@ -75,6 +75,11 @@ const MonthPicker = React.createClass({
     },
 
     onDateChange({value}) {
+
+        if (DateTime.isEqualMonth(this.state.date, value)) {
+            return;
+        }
+
         this.setState({date: value}, () => {
             this.props.onChange({
                 type: 'change',
@@ -157,8 +162,8 @@ MonthPicker.LANG = {
 };
 
 MonthPicker.defaultProps = {
-    value: DateTime.format(new Date(), 'yyyy/mm', MonthPicker.LANG),
-    dateFormat: 'yyyy/MM',
+    value: DateTime.format(new Date(), 'yyyy-mm', MonthPicker.LANG),
+    dateFormat: 'yyyy-MM',
     lang: MonthPicker.LANG
 };
 

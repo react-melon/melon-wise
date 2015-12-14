@@ -58,7 +58,9 @@ define('melon/createInputComponent', [
         },
         componentWillReceiveProps: function (nextProps) {
             var customValidity = nextProps.customValidity;
-            var value = nextProps.value;
+            var defaultValue = nextProps.defaultValue;
+            var _nextProps$value = nextProps.value;
+            var value = _nextProps$value === undefined ? defaultValue : _nextProps$value;
             if (value !== this.getValue() || customValidity !== this.props.customValidity) {
                 this.setState({
                     value: value,

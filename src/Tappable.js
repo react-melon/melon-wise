@@ -6,6 +6,8 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
+const cx = require('./util/cxBuilder').create('Tappable');
+
 let {PropTypes} = React;
 
 function getTouchProps(touch) {
@@ -348,11 +350,9 @@ class Tappable extends React.Component {
 
     render() {
         var props = this.props;
-        var className = props.classBase + (this.state.isActive ? '-active' : '-inactive');
-
-        if (props.className) {
-            className = ((props.className + ' ') || '') + className;
-        }
+        var className = cx(props)
+            .addStates({active: this.state.isActive})
+            .build();
 
         var style = {
             ...touchStyles,

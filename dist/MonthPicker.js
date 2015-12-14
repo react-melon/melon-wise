@@ -53,6 +53,9 @@ define('melon/MonthPicker', [
         onDateChange: function (_ref) {
             var _this = this;
             var value = _ref.value;
+            if (DateTime.isEqualMonth(this.state.date, value)) {
+                return;
+            }
             this.setState({ date: value }, function () {
                 _this.props.onChange({
                     type: 'change',
@@ -105,8 +108,8 @@ define('melon/MonthPicker', [
         days: '\u65E5,\u4E00,\u4E8C,\u4E09,\u56DB,\u4E94,\u516D'
     };
     MonthPicker.defaultProps = {
-        value: DateTime.format(new Date(), 'yyyy/mm', MonthPicker.LANG),
-        dateFormat: 'yyyy/MM',
+        value: DateTime.format(new Date(), 'yyyy-mm', MonthPicker.LANG),
+        dateFormat: 'yyyy-MM',
         lang: MonthPicker.LANG
     };
     module.exports = require('./createInputComponent').create(MonthPicker);
