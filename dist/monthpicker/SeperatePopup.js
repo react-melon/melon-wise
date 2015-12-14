@@ -39,9 +39,16 @@ define('melon/monthpicker/SeperatePopup', [
                 date: this.props.date,
                 mode: 'year'
             };
+            this.timer = null;
         }
         SeperatePopup.prototype.componentDidUpdate = function componentDidUpdate() {
             this.update();
+        };
+        SeperatePopup.prototype.componentWillUnmount = function componentWillUnmount() {
+            var timer = this.timer;
+            if (timer) {
+                clearTimeout(timer);
+            }
         };
         SeperatePopup.prototype.update = function update() {
             this.refs.scroll.refresh();
@@ -52,12 +59,19 @@ define('melon/monthpicker/SeperatePopup', [
                 this.refs.scroll.scrollTo(0, -scrollHeight / num * (selectedIndex - 3), 0, '');
             }
         };
-        SeperatePopup.prototype.onCancel = function onCancel() {
+        SeperatePopup.prototype.onHide = function onHide() {
+            var _this = this;
             var onHide = this.props.onHide;
             onHide && onHide();
+            this.timer = setTimeout(function () {
+                _this.setState({ mode: 'year' });
+            }, 300);
+        };
+        SeperatePopup.prototype.onCancel = function onCancel() {
+            this.onHide();
         };
         SeperatePopup.prototype.onChange = function onChange(e) {
-            var _this = this;
+            var _this2 = this;
             var _state = this.state;
             var mode = _state.mode;
             var date = _state.date;
@@ -69,13 +83,11 @@ define('melon/monthpicker/SeperatePopup', [
             };
             this.setState(nextState, function () {
                 if (mode === 'month') {
-                    var _props = _this.props;
-                    var onHide = _props.onHide;
-                    var onChange = _props.onChange;
-                    onHide && onHide();
+                    var onChange = _this2.props.onChange;
+                    _this2.onHide();
                     onChange && onChange({
                         value: new Date(date),
-                        target: _this
+                        target: _this2
                     });
                 }
             });
@@ -114,6 +126,7 @@ define('melon/monthpicker/SeperatePopup', [
                 direction: 'bottom'
             }, _react2.default.createElement('div', null, _react2.default.createElement(_ScrollView2.default, {
                 ref: 'scroll',
+                bounceTime: 0,
                 className: cx().part('panel').build()
             }, _react2.default.createElement(_Selector2.default, {
                 ref: 'selector',

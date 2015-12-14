@@ -10,7 +10,6 @@ import Tappable from '../Tappable';
 
 import Selector from './Selector';
 import ScrollView from '../ScrollView';
-// import dom from '../util/dom';
 
 const cx = require('../util/cxBuilder').create('Monthpicker');
 const DateTime = require('../util/date');
@@ -27,10 +26,19 @@ class SeperatePopup extends React.Component {
             date: this.props.date,
             mode: 'year'
         };
+
+        this.timer = null;
     }
 
     componentDidUpdate() {
         this.update();
+    }
+
+    componentWillUnmount() {
+        let {timer} = this;
+        if (timer) {
+            clearTimeout(timer);
+        }
     }
 
     update() {
@@ -46,9 +54,17 @@ class SeperatePopup extends React.Component {
         }
     }
 
-    onCancel() {
+    onHide() {
         const {onHide} = this.props;
         onHide && onHide();
+
+        this.timer = setTimeout(() => {
+            this.setState({mode: 'year'});
+        }, 300);
+    }
+
+    onCancel() {
+        this.onHide();
     }
 
     onChange(e) {
@@ -65,8 +81,8 @@ class SeperatePopup extends React.Component {
 
         this.setState(nextState, () => {
             if (mode === 'month') {
-                const {onHide, onChange} = this.props;
-                onHide && onHide();
+                const {onChange} = this.props;
+                this.onHide();
 
                 onChange && onChange({
                     value: new Date(date),
@@ -117,7 +133,10 @@ class SeperatePopup extends React.Component {
                 transitionType="translate"
                 direction="bottom">
                 <div>
-                    <ScrollView ref="scroll" className={cx().part('panel').build()}>
+                    <ScrollView
+                        ref="scroll"
+                        bounceTime={0}
+                        className={cx().part('panel').build()}>
                         <Selector
                             ref="selector"
                             items={items}
