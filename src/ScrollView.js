@@ -99,6 +99,8 @@ class ScrollView extends React.Component {
             time: 0,
             easing: ''
         };
+
+        this.touchStart = false;
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -158,6 +160,8 @@ class ScrollView extends React.Component {
         this.endTime = 0;
         this.directionX = 0;
         this.directionY = 0;
+
+        this.touchStart = false;
 
         this.wrapperOffset = dom.getPosition(main);
 
@@ -222,6 +226,7 @@ class ScrollView extends React.Component {
 
         let {onScrollEnd} = this.props;
 
+        this.touchStart = true;
         this.moved      = false;
         this.distX      = 0;
         this.distY      = 0;
@@ -287,6 +292,12 @@ class ScrollView extends React.Component {
 
         e.preventDefault();
 
+        this.clearEvents();
+
+        if (!this.touchStart) {
+            return;
+        }
+
         // let point       = e.touches ? e.touches[0] : e;
         let duration    = date.now() - this.startTime;
         let newX = Math.round(this.state.x);
@@ -302,7 +313,6 @@ class ScrollView extends React.Component {
 
         // reset if we are outside of the boundaries
         if (this.resetPosition(this.props.bounceTime)) {
-            this.clearEvents();
             return;
         }
 
@@ -311,8 +321,6 @@ class ScrollView extends React.Component {
 
             this.fire('Click');
             this.fire('ScrollCancel');
-
-            this.clearEvents();
             return;
         }
 
@@ -351,11 +359,9 @@ class ScrollView extends React.Component {
             }
 
             this.scrollTo(newX, newY, time, easing);
-            this.clearEvents();
             return;
         }
 
-        this.clearEvents();
     }
 
     onTouchMove(e) {

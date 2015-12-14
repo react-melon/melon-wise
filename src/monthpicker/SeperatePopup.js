@@ -75,9 +75,12 @@ class SeperatePopup extends React.Component {
         date = date[mode === 'year' ? 'setFullYear' : 'setMonth'](e.value);
 
         let nextState = {
-            date: new Date(date),
-            mode: mode === 'month' ? 'year' : 'month'
+            date: new Date(date)
         };
+
+        if (mode === 'month') {
+            nextState.mode = 'year';
+        }
 
         this.setState(nextState, () => {
             if (mode === 'month') {
@@ -135,7 +138,6 @@ class SeperatePopup extends React.Component {
                 <div>
                     <ScrollView
                         ref="scroll"
-                        bounceTime={0}
                         className={cx().part('panel').build()}>
                         <Selector
                             ref="selector"

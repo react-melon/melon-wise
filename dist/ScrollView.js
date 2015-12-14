@@ -102,6 +102,7 @@ define('melon/ScrollView', [
                 time: 0,
                 easing: ''
             };
+            this.touchStart = false;
         }
         ScrollView.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
             return this.props !== nextProps || nextState.x !== this.state.x || nextState.y !== this.state.y || nextState.time !== this.state.time || nextState.easing !== this.state.easing;
@@ -137,6 +138,7 @@ define('melon/ScrollView', [
             this.endTime = 0;
             this.directionX = 0;
             this.directionY = 0;
+            this.touchStart = false;
             this.wrapperOffset = _utilDom2.default.getPosition(main);
             this.resetPosition();
         };
@@ -173,6 +175,7 @@ define('melon/ScrollView', [
             var point = e.touches ? e.touches[0] : e;
             var pos = undefined;
             var onScrollEnd = this.props.onScrollEnd;
+            this.touchStart = true;
             this.moved = false;
             this.distX = 0;
             this.distY = 0;
@@ -223,6 +226,10 @@ define('melon/ScrollView', [
         };
         ScrollView.prototype.onTouchEnd = function onTouchEnd(e) {
             e.preventDefault();
+            this.clearEvents();
+            if (!this.touchStart) {
+                return;
+            }
             var duration = _utilDate2.default.now() - this.startTime;
             var newX = Math.round(this.state.x);
             var newY = Math.round(this.state.y);
@@ -232,13 +239,11 @@ define('melon/ScrollView', [
             this.initiated = 0;
             this.endTime = _utilDate2.default.now();
             if (this.resetPosition(this.props.bounceTime)) {
-                this.clearEvents();
                 return;
             }
             if (!this.moved) {
                 this.fire('Click');
                 this.fire('ScrollCancel');
-                this.clearEvents();
                 return;
             }
             var momentumX = undefined;
@@ -262,10 +267,8 @@ define('melon/ScrollView', [
                     easing = _utilEasing2.default.quadratic;
                 }
                 this.scrollTo(newX, newY, time, easing);
-                this.clearEvents();
                 return;
             }
-            this.clearEvents();
         };
         ScrollView.prototype.onTouchMove = function onTouchMove(e) {
             e.preventDefault();

@@ -77,10 +77,10 @@ define('melon/monthpicker/SeperatePopup', [
             var date = _state.date;
             date = DateTime.clone(date);
             date = date[mode === 'year' ? 'setFullYear' : 'setMonth'](e.value);
-            var nextState = {
-                date: new Date(date),
-                mode: mode === 'month' ? 'year' : 'month'
-            };
+            var nextState = { date: new Date(date) };
+            if (mode === 'month') {
+                nextState.mode = 'year';
+            }
             this.setState(nextState, function () {
                 if (mode === 'month') {
                     var onChange = _this2.props.onChange;
@@ -126,7 +126,6 @@ define('melon/monthpicker/SeperatePopup', [
                 direction: 'bottom'
             }, _react2.default.createElement('div', null, _react2.default.createElement(_ScrollView2.default, {
                 ref: 'scroll',
-                bounceTime: 0,
                 className: cx().part('panel').build()
             }, _react2.default.createElement(_Selector2.default, {
                 ref: 'selector',
