@@ -49,7 +49,8 @@ class SeperatePopup extends React.Component {
         const scrollHeight = ReactDOM.findDOMNode(this.refs.selector).scrollHeight;
         const num = this.state.mode === 'month' ? 12 : 100;
 
-        if (selectedIndex > 4 || selectedIndex < 96) {
+        if (selectedIndex > 3) {
+            selectedIndex = Math.min(selectedIndex, num - 3);
             this.refs.scroll.scrollTo(0, -scrollHeight / num * (selectedIndex - 3), 0, '');
         }
     }
@@ -78,8 +79,8 @@ class SeperatePopup extends React.Component {
             date: new Date(date)
         };
 
-        if (mode === 'month') {
-            nextState.mode = 'year';
+        if (mode === 'year') {
+            nextState.mode = 'month';
         }
 
         this.setState(nextState, () => {
