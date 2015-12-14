@@ -6,7 +6,7 @@
     "cxtom2010@gmail.com"
   ],
   "description": "react ui components on mobile",
-  "main": "src/main",
+  "main": "src",
   "moduleType": [
     "amd"
   ],
@@ -24,10 +24,11 @@
     "tests",
     "lib",
     "doc",
-    "example"
+    "example",
+    "src",
+    "edp-*.js"
   ],
   "dependencies": {
-    "react": "0.14.2",
-    "underscore": "~1.8.3"
+    "react": "0.14.3"
   }
 }
