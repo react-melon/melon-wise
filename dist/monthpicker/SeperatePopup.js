@@ -55,7 +55,8 @@ define('melon/monthpicker/SeperatePopup', [
             var selectedIndex = this.getSelectedIndex();
             var scrollHeight = _reactDom2.default.findDOMNode(this.refs.selector).scrollHeight;
             var num = this.state.mode === 'month' ? 12 : 100;
-            if (selectedIndex > 4 || selectedIndex < 96) {
+            if (selectedIndex > 3) {
+                selectedIndex = Math.min(selectedIndex, num - 3);
                 this.refs.scroll.scrollTo(0, -scrollHeight / num * (selectedIndex - 3), 0, '');
             }
         };
@@ -78,8 +79,8 @@ define('melon/monthpicker/SeperatePopup', [
             date = DateTime.clone(date);
             date = date[mode === 'year' ? 'setFullYear' : 'setMonth'](e.value);
             var nextState = { date: new Date(date) };
-            if (mode === 'month') {
-                nextState.mode = 'year';
+            if (mode === 'year') {
+                nextState.mode = 'month';
             }
             this.setState(nextState, function () {
                 if (mode === 'month') {

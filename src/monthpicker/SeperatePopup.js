@@ -44,7 +44,7 @@ class SeperatePopup extends React.Component {
     update() {
         this.refs.scroll.refresh();
 
-        const selectedIndex = this.getSelectedIndex();
+        let selectedIndex = this.getSelectedIndex();
 
         const scrollHeight = ReactDOM.findDOMNode(this.refs.selector).scrollHeight;
         const num = this.state.mode === 'month' ? 12 : 100;
