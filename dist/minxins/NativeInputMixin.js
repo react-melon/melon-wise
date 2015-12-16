@@ -14,16 +14,13 @@ define('melon/minxins/NativeInputMixin', [
             });
         },
         onBlur: function (e) {
-            var newValue = e.target.value;
-            var value = this.props.value;
-            if (value !== newValue) {
-                var onChange = this.props.onChange;
-                onChange({
-                    type: 'change',
-                    target: this,
-                    value: newValue
-                });
-            }
+            var value = e.target.value;
+            var onBlur = this.props.onBlur;
+            onBlur({
+                type: 'blur',
+                target: this,
+                value: value
+            });
         }
     };
 });

@@ -19,19 +19,16 @@ module.exports = {
     },
 
     onBlur(e) {
-        const newValue = e.target.value;
-        const {value} = this.props;
 
-        if (value !== newValue) {
+        const value = e.target.value;
 
-            const {onChange} = this.props;
+        const {onBlur} = this.props;
 
-            onChange({
-                type: 'change',
-                target: this,
-                value: newValue
-            });
-        }
+        onBlur({
+            type: 'blur',
+            target: this,
+            value
+        });
     }
 
 };
