@@ -15,6 +15,17 @@ const TextBox = React.createClass({
 
     mixins: [nativeInputMixin],
 
+    onFocus(e) {
+        const {target} = e;
+        const {onFocus} = this.props;
+
+        setTimeout(() => {
+            target.scrollIntoViewIfNeeded();
+        }, 0);
+
+        onFocus && onFocus();
+    },
+
     renderLabel() {
         const {label} = this.props;
 
@@ -42,6 +53,7 @@ const TextBox = React.createClass({
                     value={value}
                     onChange={this.onChange}
                     onBlur={this.onBlur}
+                    onFocus={this.onFocus}
                     ref={(input) => {
                         this.input = input;
                     }} />

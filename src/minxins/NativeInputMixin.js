@@ -24,7 +24,7 @@ module.exports = {
 
         const {onBlur} = this.props;
 
-        onBlur({
+        onBlur && onBlur({
             type: 'blur',
             target: this,
             value
