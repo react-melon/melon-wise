@@ -16,7 +16,7 @@ define('melon/minxins/NativeInputMixin', [
         onBlur: function (e) {
             var value = e.target.value;
             var onBlur = this.props.onBlur;
-            onBlur({
+            onBlur && onBlur({
                 type: 'blur',
                 target: this,
                 value: value
