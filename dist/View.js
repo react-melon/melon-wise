@@ -9,8 +9,15 @@ define('melon/View', [
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var cx = require('./util/cxBuilder').create('View');
-    function View(props) {
-        return React.createElement('div', babelHelpers._extends({}, props, { className: cx(props).build() }));
-    }
+    var View = React.createClass({
+        displayName: 'View',
+        render: function () {
+            var props = this.props;
+            return React.createElement('div', babelHelpers._extends({}, props, {
+                ref: 'main',
+                className: cx(props).build()
+            }));
+        }
+    });
     module.exports = View;
 });

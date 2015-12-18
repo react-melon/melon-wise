@@ -7,13 +7,23 @@ const React = require('react');
 
 const cx = require('./util/cxBuilder').create('View');
 
-function View(props) {
+const View = React.createClass({
 
-    return (
-        <div {...props} className={cx(props).build()} />
-    );
+    displayName: 'View',
 
-}
+    render() {
+
+        const {props} = this;
+
+        return (
+            <div
+                {...props}
+                ref="main"
+                className={cx(props).build()} />
+        );
+    }
+
+});
 
 
 module.exports = View;

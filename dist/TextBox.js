@@ -19,7 +19,7 @@ define('melon/TextBox', [
             var target = e.target;
             var onFocus = this.props.onFocus;
             setTimeout(function () {
-                target.scrollIntoViewIfNeeded();
+                target.scrollIntoViewIfNeeded(true);
             }, 0);
             onFocus && onFocus();
         },
@@ -49,5 +49,13 @@ define('melon/TextBox', [
             })), unit ? React.createElement('div', { className: cx().part('unit').build() }, unit) : null);
         }
     });
+    var PropTypes = React.PropTypes;
+    TextBox.propTypes = {
+        onFocus: PropTypes.func,
+        onBlur: PropTypes.func,
+        onChange: PropTypes.func,
+        defaultValue: PropTypes.string
+    };
+    TextBox.defaultProps = { defaultValue: '' };
     module.exports = require('./createInputComponent').create(TextBox);
 });

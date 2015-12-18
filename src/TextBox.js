@@ -20,7 +20,7 @@ const TextBox = React.createClass({
         const {onFocus} = this.props;
 
         setTimeout(() => {
-            target.scrollIntoViewIfNeeded();
+            target.scrollIntoViewIfNeeded(true);
         }, 0);
 
         onFocus && onFocus();
@@ -64,5 +64,18 @@ const TextBox = React.createClass({
     }
 
 });
+
+const {PropTypes} = React;
+
+TextBox.propTypes = {
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    defaultValue: PropTypes.string
+};
+
+TextBox.defaultProps = {
+    defaultValue: ''
+};
 
 module.exports = require('./createInputComponent').create(TextBox);

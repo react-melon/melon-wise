@@ -9,10 +9,10 @@ import Popup from '../Popup';
 import Tappable from '../Tappable';
 
 import Selector from './Selector';
-import ScrollView from '../ScrollView';
 
 const cx = require('../util/cxBuilder').create('Monthpicker');
 const DateTime = require('../util/date');
+const domUtil = require('../util/dom');
 
 class SeperatePopup extends React.Component {
 
@@ -21,6 +21,8 @@ class SeperatePopup extends React.Component {
 
         this.onCancel = this.onCancel.bind(this);
         this.onChange = this.onChange.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+        this.onHide = this.onHide.bind(this);
 
         this.state = {
             date: this.props.date,
@@ -32,6 +34,7 @@ class SeperatePopup extends React.Component {
 
     componentDidUpdate() {
         this.update();
+        domUtil.on(document.body, 'touchmove', this.onTouchMove);
     }
 
     componentWillUnmount() {
@@ -39,20 +42,28 @@ class SeperatePopup extends React.Component {
         if (timer) {
             clearTimeout(timer);
         }
+
+        domUtil.off(document.body, 'touchmove', this.onTouchMove);
+    }
+
+    onTouchMove(e) {
+        const {target} = e;
+        const main = ReactDOM.findDOMNode(this);
+
+        if (!domUtil.contains(main, target) && this.props.show) {
+            e.preventDefault();
+        }
     }
 
     update() {
-        this.refs.scroll.refresh();
 
-        let selectedIndex = this.getSelectedIndex();
+        // const selectedIndex = this.getSelectedIndex();
+        // const selector = ReactDOM.findDOMNode(this.refs.selector);
 
-        const scrollHeight = ReactDOM.findDOMNode(this.refs.selector).scrollHeight;
-        const num = this.state.mode === 'month' ? 12 : 100;
+        // console.log(selector);
 
-        if (selectedIndex > 3) {
-            selectedIndex = Math.min(selectedIndex, num - 3);
-            this.refs.scroll.scrollTo(0, -scrollHeight / num * (selectedIndex - 3), 0, '');
-        }
+        // selector && selector.scrollTop = 100;
+
     }
 
     onHide() {
@@ -114,7 +125,7 @@ class SeperatePopup extends React.Component {
         if (mode === 'year') {
             const currentYear = (new Date()).getFullYear();
 
-            for (let i = 100; i >= 0; i--) {
+            for (let i = 0; i < 100; i++) {
                 items.push({
                     name: currentYear - i,
                     value: currentYear - i
@@ -135,18 +146,17 @@ class SeperatePopup extends React.Component {
                 show={show}
                 transitionTimeout={300}
                 transitionType="translate"
-                direction="bottom">
+                direction="bottom"
+                onHide={this.onHide}>
                 <div>
-                    <ScrollView
-                        ref="scroll"
-                        className={cx().part('panel').build()}>
+                    <div className={cx().part('panel').build()}>
                         <Selector
                             ref="selector"
                             items={items}
                             selectedIndex={index}
                             variants={[mode]}
                             onChange={this.onChange} />
-                    </ScrollView>
+                    </div>
                     <Tappable
                         component="div"
                         onTap={this.onCancel}

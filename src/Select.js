@@ -55,6 +55,17 @@ let Select = React.createClass({
 
 });
 
+const {PropTypes} = React;
+
+Select.propTypes = {
+    onChange: PropTypes.func,
+    defaultValue: PropTypes.string
+};
+
+Select.defaultProps = {
+    defaultValue: ''
+};
+
 Select = require('./createInputComponent').create(Select);
 
 Select.createOptions = function (dataSource) {

@@ -8,9 +8,9 @@ define('melon/monthpicker/SeperatePopup', [
     '../Popup',
     '../Tappable',
     './Selector',
-    '../ScrollView',
     '../util/cxBuilder',
-    '../util/date'
+    '../util/date',
+    '../util/dom'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
     exports.__esModule = true;
@@ -24,10 +24,9 @@ define('melon/monthpicker/SeperatePopup', [
     var _Tappable2 = babelHelpers.interopRequireDefault(_Tappable);
     var _Selector = require('./Selector');
     var _Selector2 = babelHelpers.interopRequireDefault(_Selector);
-    var _ScrollView = require('../ScrollView');
-    var _ScrollView2 = babelHelpers.interopRequireDefault(_ScrollView);
     var cx = require('../util/cxBuilder').create('Monthpicker');
     var DateTime = require('../util/date');
+    var domUtil = require('../util/dom');
     var SeperatePopup = function (_React$Component) {
         babelHelpers.inherits(SeperatePopup, _React$Component);
         function SeperatePopup(props) {
@@ -35,6 +34,8 @@ define('melon/monthpicker/SeperatePopup', [
             _React$Component.call(this, props);
             this.onCancel = this.onCancel.bind(this);
             this.onChange = this.onChange.bind(this);
+            this.onTouchMove = this.onTouchMove.bind(this);
+            this.onHide = this.onHide.bind(this);
             this.state = {
                 date: this.props.date,
                 mode: 'year'
@@ -43,22 +44,23 @@ define('melon/monthpicker/SeperatePopup', [
         }
         SeperatePopup.prototype.componentDidUpdate = function componentDidUpdate() {
             this.update();
+            domUtil.on(document.body, 'touchmove', this.onTouchMove);
         };
         SeperatePopup.prototype.componentWillUnmount = function componentWillUnmount() {
             var timer = this.timer;
             if (timer) {
                 clearTimeout(timer);
             }
+            domUtil.off(document.body, 'touchmove', this.onTouchMove);
+        };
+        SeperatePopup.prototype.onTouchMove = function onTouchMove(e) {
+            var target = e.target;
+            var main = _reactDom2.default.findDOMNode(this);
+            if (!domUtil.contains(main, target) && this.props.show) {
+                e.preventDefault();
+            }
         };
         SeperatePopup.prototype.update = function update() {
-            this.refs.scroll.refresh();
-            var selectedIndex = this.getSelectedIndex();
-            var scrollHeight = _reactDom2.default.findDOMNode(this.refs.selector).scrollHeight;
-            var num = this.state.mode === 'month' ? 12 : 100;
-            if (selectedIndex > 3) {
-                selectedIndex = Math.min(selectedIndex, num - 3);
-                this.refs.scroll.scrollTo(0, -scrollHeight / num * (selectedIndex - 3), 0, '');
-            }
         };
         SeperatePopup.prototype.onHide = function onHide() {
             var _this = this;
@@ -106,7 +108,7 @@ define('melon/monthpicker/SeperatePopup', [
             var index = this.getSelectedIndex();
             if (mode === 'year') {
                 var currentYear = new Date().getFullYear();
-                for (var i = 100; i >= 0; i--) {
+                for (var i = 0; i < 100; i++) {
                     items.push({
                         name: currentYear - i,
                         value: currentYear - i
@@ -124,11 +126,9 @@ define('melon/monthpicker/SeperatePopup', [
                 show: show,
                 transitionTimeout: 300,
                 transitionType: 'translate',
-                direction: 'bottom'
-            }, _react2.default.createElement('div', null, _react2.default.createElement(_ScrollView2.default, {
-                ref: 'scroll',
-                className: cx().part('panel').build()
-            }, _react2.default.createElement(_Selector2.default, {
+                direction: 'bottom',
+                onHide: this.onHide
+            }, _react2.default.createElement('div', null, _react2.default.createElement('div', { className: cx().part('panel').build() }, _react2.default.createElement(_Selector2.default, {
                 ref: 'selector',
                 items: items,
                 selectedIndex: index,

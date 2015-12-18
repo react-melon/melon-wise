@@ -45,6 +45,12 @@ define('melon/Select', [
             }), children));
         }
     });
+    var PropTypes = React.PropTypes;
+    Select.propTypes = {
+        onChange: PropTypes.func,
+        defaultValue: PropTypes.string
+    };
+    Select.defaultProps = { defaultValue: '' };
     Select = require('./createInputComponent').create(Select);
     Select.createOptions = function (dataSource) {
         return dataSource.map(function (option, index) {

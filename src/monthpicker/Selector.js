@@ -4,12 +4,7 @@
  */
 
 import React, {PropTypes} from 'react';
-// import ReactDOM from 'react-dom';
-
-import Tappable from '../Tappable';
-
 import cxBuilder from '../util/cxBuilder';
-// import dom from '../util/dom';
 
 const cx = cxBuilder.create('MonthpickerSelector');
 
@@ -24,20 +19,15 @@ class MonthPickerSelector extends React.Component {
         });
     }
 
-    getTouch(e) {
-        return e.touches[0];
-    }
-
     renderItems() {
 
         const {items, selectedIndex} = this.props;
 
         return items.map((item, index) => (
-            <Tappable
-                component="li"
+            <li
                 data-value={item.value}
                 key={index}
-                onTap={this.onItemClick.bind(this, item.value, index)}
+                onClick={this.onItemClick.bind(this, item.value, index)}
                 className={cx()
                     .part('item')
                     .addStates({
@@ -45,7 +35,7 @@ class MonthPickerSelector extends React.Component {
                     })
                     .build()}>
                 {item.name}
-            </Tappable>
+            </li>
         ));
     }
 
