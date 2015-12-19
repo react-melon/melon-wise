@@ -15,15 +15,8 @@ const TextBox = React.createClass({
 
     mixins: [nativeInputMixin],
 
-    onFocus(e) {
-        const {target} = e;
-        const {onFocus} = this.props;
-
-        setTimeout(() => {
-            target.scrollIntoViewIfNeeded(true);
-        }, 0);
-
-        onFocus && onFocus();
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
     },
 
     renderLabel() {
@@ -34,6 +27,17 @@ const TextBox = React.createClass({
                 {label}
             </label>
         ) : null;
+    },
+
+    onFocus(e) {
+        const {target} = e;
+        const {onFocus} = this.props;
+
+        this.timer = setTimeout(() => {
+            target.scrollIntoView();
+        }, 100);
+
+        onFocus && onFocus();
     },
 
     render() {

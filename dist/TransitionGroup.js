@@ -11,7 +11,6 @@ define('melon/TransitionGroup', [
     var cx = require('./util/cxBuilder').create('Transitiongroup');
     var PropTypes = React.PropTypes;
     var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-    var DEFAULT_TRANSITION_DURATION = 300;
     var TransitionGroup = function TransitionGroup(props) {
         var translateFrom = props.translateFrom;
         var transitionTimeout = props.transitionTimeout;
@@ -24,16 +23,6 @@ define('melon/TransitionGroup', [
             'children'
         ]);
         var type = transitionType === 'translate' ? transitionType + '-' + translateFrom : transitionType;
-        if (transitionTimeout !== DEFAULT_TRANSITION_DURATION) {
-            children = React.Children.map(children, function (child) {
-                return React.cloneElement(child, {
-                    style: babelHelpers._extends({}, child.props.style, {
-                        transitionDuration: transitionTimeout + 'ms',
-                        WebkitTransitionDuration: transitionTimeout + 'ms'
-                    })
-                });
-            });
-        }
         var isAnimate = transitionType !== 'instant';
         return React.createElement(ReactCSSTransitionGroup, babelHelpers._extends({}, others, {
             component: 'div',

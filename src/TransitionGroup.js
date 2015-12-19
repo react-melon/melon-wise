@@ -8,8 +8,6 @@ const cx = require('./util/cxBuilder').create('Transitiongroup');
 const PropTypes = React.PropTypes;
 const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
-const DEFAULT_TRANSITION_DURATION = 300;
-
 const TransitionGroup = function TransitionGroup(props) {
 
     let {
@@ -23,19 +21,6 @@ const TransitionGroup = function TransitionGroup(props) {
     const type = transitionType === 'translate'
             ? transitionType + '-' + translateFrom
             : transitionType;
-
-    if (transitionTimeout !== DEFAULT_TRANSITION_DURATION) {
-        children = React.Children.map(
-            children,
-            (child) => React.cloneElement(child, {
-                style: {
-                    ...child.props.style,
-                    transitionDuration: transitionTimeout + 'ms',
-                    WebkitTransitionDuration: transitionTimeout + 'ms'
-                }
-            })
-        );
-    }
 
     const isAnimate = transitionType !== 'instant';
 

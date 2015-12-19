@@ -15,17 +15,20 @@ define('melon/TextBox', [
     var TextBox = React.createClass({
         displayName: 'TextBox',
         mixins: [nativeInputMixin],
-        onFocus: function (e) {
-            var target = e.target;
-            var onFocus = this.props.onFocus;
-            setTimeout(function () {
-                target.scrollIntoViewIfNeeded(true);
-            }, 0);
-            onFocus && onFocus();
+        componentWillUnmount: function () {
+            this.timer && clearTimeout(this.timer);
         },
         renderLabel: function () {
             var label = this.props.label;
             return label ? React.createElement('label', null, label) : null;
+        },
+        onFocus: function (e) {
+            var target = e.target;
+            var onFocus = this.props.onFocus;
+            this.timer = setTimeout(function () {
+                target.scrollIntoView();
+            }, 100);
+            onFocus && onFocus();
         },
         render: function () {
             var _this = this;
