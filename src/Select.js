@@ -41,6 +41,7 @@ let Select = React.createClass({
                 {this.renderLabel()}
                 <select
                     {...rest}
+                    value={value}
                     onChange={this.onChange}
                     ref={(input) => {
                         this.input = input;

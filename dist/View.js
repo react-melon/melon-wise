@@ -19,7 +19,7 @@ define('melon/View', [
         },
         onClick: function (e) {
             var target = e.target;
-            if (target.tagName === 'INPUT') {
+            if (target.tagName === 'INPUT' || target.tagName === 'SELECT') {
                 var _domUtil$getPosition = domUtil.getPosition(target);
                 var _top = _domUtil$getPosition.top;
                 this.refs.main.scrollTop = _top;

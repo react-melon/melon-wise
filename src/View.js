@@ -21,7 +21,8 @@ const View = React.createClass({
 
         const {target} = e;
 
-        if (target.tagName === 'INPUT') {
+        if (target.tagName === 'INPUT'
+            || target.tagName === 'SELECT') {
 
             const {top} = domUtil.getPosition(target);
 

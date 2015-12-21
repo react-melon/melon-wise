@@ -9,7 +9,8 @@ define('melon/popup/windowScrollHelper', [
         originalHTMLBodySize[name] = {
             width: element.style.width,
             height: element.style.height,
-            overflow: element.style.overflow
+            overflowX: element.style.overflowX,
+            overflowY: element.style.overflowY
         };
         element.style.width = '100%';
         element.style.height = '100%';
@@ -20,7 +21,8 @@ define('melon/popup/windowScrollHelper', [
         var size = originalHTMLBodySize[name];
         element.style.width = size.width;
         element.style.height = size.height;
-        element.style.overflow = size.overflow;
+        element.style.overflowX = size.overflowX;
+        element.style.overflowY = size.overflowY;
         delete originalHTMLBodySize[name];
         return element;
     }
@@ -29,8 +31,10 @@ define('melon/popup/windowScrollHelper', [
         exports.restore();
     };
     exports.stop = function () {
-        stop('body').style.overflow = 'hidden';
-        stop('html').style.overflow = 'hidden';
+        stop('body').style.overflowX = 'hidden';
+        stop('html').style.overflowX = 'hidden';
+        stop('body').style.overflowY = 'auto';
+        stop('html').style.overflowY = 'auto';
     };
     exports.restore = function () {
         if (!originalHTMLBodySize.body || !originalHTMLBodySize.html) {

@@ -35,6 +35,7 @@ define('melon/Select', [
                 'value'
             ]);
             return React.createElement('div', { className: cx(this.props).build() }, this.renderLabel(), React.createElement('select', babelHelpers._extends({}, rest, {
+                value: value,
                 onChange: this.onChange,
                 ref: function (input) {
                     _this.input = input;
