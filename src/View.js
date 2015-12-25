@@ -6,7 +6,6 @@
 const React = require('react');
 
 const cx = require('./util/cxBuilder').create('View');
-const domUtil = require('./util/dom');
 
 const View = React.createClass({
 
@@ -15,19 +14,6 @@ const View = React.createClass({
     propTypes: {
         renderHeader: React.PropTypes.func,
         renderFooter: React.PropTypes.func
-    },
-
-    onClick(e) {
-
-        const {target} = e;
-
-        if (target.tagName === 'INPUT'
-            || target.tagName === 'SELECT') {
-
-            const {top} = domUtil.getPosition(target);
-
-            this.refs.main.scrollTop = top;
-        }
     },
 
     onTouchStart(e) {
@@ -114,8 +100,7 @@ const View = React.createClass({
             ...others,
             className: cx(props).build(),
             onTouchStart: this.onTouchStart,
-            onTouchMove: this.onTouchMove,
-            onClick: this.onClick
+            onTouchMove: this.onTouchMove
         }, children);
 
     }

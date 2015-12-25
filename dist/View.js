@@ -4,26 +4,16 @@ define('melon/View', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder',
-    './util/dom'
+    './util/cxBuilder'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var cx = require('./util/cxBuilder').create('View');
-    var domUtil = require('./util/dom');
     var View = React.createClass({
         displayName: 'View',
         propTypes: {
             renderHeader: React.PropTypes.func,
             renderFooter: React.PropTypes.func
-        },
-        onClick: function (e) {
-            var target = e.target;
-            if (target.tagName === 'INPUT' || target.tagName === 'SELECT') {
-                var _domUtil$getPosition = domUtil.getPosition(target);
-                var _top = _domUtil$getPosition.top;
-                this.refs.main.scrollTop = _top;
-            }
         },
         onTouchStart: function (e) {
             this.startY = e.touches[0].clientY;
@@ -83,8 +73,7 @@ define('melon/View', [
             return React.createElement(component, babelHelpers._extends({}, others, {
                 className: cx(props).build(),
                 onTouchStart: this.onTouchStart,
-                onTouchMove: this.onTouchMove,
-                onClick: this.onClick
+                onTouchMove: this.onTouchMove
             }), children);
         }
     });
