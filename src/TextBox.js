@@ -7,7 +7,7 @@ const React = require('react');
 
 const cx = require('./util/cxBuilder').create('textbox');
 
-const nativeInputMixin = require('./minxins/NativeInputMixin');
+const nativeInputMixin = require('./mixins/NativeInputMixin');
 
 const TextBox = React.createClass({
 

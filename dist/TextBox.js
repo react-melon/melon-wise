@@ -5,13 +5,13 @@ define('melon/TextBox', [
     './babelHelpers',
     'react',
     './util/cxBuilder',
-    './minxins/NativeInputMixin',
+    './mixins/NativeInputMixin',
     './createInputComponent'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var cx = require('./util/cxBuilder').create('textbox');
-    var nativeInputMixin = require('./minxins/NativeInputMixin');
+    var nativeInputMixin = require('./mixins/NativeInputMixin');
     var TextBox = React.createClass({
         displayName: 'TextBox',
         mixins: [nativeInputMixin],

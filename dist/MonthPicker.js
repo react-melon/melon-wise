@@ -7,6 +7,7 @@ define('melon/MonthPicker', [
     './util/cxBuilder',
     './util/date',
     './monthpicker/SeperatePopup',
+    './mixins/NativeInputMixin',
     './createInputComponent'
 ], function (require, exports, module) {
     var React = require('react');
@@ -14,8 +15,10 @@ define('melon/MonthPicker', [
     var cx = require('./util/cxBuilder').create('Monthpicker');
     var DateTime = require('./util/date');
     var SeperatePopup = require('./monthpicker/SeperatePopup');
+    var NativeInputMixin = require('./mixins/NativeInputMixin');
     var MonthPicker = React.createClass({
         displayName: 'MonthPicker',
+        mixins: [NativeInputMixin],
         getInitialState: function () {
             return { date: this.parseDate(this.props.value) };
         },
@@ -51,21 +54,11 @@ define('melon/MonthPicker', [
             this.renderPopup(true);
         },
         onDateChange: function (_ref) {
-            var _this = this;
             var value = _ref.value;
-            if (DateTime.isEqualMonth(this.state.date, value)) {
-                return;
-            }
-            this.setState({ date: value }, function () {
-                _this.props.onChange({
-                    type: 'change',
-                    target: _this,
-                    value: _this.stringifyValue(value)
-                });
-            });
+            this.setState({ date: value });
         },
         renderPopup: function (isOpen) {
-            var _this2 = this;
+            var _this = this;
             var popup = React.createElement(SeperatePopup, {
                 show: isOpen,
                 transitionTimeout: 300,
@@ -73,7 +66,7 @@ define('melon/MonthPicker', [
                 direction: 'bottom',
                 date: this.props.value ? this.state.date : new Date(),
                 onHide: function () {
-                    _this2.renderPopup(false);
+                    _this.renderPopup(false);
                 },
                 onChange: this.onDateChange
             });
@@ -91,7 +84,9 @@ define('melon/MonthPicker', [
             var name = this.props.name;
             var date = this.state.date;
             return React.createElement('input', {
-                type: 'hidden',
+                type: 'text',
+                style: { display: 'none' },
+                onChange: this.onChange,
                 name: name,
                 value: this.stringifyValue(date)
             });

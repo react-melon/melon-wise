@@ -7,7 +7,7 @@ const React = require('react');
 
 const cx = require('./util/cxBuilder').create('Select');
 
-const nativeInputMixin = require('./minxins/NativeInputMixin');
+const nativeInputMixin = require('./mixins/NativeInputMixin');
 
 let Select = React.createClass({
 

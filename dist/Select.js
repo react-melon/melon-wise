@@ -5,13 +5,13 @@ define('melon/Select', [
     './babelHelpers',
     'react',
     './util/cxBuilder',
-    './minxins/NativeInputMixin',
+    './mixins/NativeInputMixin',
     './createInputComponent'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var cx = require('./util/cxBuilder').create('Select');
-    var nativeInputMixin = require('./minxins/NativeInputMixin');
+    var nativeInputMixin = require('./mixins/NativeInputMixin');
     var Select = React.createClass({
         displayName: 'Select',
         mixins: [nativeInputMixin],
