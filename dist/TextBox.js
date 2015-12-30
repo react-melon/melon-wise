@@ -46,6 +46,7 @@ define('melon/TextBox', [
                 onChange: this.onChange,
                 onBlur: this.onBlur,
                 onFocus: this.onFocus,
+                autoComplete: 'off',
                 ref: function (input) {
                     _this.input = input;
                 }

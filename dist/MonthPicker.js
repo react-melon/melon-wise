@@ -7,7 +7,6 @@ define('melon/MonthPicker', [
     './util/cxBuilder',
     './util/date',
     './monthpicker/SeperatePopup',
-    './mixins/NativeInputMixin',
     './createInputComponent'
 ], function (require, exports, module) {
     var React = require('react');
@@ -15,10 +14,8 @@ define('melon/MonthPicker', [
     var cx = require('./util/cxBuilder').create('Monthpicker');
     var DateTime = require('./util/date');
     var SeperatePopup = require('./monthpicker/SeperatePopup');
-    var NativeInputMixin = require('./mixins/NativeInputMixin');
     var MonthPicker = React.createClass({
         displayName: 'MonthPicker',
-        mixins: [NativeInputMixin],
         getInitialState: function () {
             return { date: this.parseDate(this.props.value) };
         },
@@ -42,6 +39,10 @@ define('melon/MonthPicker', [
                 this.popup = this.container = container = null;
             }
         },
+        getValue: function () {
+            var date = this.state.date;
+            return this.stringifyValue(date);
+        },
         parseDate: function (date) {
             var format = this.props.dateFormat.toLowerCase();
             return DateTime.parse(date, format);
@@ -56,6 +57,12 @@ define('melon/MonthPicker', [
         onDateChange: function (_ref) {
             var value = _ref.value;
             this.setState({ date: value });
+            var onChange = this.props.onChange;
+            onChange({
+                type: 'change',
+                target: this,
+                value: this.stringifyValue(value)
+            });
         },
         renderPopup: function (isOpen) {
             var _this = this;
@@ -84,7 +91,7 @@ define('melon/MonthPicker', [
             var name = this.props.name;
             var date = this.state.date;
             return React.createElement('input', {
-                type: 'text',
+                type: 'hidden',
                 style: { display: 'none' },
                 onChange: this.onChange,
                 name: name,

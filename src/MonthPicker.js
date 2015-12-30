@@ -8,13 +8,10 @@ const ReactDOM = require('react-dom');
 const cx = require('./util/cxBuilder').create('Monthpicker');
 const DateTime = require('./util/date');
 const SeperatePopup = require('./monthpicker/SeperatePopup');
-const NativeInputMixin = require('./mixins/NativeInputMixin');
 
 const MonthPicker = React.createClass({
 
     displayName: 'MonthPicker',
-
-    mixins: [NativeInputMixin],
 
     getInitialState() {
 
@@ -51,6 +48,13 @@ const MonthPicker = React.createClass({
         }
     },
 
+
+    getValue() {
+        const {date} = this.state;
+
+        return this.stringifyValue(date);
+    },
+
     parseDate(date) {
 
         let format = this.props.dateFormat.toLowerCase();
@@ -78,7 +82,16 @@ const MonthPicker = React.createClass({
     },
 
     onDateChange({value}) {
+
         this.setState({date: value});
+
+        const {onChange} = this.props;
+
+        onChange({
+            type: 'change',
+            target: this,
+            value: this.stringifyValue(value)
+        });
     },
 
     renderPopup(isOpen) {
@@ -128,7 +141,7 @@ const MonthPicker = React.createClass({
 
         return (
             <input
-                type="text"
+                type="hidden"
                 style={{display: 'none'}}
                 onChange={this.onChange}
                 name={name}

@@ -58,6 +58,7 @@ const TextBox = React.createClass({
                     onChange={this.onChange}
                     onBlur={this.onBlur}
                     onFocus={this.onFocus}
+                    autoComplete="off"
                     ref={(input) => {
                         this.input = input;
                     }} />
