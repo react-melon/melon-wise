@@ -17,19 +17,14 @@ define('melon/MonthPicker', [
     var MonthPicker = React.createClass({
         displayName: 'MonthPicker',
         getInitialState: function () {
-            return { date: this.parseDate(this.props.value) };
+            var value = this.props.value;
+            return { date: this.parseDate(value) };
         },
         componentDidMount: function () {
             var container = this.container = document.createElement('div');
             container.className = cx().part('popup').build();
             document.body.appendChild(container);
             this.renderPopup(false);
-        },
-        componentWillReceiveProps: function (nextProps) {
-            var value = nextProps.value;
-            if (value !== this.props.value) {
-                this.setState({ date: this.parseDate(value) });
-            }
         },
         componentWillUnmount: function () {
             var container = this.container;
@@ -39,15 +34,17 @@ define('melon/MonthPicker', [
                 this.popup = this.container = container = null;
             }
         },
-        getValue: function () {
-            var date = this.state.date;
-            return this.stringifyValue(date);
-        },
         parseDate: function (date) {
+            if (!date) {
+                return null;
+            }
             var format = this.props.dateFormat.toLowerCase();
             return DateTime.parse(date, format);
         },
         stringifyValue: function (rawValue) {
+            if (rawValue == null) {
+                return '';
+            }
             var format = this.props.dateFormat.toLowerCase();
             return DateTime.format(rawValue, format, this.props.lang);
         },
@@ -55,17 +52,19 @@ define('melon/MonthPicker', [
             this.renderPopup(true);
         },
         onDateChange: function (_ref) {
+            var _this = this;
             var value = _ref.value;
-            this.setState({ date: value });
-            var onChange = this.props.onChange;
-            onChange({
-                type: 'change',
-                target: this,
-                value: this.stringifyValue(value)
+            this.setState({ date: value }, function () {
+                var onChange = _this.props.onChange;
+                onChange({
+                    type: 'change',
+                    target: _this,
+                    value: _this.stringifyValue(value)
+                });
             });
         },
         renderPopup: function (isOpen) {
-            var _this = this;
+            var _this2 = this;
             var popup = React.createElement(SeperatePopup, {
                 show: isOpen,
                 transitionTimeout: 300,
@@ -73,7 +72,7 @@ define('melon/MonthPicker', [
                 direction: 'bottom',
                 date: this.props.value ? this.state.date : new Date(),
                 onHide: function () {
-                    _this.renderPopup(false);
+                    _this2.renderPopup(false);
                 },
                 onChange: this.onDateChange
             });
@@ -110,7 +109,7 @@ define('melon/MonthPicker', [
         days: '\u65E5,\u4E00,\u4E8C,\u4E09,\u56DB,\u4E94,\u516D'
     };
     MonthPicker.defaultProps = {
-        value: DateTime.format(new Date(), 'yyyy-mm', MonthPicker.LANG),
+        defaultValue: DateTime.format(new Date(), 'yyyy-mm', MonthPicker.LANG),
         dateFormat: 'yyyy-MM',
         lang: MonthPicker.LANG
     };

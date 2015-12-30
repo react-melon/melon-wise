@@ -15,8 +15,10 @@ const MonthPicker = React.createClass({
 
     getInitialState() {
 
+        const {value} = this.props;
+
         return {
-            date: this.parseDate(this.props.value)
+            date: this.parseDate(value)
         };
     },
 
@@ -25,17 +27,6 @@ const MonthPicker = React.createClass({
         container.className = cx().part('popup').build();
         document.body.appendChild(container);
         this.renderPopup(false);
-    },
-
-    componentWillReceiveProps(nextProps) {
-
-        const {value} = nextProps;
-
-        if (value !== this.props.value) {
-            this.setState({
-                date: this.parseDate(value)
-            });
-        }
     },
 
     componentWillUnmount() {
@@ -48,14 +39,11 @@ const MonthPicker = React.createClass({
         }
     },
 
-
-    getValue() {
-        const {date} = this.state;
-
-        return this.stringifyValue(date);
-    },
-
     parseDate(date) {
+
+        if (!date) {
+            return null;
+        }
 
         let format = this.props.dateFormat.toLowerCase();
 
@@ -72,6 +60,10 @@ const MonthPicker = React.createClass({
      */
     stringifyValue(rawValue) {
 
+        if (rawValue == null) {
+            return '';
+        }
+
         let format = this.props.dateFormat.toLowerCase();
 
         return DateTime.format(rawValue, format, this.props.lang);
@@ -83,14 +75,17 @@ const MonthPicker = React.createClass({
 
     onDateChange({value}) {
 
-        this.setState({date: value});
+        this.setState({
+            date: value
+        }, () => {
 
-        const {onChange} = this.props;
+            const {onChange} = this.props;
 
-        onChange({
-            type: 'change',
-            target: this,
-            value: this.stringifyValue(value)
+            onChange({
+                type: 'change',
+                target: this,
+                value: this.stringifyValue(value)
+            });
         });
     },
 
@@ -169,7 +164,7 @@ MonthPicker.LANG = {
 };
 
 MonthPicker.defaultProps = {
-    value: DateTime.format(new Date(), 'yyyy-mm', MonthPicker.LANG),
+    defaultValue: DateTime.format(new Date(), 'yyyy-mm', MonthPicker.LANG),
     dateFormat: 'yyyy-MM',
     lang: MonthPicker.LANG
 };
