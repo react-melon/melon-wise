@@ -40,82 +40,22 @@ define('melon/util/date', [
             var date = new Date(d.getFullYear(), d.getMonth() + 1, 1);
             return this.addDays(date, -1);
         },
-        getFullMonth: function (d) {
-            var month = d.getMonth();
-            switch (month) {
-            case 0:
-                return 'January';
-            case 1:
-                return 'February';
-            case 2:
-                return 'March';
-            case 3:
-                return 'April';
-            case 4:
-                return 'May';
-            case 5:
-                return 'June';
-            case 6:
-                return 'July';
-            case 7:
-                return 'August';
-            case 8:
-                return 'September';
-            case 9:
-                return 'October';
-            case 10:
-                return 'November';
-            case 11:
-                return 'December';
-            }
-        },
         getShortMonth: function (d) {
             var month = d.getMonth();
-            switch (month) {
-            case 0:
-                return '1\u6708';
-            case 1:
-                return '2\u6708';
-            case 2:
-                return '3\u6708';
-            case 3:
-                return '4\u6708';
-            case 4:
-                return '5\u6708';
-            case 5:
-                return '6\u6708';
-            case 6:
-                return '7\u6708';
-            case 7:
-                return '8\u6708';
-            case 8:
-                return '9\u6708';
-            case 9:
-                return '10\u6708';
-            case 10:
-                return '11\u6708';
-            case 11:
-                return '12\u6708';
-            }
+            return month + 1 + '\u6708';
         },
         getDayOfWeek: function (d) {
             var dow = d.getDay();
-            switch (dow) {
-            case 0:
-                return '\u661F\u671F\u65E5';
-            case 1:
-                return '\u661F\u671F\u4E00';
-            case 2:
-                return '\u661F\u671F\u4E8C';
-            case 3:
-                return '\u661F\u671F\u4E09';
-            case 4:
-                return '\u661F\u671F\u56DB';
-            case 5:
-                return '\u661F\u671F\u4E94';
-            case 6:
-                return '\u661F\u671F\u516D';
-            }
+            var array = [
+                '\u65E5',
+                '\u4E00',
+                '\u4E8C',
+                '\u4E09',
+                '\u56DB',
+                '\u4E94',
+                '\u516D'
+            ];
+            return '\u661F\u671F' + array[dow];
         },
         getFullWeekArray: function (d) {
             var weekArray = this.getWeekArray(d);
@@ -215,6 +155,9 @@ define('melon/util/date', [
         },
         isEqualMonth: function (d1, d2) {
             return d1 && d2 && d1.getFullYear() === d2.getFullYear() && d1.getMonth() === d2.getMonth();
+        },
+        isEqualYear: function (d1, d2) {
+            return d1 && d2 && d1.getFullYear() === d2.getFullYear();
         },
         isBeforeDate: function (d1, d2) {
             var date1 = this.cloneAsDate(d1);

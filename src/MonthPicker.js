@@ -3,8 +3,9 @@
  * @author cxtom<cxtom2010@gmail.com>
  */
 
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+
 const cx = require('./util/cxBuilder').create('Monthpicker');
 const DateTime = require('./util/date');
 const SeperatePopup = require('./monthpicker/SeperatePopup');
@@ -15,10 +16,8 @@ const MonthPicker = React.createClass({
 
     getInitialState() {
 
-        const {value} = this.props;
-
         return {
-            date: this.parseDate(value)
+            date: this.parseDate(this.props.value)
         };
     },
 
@@ -27,6 +26,17 @@ const MonthPicker = React.createClass({
         container.className = cx().part('popup').build();
         document.body.appendChild(container);
         this.renderPopup(false);
+    },
+
+    componentWillReceiveProps(nextProps) {
+
+        const {value} = nextProps;
+
+        if (value !== this.props.value) {
+            this.setState({
+                date: this.parseDate(value)
+            });
+        }
     },
 
     componentWillUnmount() {
@@ -39,10 +49,22 @@ const MonthPicker = React.createClass({
         }
     },
 
+
+    /**
+     * 日期字符串转为Date对象
+     *
+     * @param  {Date|string} date 源日期对象
+     * @return {Date} 格式化后的日期对象
+     * @private
+     */
     parseDate(date) {
 
         if (!date) {
-            return null;
+            return new Date();
+        }
+
+        if (DateTime.isDateObject(date)) {
+            return date;
         }
 
         let format = this.props.dateFormat.toLowerCase();
@@ -53,20 +75,19 @@ const MonthPicker = React.createClass({
     /**
      * 格式化日期
      *
-     * @param {Date} rawValue 源日期对象
-     * @param {string=} format 日期格式，默认为当前实例的dateFormat
+     * @param  {Date} date 源日期对象
      * @return {string} 格式化后的日期字符串
      * @private
      */
-    stringifyValue(rawValue) {
+    stringifyValue(date) {
 
-        if (rawValue == null) {
-            return '';
+        if (!DateTime.isDateObject(date)) {
+            return date;
         }
 
         let format = this.props.dateFormat.toLowerCase();
 
-        return DateTime.format(rawValue, format, this.props.lang);
+        return DateTime.format(date, format, this.props.lang);
     },
 
     onClick(e) {
@@ -75,36 +96,42 @@ const MonthPicker = React.createClass({
 
     onDateChange({value}) {
 
-        this.setState({
-            date: value
-        }, () => {
+        this.setState({date: value});
 
-            const {onChange} = this.props;
+        const {onChange} = this.props;
 
-            onChange({
-                type: 'change',
-                target: this,
-                value: this.stringifyValue(value)
-            });
+        onChange({
+            type: 'change',
+            target: this,
+            value: this.stringifyValue(value)
         });
     },
 
     renderPopup(isOpen) {
 
-        const popup = (
+        const {
+            begin,
+            end
+        } = this.props;
+
+        const endDate = end ? this.parseDate(end) : new Date();
+        const beginDate = begin ? this.parseDate(begin) : DateTime.addYears(endDate, -80);
+
+        ReactDOM.render(
             <SeperatePopup
                 show={isOpen}
                 transitionTimeout={300}
                 transitionType="translate"
                 direction="bottom"
-                date={this.props.value ? this.state.date : new Date()}
+                begin={beginDate}
+                end={endDate}
+                date={this.state.date}
                 onHide={() => {
                     this.renderPopup(false);
                 }}
-                onChange={this.onDateChange} />
+                onChange={this.onDateChange} />,
+            this.container
         );
-
-        ReactDOM.render(popup, this.container);
     },
 
     renderResult() {
@@ -161,6 +188,23 @@ const MonthPicker = React.createClass({
 MonthPicker.LANG = {
     week: '周',
     days: '日,一,二,三,四,五,六'
+};
+
+MonthPicker.propTypes = {
+    value: PropTypes.string,
+    dateFormat: PropTypes.string,
+    lang: PropTypes.shape({
+        week: PropTypes.string,
+        days: PropTypes.string
+    }),
+    end: PropTypes.oneOfType([
+        PropTypes.instanceOf(Date),
+        PropTypes.string
+    ]),
+    begin: PropTypes.oneOfType([
+        PropTypes.instanceOf(Date),
+        PropTypes.string
+    ])
 };
 
 MonthPicker.defaultProps = {

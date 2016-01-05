@@ -25,7 +25,7 @@ class SeperatePopup extends React.Component {
         this.onHide = this.onHide.bind(this);
 
         this.state = {
-            date: this.props.date,
+            date: props.date,
             mode: 'year'
         };
 
@@ -33,7 +33,6 @@ class SeperatePopup extends React.Component {
     }
 
     componentDidUpdate() {
-        this.update();
         domUtil.on(document.body, 'touchmove', this.onTouchMove);
     }
 
@@ -55,17 +54,6 @@ class SeperatePopup extends React.Component {
         }
     }
 
-    update() {
-
-        // const selectedIndex = this.getSelectedIndex();
-        // const selector = ReactDOM.findDOMNode(this.refs.selector);
-
-        // console.log(selector);
-
-        // selector && selector.scrollTop = 100;
-
-    }
-
     onHide() {
         const {onHide} = this.props;
         onHide && onHide();
@@ -81,13 +69,16 @@ class SeperatePopup extends React.Component {
 
     onChange(e) {
 
-        let {mode, date} = this.state;
+        const {
+            mode,
+            date
+        } = this.state;
 
-        date = DateTime.clone(date);
-        date = date[mode === 'year' ? 'setFullYear' : 'setMonth'](e.value);
+        let newDate = DateTime.cloneAsDate(date);
+        newDate[mode === 'year' ? 'setFullYear' : 'setMonth'](e.value);
 
         let nextState = {
-            date: new Date(date)
+            date: newDate
         };
 
         if (mode === 'year') {
@@ -95,48 +86,71 @@ class SeperatePopup extends React.Component {
         }
 
         this.setState(nextState, () => {
+
             if (mode === 'month') {
+
                 const {onChange} = this.props;
                 this.onHide();
 
                 onChange && onChange({
-                    value: new Date(date),
+                    value: this.state.date,
                     target: this
                 });
             }
         });
     }
 
-    getSelectedIndex() {
-        const {mode, date} = this.state;
-
-        return mode === 'month' ? date.getMonth()
-            : (100 - (new Date()).getFullYear() + date.getFullYear());
-    }
-
     render() {
 
-        const {show} = this.props;
-        const {mode} = this.state;
+        const {
+            show,
+            begin,
+            end
+        } = this.props;
+
+        const {
+            mode,
+            date
+        } = this.state;
 
         let items = [];
-        let index = this.getSelectedIndex();
+        let index;
 
         if (mode === 'year') {
-            const currentYear = (new Date()).getFullYear();
 
-            for (let i = 0; i < 100; i++) {
+            const endYear = end.getFullYear();
+
+            for (let i = 0, len = DateTime.yearDiff(end, begin); i < len; i++) {
                 items.push({
-                    name: currentYear - i,
-                    value: currentYear - i
+                    name: endYear - i,
+                    value: endYear - i
                 });
             }
+
+            index = DateTime.yearDiff(date, begin);
+
         }
         else {
-            for (let i = 1; i < 13; i++) {
+
+            let beginMonth = 0;
+            let len = 12;
+
+            index = date.getMonth();
+
+            if (DateTime.isEqualYear(date, end)) {
+                len = end.getMonth() + 1;
+            }
+            else if (DateTime.isEqualYear(date, begin)) {
+                beginMonth = begin.getMonth();
+                len = len - beginMonth;
+
+                index = index - beginMonth;
+            }
+
+            for (let i = beginMonth; i < len; i++) {
                 items.push({
-                    name: DateTime.datePad(i),
-                    value: i - 1
+                    name: DateTime.datePad(i + 1),
+                    value: i
                 });
             }
         }
@@ -173,9 +187,14 @@ class SeperatePopup extends React.Component {
 SeperatePopup.displayName = 'SeperatePopup';
 
 SeperatePopup.propTypes = {
-    show: PropTypes.bool,
+    ...Popup.propTypes,
     date: PropTypes.instanceOf(Date),
-    onHide: PropTypes.func
+    begin: PropTypes.instanceOf(Date),
+    end: PropTypes.instanceOf(Date)
+};
+
+SeperatePopup.defaultProps = {
+    ...Popup.defaultProps
 };
 
 export default SeperatePopup;

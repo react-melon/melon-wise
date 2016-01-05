@@ -56,8 +56,14 @@ MonthPickerSelector.displayName = 'MonthPickerSelector';
 
 MonthPickerSelector.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.any,
-        value: PropTypes.any
+        name: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ]),
+        value: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number
+        ])
     })),
     onChange: PropTypes.func
 };

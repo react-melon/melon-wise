@@ -49,8 +49,14 @@ define('melon/monthpicker/Selector', [
     MonthPickerSelector.displayName = 'MonthPickerSelector';
     MonthPickerSelector.propTypes = {
         items: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-            name: _react.PropTypes.any,
-            value: _react.PropTypes.any
+            name: _react.PropTypes.oneOfType([
+                _react.PropTypes.string,
+                _react.PropTypes.number
+            ]),
+            value: _react.PropTypes.oneOfType([
+                _react.PropTypes.string,
+                _react.PropTypes.number
+            ])
         })),
         onChange: _react.PropTypes.func
     };

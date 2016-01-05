@@ -37,13 +37,12 @@ define('melon/monthpicker/SeperatePopup', [
             this.onTouchMove = this.onTouchMove.bind(this);
             this.onHide = this.onHide.bind(this);
             this.state = {
-                date: this.props.date,
+                date: props.date,
                 mode: 'year'
             };
             this.timer = null;
         }
         SeperatePopup.prototype.componentDidUpdate = function componentDidUpdate() {
-            this.update();
             domUtil.on(document.body, 'touchmove', this.onTouchMove);
         };
         SeperatePopup.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -59,8 +58,6 @@ define('melon/monthpicker/SeperatePopup', [
             if (!domUtil.contains(main, target) && this.props.show) {
                 e.preventDefault();
             }
-        };
-        SeperatePopup.prototype.update = function update() {
         };
         SeperatePopup.prototype.onHide = function onHide() {
             var _this = this;
@@ -78,9 +75,9 @@ define('melon/monthpicker/SeperatePopup', [
             var _state = this.state;
             var mode = _state.mode;
             var date = _state.date;
-            date = DateTime.clone(date);
-            date = date[mode === 'year' ? 'setFullYear' : 'setMonth'](e.value);
-            var nextState = { date: new Date(date) };
+            var newDate = DateTime.cloneAsDate(date);
+            newDate[mode === 'year' ? 'setFullYear' : 'setMonth'](e.value);
+            var nextState = { date: newDate };
             if (mode === 'year') {
                 nextState.mode = 'month';
             }
@@ -89,36 +86,46 @@ define('melon/monthpicker/SeperatePopup', [
                     var onChange = _this2.props.onChange;
                     _this2.onHide();
                     onChange && onChange({
-                        value: new Date(date),
+                        value: _this2.state.date,
                         target: _this2
                     });
                 }
             });
         };
-        SeperatePopup.prototype.getSelectedIndex = function getSelectedIndex() {
+        SeperatePopup.prototype.render = function render() {
+            var _props = this.props;
+            var show = _props.show;
+            var begin = _props.begin;
+            var end = _props.end;
             var _state2 = this.state;
             var mode = _state2.mode;
             var date = _state2.date;
-            return mode === 'month' ? date.getMonth() : 100 - new Date().getFullYear() + date.getFullYear();
-        };
-        SeperatePopup.prototype.render = function render() {
-            var show = this.props.show;
-            var mode = this.state.mode;
             var items = [];
-            var index = this.getSelectedIndex();
+            var index = undefined;
             if (mode === 'year') {
-                var currentYear = new Date().getFullYear();
-                for (var i = 0; i < 100; i++) {
+                var endYear = end.getFullYear();
+                for (var i = 0, len = DateTime.yearDiff(end, begin); i < len; i++) {
                     items.push({
-                        name: currentYear - i,
-                        value: currentYear - i
+                        name: endYear - i,
+                        value: endYear - i
                     });
                 }
+                index = DateTime.yearDiff(date, begin);
             } else {
-                for (var i = 1; i < 13; i++) {
+                var beginMonth = 0;
+                var len = 12;
+                index = date.getMonth();
+                if (DateTime.isEqualYear(date, end)) {
+                    len = end.getMonth() + 1;
+                } else if (DateTime.isEqualYear(date, begin)) {
+                    beginMonth = begin.getMonth();
+                    len = len - beginMonth;
+                    index = index - beginMonth;
+                }
+                for (var i = beginMonth; i < len; i++) {
                     items.push({
-                        name: DateTime.datePad(i),
-                        value: i - 1
+                        name: DateTime.datePad(i + 1),
+                        value: i
                     });
                 }
             }
@@ -143,11 +150,12 @@ define('melon/monthpicker/SeperatePopup', [
         return SeperatePopup;
     }(_react2.default.Component);
     SeperatePopup.displayName = 'SeperatePopup';
-    SeperatePopup.propTypes = {
-        show: _react.PropTypes.bool,
+    SeperatePopup.propTypes = babelHelpers._extends({}, _Popup2.default.propTypes, {
         date: _react.PropTypes.instanceOf(Date),
-        onHide: _react.PropTypes.func
-    };
+        begin: _react.PropTypes.instanceOf(Date),
+        end: _react.PropTypes.instanceOf(Date)
+    });
+    SeperatePopup.defaultProps = babelHelpers._extends({}, _Popup2.default.defaultProps);
     exports.default = SeperatePopup;
     module.exports = exports.default;
 });

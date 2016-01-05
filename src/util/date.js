@@ -51,53 +51,17 @@ module.exports = {
         return this.addDays(date, -1);
     },
 
-    getFullMonth: function (d) {
-        var month = d.getMonth();
-        switch (month) {
-            case 0: return 'January';
-            case 1: return 'February';
-            case 2: return 'March';
-            case 3: return 'April';
-            case 4: return 'May';
-            case 5: return 'June';
-            case 6: return 'July';
-            case 7: return 'August';
-            case 8: return 'September';
-            case 9: return 'October';
-            case 10: return 'November';
-            case 11: return 'December';
-        }
-    },
-
     getShortMonth: function (d) {
         var month = d.getMonth();
-        switch (month) {
-            case 0: return '1月';
-            case 1: return '2月';
-            case 2: return '3月';
-            case 3: return '4月';
-            case 4: return '5月';
-            case 5: return '6月';
-            case 6: return '7月';
-            case 7: return '8月';
-            case 8: return '9月';
-            case 9: return '10月';
-            case 10: return '11月';
-            case 11: return '12月';
-        }
+        return (month + 1) + '月';
     },
 
     getDayOfWeek: function (d) {
         var dow = d.getDay();
-        switch (dow) {
-            case 0: return '星期日';
-            case 1: return '星期一';
-            case 2: return '星期二';
-            case 3: return '星期三';
-            case 4: return '星期四';
-            case 5: return '星期五';
-            case 6: return '星期六';
-        }
+
+        var array = ['日', '一', '二', '三', '四', '五', '六'];
+
+        return '星期' + array[dow];
     },
 
     getFullWeekArray: function (d) {
@@ -238,6 +202,11 @@ module.exports = {
         return d1 && d2
           && (d1.getFullYear() === d2.getFullYear())
           && (d1.getMonth() === d2.getMonth());
+    },
+
+    isEqualYear: function (d1, d2) {
+        return d1 && d2
+          && (d1.getFullYear() === d2.getFullYear());
     },
 
     isBeforeDate: function (d1, d2) {
