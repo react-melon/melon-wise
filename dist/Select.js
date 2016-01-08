@@ -19,22 +19,34 @@ define('melon/Select', [
             var label = this.props.label;
             return label ? React.createElement('label', null, label) : null;
         },
+        renderResult: function () {
+            var _props = this.props;
+            var value = _props.value;
+            var children = _props.children;
+            var result = '';
+            React.Children.forEach(children, function (child) {
+                if (child.props.value === value) {
+                    result = child.props.label;
+                }
+            });
+            return value ? React.createElement('div', { className: cx().part('result').build() }, result) : null;
+        },
         render: function () {
             var _this = this;
-            var _props = this.props;
-            var label = _props.label;
-            var options = _props.options;
-            var className = _props.className;
-            var children = _props.children;
-            var value = _props.value;
-            var rest = babelHelpers.objectWithoutProperties(_props, [
+            var _props2 = this.props;
+            var label = _props2.label;
+            var options = _props2.options;
+            var className = _props2.className;
+            var children = _props2.children;
+            var value = _props2.value;
+            var rest = babelHelpers.objectWithoutProperties(_props2, [
                 'label',
                 'options',
                 'className',
                 'children',
                 'value'
             ]);
-            return React.createElement('div', { className: cx(this.props).build() }, this.renderLabel(), React.createElement('select', babelHelpers._extends({}, rest, {
+            return React.createElement('div', { className: cx(this.props).build() }, this.renderLabel(), this.renderResult(), React.createElement('select', babelHelpers._extends({}, rest, {
                 value: value,
                 onChange: this.onChange,
                 ref: function (input) {

@@ -25,6 +25,25 @@ let Select = React.createClass({
         ) : null;
     },
 
+    renderResult() {
+
+        const {value, children} = this.props;
+
+        let result = '';
+
+        React.Children.forEach(children, function (child) {
+            if (child.props.value === value) {
+                result = child.props.label;
+            }
+        });
+
+        return value ? (
+            <div className={cx().part('result').build()}>
+                {result}
+            </div>
+        ) : null;
+    },
+
     render() {
 
         let {
@@ -39,6 +58,7 @@ let Select = React.createClass({
         return (
             <div className={cx(this.props).build()}>
                 {this.renderLabel()}
+                {this.renderResult()}
                 <select
                     {...rest}
                     value={value}
