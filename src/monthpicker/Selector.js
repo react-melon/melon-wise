@@ -8,7 +8,23 @@ import cxBuilder from '../util/cxBuilder';
 
 const cx = cxBuilder.create('MonthpickerSelector');
 
-class MonthPickerSelector extends React.Component {
+let MonthPickerSelector = React.createClass({
+
+    displayName: 'MonthPickerSelector',
+
+    propTypes: {
+        items: PropTypes.arrayOf(PropTypes.shape({
+            name: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ]),
+            value: PropTypes.oneOfType([
+                PropTypes.string,
+                PropTypes.number
+            ])
+        })),
+        onChange: PropTypes.func
+    },
 
     onItemClick(value, index, e) {
         const {onChange} = this.props;
@@ -17,7 +33,7 @@ class MonthPickerSelector extends React.Component {
             value,
             target: this
         });
-    }
+    },
 
     renderItems() {
 
@@ -37,7 +53,7 @@ class MonthPickerSelector extends React.Component {
                 {item.name}
             </li>
         ));
-    }
+    },
 
     render() {
 
@@ -50,22 +66,6 @@ class MonthPickerSelector extends React.Component {
         );
     }
 
-}
-
-MonthPickerSelector.displayName = 'MonthPickerSelector';
-
-MonthPickerSelector.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ]),
-        value: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.number
-        ])
-    })),
-    onChange: PropTypes.func
-};
+});
 
 export default MonthPickerSelector;

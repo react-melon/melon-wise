@@ -7,7 +7,7 @@ const React = require('react');
 const cx = require('./util/cxBuilder').create('Mask');
 const PropTypes = React.PropTypes;
 
-const Mask = function Mask(props) {
+let Mask = function (props) {
 
     const {show} = props;
 

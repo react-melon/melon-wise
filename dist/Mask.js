@@ -10,7 +10,7 @@ define('melon/Mask', [
     var React = require('react');
     var cx = require('./util/cxBuilder').create('Mask');
     var PropTypes = React.PropTypes;
-    var Mask = function Mask(props) {
+    var Mask = function (props) {
         var show = props.show;
         return React.createElement('div', babelHelpers._extends({}, props, { className: cx(props).addStates({ show: show }).build() }));
     };
