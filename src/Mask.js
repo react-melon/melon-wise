@@ -5,20 +5,21 @@
 
 const React = require('react');
 const cx = require('./util/cxBuilder').create('Mask');
-const PropTypes = React.PropTypes;
 
-let Mask = function (props) {
+const {PropTypes} = React;
 
-    const {show} = props;
+export default class Mask {
 
-    return (
-        <div {...props} className={cx(props).addStates({show}).build()} />
-    );
+    static propTypes = {
+        show: PropTypes.bool
+    };
 
-};
+    render() {
+        const props = this.props;
+        const {show} = props;
 
-Mask.propTypes = {
-    show: PropTypes.bool
-};
-
-module.exports = Mask;
+        return (
+            <div {...props} className={cx(props).addStates({show}).build()} />
+        );
+    }
+}

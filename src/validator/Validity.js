@@ -3,32 +3,36 @@
  * @author leon(ludafa@outlook.com)
  */
 
-const ValidityState = require('./ValidityState');
-
-function Validity() {
-    this.states = [];
+function ValidityState({isValid, message}) {
+    this.isValid = isValid;
+    this.message = message || '';
 }
 
-Validity.prototype.addState = function (state) {
-    this.states.push(new ValidityState(state));
-};
+export default class Validity {
 
-Validity.prototype.isValid = function () {
-    for (var i = 0, states = this.states, len = states.length; i < len; ++i) {
-        if (!states[i].isValid) {
-            return false;
-        }
+    constructor() {
+        this.states = [];
     }
-    return true;
-};
 
-Validity.prototype.getMessage = function () {
-    for (var states = this.states, i = 0, len = states.length; i < len; ++i) {
-        if (!states[i].isValid) {
-            return states[i].message;
-        }
+    addState(state) {
+        this.states.push(new ValidityState(state));
     }
-    return '';
-};
 
-module.exports = Validity;
+    isValid() {
+        for (var i = 0, states = this.states, len = states.length; i < len; ++i) {
+            if (!states[i].isValid) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    getMessage() {
+        for (var states = this.states, i = 0, len = states.length; i < len; ++i) {
+            if (!states[i].isValid) {
+                return states[i].message;
+            }
+        }
+        return '';
+    }
+}

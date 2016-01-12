@@ -2,30 +2,42 @@ define('melon/validator/Validity', [
     'require',
     'exports',
     'module',
-    './ValidityState'
+    '../babelHelpers'
 ], function (require, exports, module) {
-    var ValidityState = require('./ValidityState');
-    function Validity() {
-        this.states = [];
+    var babelHelpers = require('../babelHelpers');
+    exports.__esModule = true;
+    function ValidityState(_ref) {
+        var isValid = _ref.isValid;
+        var message = _ref.message;
+        this.isValid = isValid;
+        this.message = message || '';
     }
-    Validity.prototype.addState = function (state) {
-        this.states.push(new ValidityState(state));
-    };
-    Validity.prototype.isValid = function () {
-        for (var i = 0, states = this.states, len = states.length; i < len; ++i) {
-            if (!states[i].isValid) {
-                return false;
-            }
+    var Validity = function () {
+        function Validity() {
+            babelHelpers.classCallCheck(this, Validity);
+            this.states = [];
         }
-        return true;
-    };
-    Validity.prototype.getMessage = function () {
-        for (var states = this.states, i = 0, len = states.length; i < len; ++i) {
-            if (!states[i].isValid) {
-                return states[i].message;
+        Validity.prototype.addState = function addState(state) {
+            this.states.push(new ValidityState(state));
+        };
+        Validity.prototype.isValid = function isValid() {
+            for (var i = 0, states = this.states, len = states.length; i < len; ++i) {
+                if (!states[i].isValid) {
+                    return false;
+                }
             }
-        }
-        return '';
-    };
-    module.exports = Validity;
+            return true;
+        };
+        Validity.prototype.getMessage = function getMessage() {
+            for (var states = this.states, i = 0, len = states.length; i < len; ++i) {
+                if (!states[i].isValid) {
+                    return states[i].message;
+                }
+            }
+            return '';
+        };
+        return Validity;
+    }();
+    exports.default = Validity;
+    module.exports = exports.default;
 });
