@@ -11,9 +11,11 @@ define('melon/Mask', [
     var React = require('react');
     var cx = require('./util/cxBuilder').create('Mask');
     var PropTypes = React.PropTypes;
-    var Mask = function () {
+    var Mask = function (_React$Component) {
+        babelHelpers.inherits(Mask, _React$Component);
         function Mask() {
             babelHelpers.classCallCheck(this, Mask);
+            _React$Component.apply(this, arguments);
         }
         Mask.prototype.render = function render() {
             var props = this.props;
@@ -26,7 +28,7 @@ define('melon/Mask', [
                 enumerable: true
             }]);
         return Mask;
-    }();
+    }(React.Component);
     exports.default = Mask;
     module.exports = exports.default;
 });
