@@ -24,7 +24,7 @@ exports.getProcessors = function () {
     var lessProcessor = new LessCompiler();
     var cssProcessor = new CssCompressor();
     var moduleProcessor = new ModuleCompiler({
-        bizId: 'melon'
+        bizId: 'melon-wise'
     });
     var jsProcessor = new JsCompressor();
     var pathMapperProcessor = new PathMapper();

@@ -1,4 +1,4 @@
-define('melon/monthpicker/Selector', [
+define('melon-wise/monthpicker/Selector', [
     'require',
     'exports',
     'module',

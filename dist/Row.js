@@ -1,4 +1,4 @@
-define('melon/Row', [
+define('melon-wise/Row', [
     'require',
     'exports',
     'module',

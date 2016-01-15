@@ -1,4 +1,4 @@
-define('melon/util/classname', [
+define('melon-wise/util/classname', [
     'require',
     'exports',
     'module'

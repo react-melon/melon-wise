@@ -1,4 +1,4 @@
-define('melon/util/camelize', [
+define('melon-wise/util/camelize', [
     'require',
     'exports',
     'module'

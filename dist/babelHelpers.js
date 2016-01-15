@@ -1,4 +1,4 @@
-define('melon/babelHelpers', [
+define('melon-wise/babelHelpers', [
     'require',
     'exports',
     'module'

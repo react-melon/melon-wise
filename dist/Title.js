@@ -1,4 +1,4 @@
-define('melon/Title', [
+define('melon-wise/Title', [
     'require',
     'exports',
     'module',

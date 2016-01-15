@@ -1,4 +1,4 @@
-define('melon/util/date', [
+define('melon-wise/util/date', [
     'require',
     'exports',
     'module'

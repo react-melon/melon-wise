@@ -1,4 +1,4 @@
-define('melon/Validator', [
+define('melon-wise/Validator', [
     'require',
     'exports',
     'module',

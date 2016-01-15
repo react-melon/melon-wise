@@ -1,4 +1,4 @@
-define('melon/monthpicker/SeperatePopup', [
+define('melon-wise/monthpicker/SeperatePopup', [
     'require',
     'exports',
     'module',

@@ -1,4 +1,4 @@
-define('melon/Select', [
+define('melon-wise/Select', [
     'require',
     'exports',
     'module',

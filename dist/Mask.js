@@ -1,4 +1,4 @@
-define('melon/Mask', [
+define('melon-wise/Mask', [
     'require',
     'exports',
     'module',

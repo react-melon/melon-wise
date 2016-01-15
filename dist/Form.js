@@ -1,4 +1,4 @@
-define('melon/Form', [
+define('melon-wise/Form', [
     'require',
     'exports',
     'module',

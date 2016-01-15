@@ -1,4 +1,4 @@
-define('melon/LazyImage', [
+define('melon-wise/LazyImage', [
     'require',
     'exports',
     'module',

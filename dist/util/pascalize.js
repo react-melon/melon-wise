@@ -1,4 +1,4 @@
-define('melon/util/pascalize', [
+define('melon-wise/util/pascalize', [
     'require',
     'exports',
     'module',

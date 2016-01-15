@@ -1,4 +1,4 @@
-define('melon/util/easing', [
+define('melon-wise/util/easing', [
     'require',
     'exports',
     'module'

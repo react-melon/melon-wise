@@ -1,4 +1,4 @@
-define('melon/popup/windowScrollHelper', [
+define('melon-wise/popup/windowScrollHelper', [
     'require',
     'exports',
     'module'
