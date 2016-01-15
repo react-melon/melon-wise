@@ -30,6 +30,6 @@
     "module.conf"
   ],
   "dependencies": {
-    "react": "0.14.3"
+    "react": "0.14.6"
   }
 }

@@ -11,7 +11,7 @@ const Tappable = require('./Tappable');
 
 function NavigationBar(props) {
 
-    let {
+    const {
         title,
         leftIcon,
         rightIcon,
@@ -20,13 +20,13 @@ function NavigationBar(props) {
         ...other
     } = props;
 
-    let leftButton = leftIcon ? (
+    const leftButton = leftIcon ? (
         <Tappable className={cx().part('left').build()} onTap={onLeftTap}>
             {leftIcon}
         </Tappable>
     ) : null;
 
-    let rightButton = rightIcon ? (
+    const rightButton = rightIcon ? (
         <Tappable className={cx().part('right').build()} onTap={onRightTap}>
             {leftIcon}
         </Tappable>
@@ -44,7 +44,7 @@ function NavigationBar(props) {
 
 NavigationBar.displayName = 'NavigationBar';
 
-let {PropTypes} = React;
+const {PropTypes} = React;
 
 NavigationBar.propTypes = {
     hidden: PropTypes.bool,
