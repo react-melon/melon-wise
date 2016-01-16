@@ -9,8 +9,6 @@ const cx = require('./util/cxBuilder').create('Tab');
 const Item = require('./tab/Item');
 const TabPanel = require('./tab/Panel');
 
-const dom = require('./util/dom');
-
 const {PropTypes} = React;
 
 const Tab = React.createClass({
@@ -116,9 +114,12 @@ const Tab = React.createClass({
 
         }, this);
 
-        var InkBarStyles = {
+        const transform = 'translate3d(' + (100 * tabIndex) + '%, 0, 0)';
+
+        const InkBarStyles = {
             width: percent,
-            [dom.prefixStyle('transform')]: 'translate3d(' + (100 * tabIndex) + '%, 0, 0)'
+            WebkitTransform: transform,
+            transform
         };
 
         return (
