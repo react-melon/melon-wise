@@ -4,13 +4,14 @@ define('melon-wise/TransitionGroup', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder'
+    './util/cxBuilder',
+    'react-addons-css-transition-group'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var cx = require('./util/cxBuilder').create('Transitiongroup');
     var PropTypes = React.PropTypes;
-    var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+    var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
     var TransitionGroup = function TransitionGroup(props) {
         var translateFrom = props.translateFrom;
         var transitionTimeout = props.transitionTimeout;

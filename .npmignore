@@ -4,6 +4,7 @@ output
 dist
 test
 tool
+src
 edp-*.js
 .fecsrc
 .fecsignore

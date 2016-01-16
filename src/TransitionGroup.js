@@ -6,7 +6,7 @@
 const React = require('react');
 const cx = require('./util/cxBuilder').create('Transitiongroup');
 const PropTypes = React.PropTypes;
-const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 
 const TransitionGroup = function TransitionGroup(props) {
 

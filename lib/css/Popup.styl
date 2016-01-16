@@ -1,0 +1,39 @@
+@require "./base.styl"
+@require "./Mask.styl"
+@require "./Transitions.styl"
+
+.{$-melon-class-prefix}-popup
+
+    position: absolute
+    box-sizing: border-box
+    -webkit-tap-highlight-color: $-melon-colors.transparent
+    z-index: 20
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    overflow-y: auto
+    visibility: hidden
+    opacity: 0
+    will-change: opacity
+    -webkit-overflow-scrolling: touch
+    transition: visibility 0ms cubic-bezier(0.23, 1, 0.32, 1) 400ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms
+
+    &.state-show
+        visibility: visible
+        opacity: 1
+        transition: visibility 0ms cubic-bezier(0.23, 1, 0.32, 1) 0ms, opacity 400ms cubic-bezier(0.23, 1, 0.32, 1) 0ms
+
+    &-body
+        display: block
+        box-sizing: border-box
+        -webkit-tap-highlight-color: $-melon-colors.transparent
+        position: absolute
+        max-width: 100%
+        overflow-x: hidden
+        top: 0
+        left: 0
+        right: 0
+        z-index: 10
+        background-color: $-melon-colors.white
+        border-radius: 2px

@@ -1,0 +1,35 @@
+@require "./base.styl"
+@require "./Transitions.styl"
+
+
+.{$-melon-class-prefix}-view
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    width: 100%
+    overflow: hidden
+    transform: translate3d(0, 0, 0)
+
+    &-main
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        overflow-y: auto
+        overflow-x: hidden
+        -webkit-overflow-scrolling: touch
+
+    &-header
+        position: fixed
+        top: 0
+        left: 0
+        right: 0
+
+    &-footer
+        position: absolute
+        bottom: 0
+        left: 0
+        right: 0
