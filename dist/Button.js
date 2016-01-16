@@ -1,4 +1,4 @@
-define('melon-wise/Button', [
+define('melon-wise/lib/Button', [
     'require',
     'exports',
     'module',

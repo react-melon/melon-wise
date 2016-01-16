@@ -1,4 +1,4 @@
-define('melon-wise/Popup', [
+define('melon-wise/lib/Popup', [
     'require',
     'exports',
     'module',

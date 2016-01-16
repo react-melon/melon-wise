@@ -1,4 +1,4 @@
-define('melon-wise/Tappable', [
+define('melon-wise/lib/Tappable', [
     'require',
     'exports',
     'module',

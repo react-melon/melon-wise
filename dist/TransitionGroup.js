@@ -1,4 +1,4 @@
-define('melon-wise/TransitionGroup', [
+define('melon-wise/lib/TransitionGroup', [
     'require',
     'exports',
     'module',

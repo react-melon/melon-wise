@@ -24,7 +24,7 @@ exports.getProcessors = function () {
     var lessProcessor = new LessCompiler();
     var cssProcessor = new CssCompressor();
     var moduleProcessor = new ModuleCompiler({
-        bizId: 'melon-wise'
+        bizId: 'melon-wise/lib'
     });
     var jsProcessor = new JsCompressor();
     var pathMapperProcessor = new PathMapper();
@@ -77,7 +77,7 @@ exports.getProcessors = function () {
         ],
         commonjs: [
             commonjsBabel,
-            moduleProcessor,
+            new ModuleCompiler(),
             pathMapperProcessor
         ],
         release: [

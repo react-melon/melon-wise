@@ -1,4 +1,4 @@
-define('melon-wise/Tab', [
+define('melon-wise/lib/Tab', [
     'require',
     'exports',
     'module',

@@ -1,4 +1,4 @@
-define('melon-wise/Row', [
+define('melon-wise/lib/Row', [
     'require',
     'exports',
     'module',

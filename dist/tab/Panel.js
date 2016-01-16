@@ -1,4 +1,4 @@
-define('melon-wise/tab/Panel', [
+define('melon-wise/lib/tab/Panel', [
     'require',
     'exports',
     'module',

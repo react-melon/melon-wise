@@ -1,4 +1,4 @@
-define('melon-wise/util/cxBuilder', [
+define('melon-wise/lib/util/cxBuilder', [
     'require',
     'exports',
     'module',

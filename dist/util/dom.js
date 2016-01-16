@@ -1,4 +1,4 @@
-define('melon-wise/util/dom', [
+define('melon-wise/lib/util/dom', [
     'require',
     'exports',
     'module'

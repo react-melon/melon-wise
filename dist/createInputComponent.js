@@ -1,4 +1,4 @@
-define('melon-wise/createInputComponent', [
+define('melon-wise/lib/createInputComponent', [
     'require',
     'exports',
     'module',

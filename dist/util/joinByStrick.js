@@ -1,4 +1,4 @@
-define('melon-wise/util/joinByStrick', [
+define('melon-wise/lib/util/joinByStrick', [
     'require',
     'exports',
     'module'

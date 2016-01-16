@@ -1,4 +1,4 @@
-define('melon-wise/mixins/NativeInputMixin', [
+define('melon-wise/lib/mixins/NativeInputMixin', [
     'require',
     'exports',
     'module'

@@ -1,4 +1,4 @@
-define('melon-wise/Mask', [
+define('melon-wise/lib/Mask', [
     'require',
     'exports',
     'module',

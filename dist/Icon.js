@@ -1,4 +1,4 @@
-define('melon-wise/Icon', [
+define('melon-wise/lib/Icon', [
     'require',
     'exports',
     'module',

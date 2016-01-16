@@ -1,4 +1,4 @@
-define('melon-wise/config', [
+define('melon-wise/lib/config', [
     'require',
     'exports',
     'module'

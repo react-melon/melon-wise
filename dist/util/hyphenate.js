@@ -1,4 +1,4 @@
-define('melon-wise/util/hyphenate', [
+define('melon-wise/lib/util/hyphenate', [
     'require',
     'exports',
     'module'

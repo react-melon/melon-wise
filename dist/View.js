@@ -1,4 +1,4 @@
-define('melon-wise/View', [
+define('melon-wise/lib/View', [
     'require',
     'exports',
     'module',

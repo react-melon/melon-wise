@@ -1,4 +1,4 @@
-define('melon-wise/TextBox', [
+define('melon-wise/lib/TextBox', [
     'require',
     'exports',
     'module',

@@ -1,4 +1,4 @@
-define('melon-wise/NavigationBar', [
+define('melon-wise/lib/NavigationBar', [
     'require',
     'exports',
     'module',

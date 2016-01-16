@@ -1,4 +1,4 @@
-define('melon-wise/Select', [
+define('melon-wise/lib/Select', [
     'require',
     'exports',
     'module',
