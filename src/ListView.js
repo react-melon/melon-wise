@@ -19,7 +19,8 @@ class ListView extends React.Component {
         const {
             component,
             dataSource,
-            renderRow
+            renderRow,
+            ...rest
         } = props;
 
         const bodyComponent = dataSource.dataBlob.map(function (row, index) {
@@ -36,7 +37,14 @@ class ListView extends React.Component {
             );
         });
 
-        return React.createElement(component, {className: cx(props).build()}, bodyComponent);
+        return React.createElement(
+            component,
+            {
+                ...rest,
+                className: cx(props).build()
+            },
+            bodyComponent
+        );
 
     }
 

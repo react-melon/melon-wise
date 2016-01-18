@@ -25,6 +25,11 @@ define('melon-wise/lib/ListView', [
             var component = props.component;
             var dataSource = props.dataSource;
             var renderRow = props.renderRow;
+            var rest = babelHelpers.objectWithoutProperties(props, [
+                'component',
+                'dataSource',
+                'renderRow'
+            ]);
             var bodyComponent = dataSource.dataBlob.map(function (row, index) {
                 return React.createElement(StaticRender, {
                     key: index,
@@ -32,7 +37,7 @@ define('melon-wise/lib/ListView', [
                     render: renderRow.bind(null, dataSource.getRowData(index), index)
                 });
             });
-            return React.createElement(component, { className: cx(props).build() }, bodyComponent);
+            return React.createElement(component, babelHelpers._extends({}, rest, { className: cx(props).build() }), bodyComponent);
         };
         return ListView;
     }(React.Component);
