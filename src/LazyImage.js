@@ -10,16 +10,6 @@ const {PropTypes} = React;
 
 class LazyImage extends React.Component {
 
-    static displayName = 'LazyImage';
-
-    static propTypes = {
-        src: PropTypes.string,
-        defaultImageSrc: PropTypes.string,
-        onLoad: PropTypes.func,
-        onError: PropTypes.func,
-        controled: PropTypes.bool
-    };
-
     constructor(props) {
 
         super(props);
@@ -102,10 +92,18 @@ class LazyImage extends React.Component {
 
 }
 
-LazyImage.defaultImageSrc = 'http://m.baidu.com/static/search/image_default.png';
+LazyImage.displayName = 'LazyImage';
+
+LazyImage.propTypes = {
+    src: PropTypes.string,
+    defaultImageSrc: PropTypes.string,
+    onLoad: PropTypes.func,
+    onError: PropTypes.func,
+    controled: PropTypes.bool
+};
 
 LazyImage.defaultProps = {
-    defaultImageSrc: LazyImage.defaultImageSrc
+    defaultImageSrc: 'http://m.baidu.com/static/search/image_default.png'
 };
 
 module.exports = LazyImage;

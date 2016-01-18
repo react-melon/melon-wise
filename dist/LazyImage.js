@@ -13,24 +13,6 @@ define('melon-wise/lib/LazyImage', [
     var PropTypes = _react2.default.PropTypes;
     var LazyImage = function (_React$Component) {
         babelHelpers.inherits(LazyImage, _React$Component);
-        babelHelpers.createClass(LazyImage, null, [
-            {
-                key: 'displayName',
-                value: 'LazyImage',
-                enumerable: true
-            },
-            {
-                key: 'propTypes',
-                value: {
-                    src: PropTypes.string,
-                    defaultImageSrc: PropTypes.string,
-                    onLoad: PropTypes.func,
-                    onError: PropTypes.func,
-                    controled: PropTypes.bool
-                },
-                enumerable: true
-            }
-        ]);
         function LazyImage(props) {
             babelHelpers.classCallCheck(this, LazyImage);
             _React$Component.call(this, props);
@@ -89,7 +71,14 @@ define('melon-wise/lib/LazyImage', [
         };
         return LazyImage;
     }(_react2.default.Component);
-    LazyImage.defaultImageSrc = 'http://m.baidu.com/static/search/image_default.png';
-    LazyImage.defaultProps = { defaultImageSrc: LazyImage.defaultImageSrc };
+    LazyImage.displayName = 'LazyImage';
+    LazyImage.propTypes = {
+        src: PropTypes.string,
+        defaultImageSrc: PropTypes.string,
+        onLoad: PropTypes.func,
+        onError: PropTypes.func,
+        controled: PropTypes.bool
+    };
+    LazyImage.defaultProps = { defaultImageSrc: 'http://m.baidu.com/static/search/image_default.png' };
     module.exports = LazyImage;
 });
