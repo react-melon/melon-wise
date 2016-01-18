@@ -33,7 +33,7 @@ define('melon-wise/lib/ListView', [
             var bodyComponent = dataSource.dataBlob.map(function (row, index) {
                 return React.createElement(StaticRender, {
                     key: index,
-                    shouldUpdate: dataSource.rowShouldUpdate[index],
+                    shouldUpdate: dataSource.rowShouldUpdate(index),
                     render: renderRow.bind(null, dataSource.getRowData(index), index)
                 });
             });

@@ -28,7 +28,7 @@ class ListView extends React.Component {
             return (
                 <StaticRender
                     key={index}
-                    shouldUpdate={dataSource.rowShouldUpdate[index]}
+                    shouldUpdate={dataSource.rowShouldUpdate(index)}
                     render={renderRow.bind(
                         null,
                         dataSource.getRowData(index),

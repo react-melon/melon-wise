@@ -16,7 +16,7 @@ class DataSource {
     constructor(options = {}) {
         this._rowHasChanged = options.rowHasChanged || defaultRowHasChanged;
         this._getRowData = options.getRowData || defaultGetRowData;
-        this.dataBlob = null;
+        this.dataBlob = [];
         this.dirtyRows = [];
     }
 
@@ -43,6 +43,8 @@ class DataSource {
     }
 
     calculateDirtyArrays(prevDataBlob) {
+
+        this.dirtyRows = [];
 
         for (let i = this.dataBlob.length - 1; i >= 0; i--) {
             const dirty = !prevDataBlob[i]

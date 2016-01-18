@@ -2,10 +2,10 @@ define('melon-wise/lib/listview/StaticRenderer', [
     'require',
     'exports',
     'module',
-    'React'
+    'react'
 ], function (require, exports, module) {
     'use strict';
-    var React = require('React');
+    var React = require('react');
     var StaticRenderer = React.createClass({
         displayName: 'StaticRenderer',
         propTypes: {

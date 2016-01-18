@@ -17,7 +17,7 @@ define('melon-wise/lib/listview/DataSource', [
             babelHelpers.classCallCheck(this, DataSource);
             this._rowHasChanged = options.rowHasChanged || defaultRowHasChanged;
             this._getRowData = options.getRowData || defaultGetRowData;
-            this.dataBlob = null;
+            this.dataBlob = [];
             this.dirtyRows = [];
         }
         DataSource.prototype.cloneWithRows = function cloneWithRows(dataBlob) {
@@ -37,6 +37,7 @@ define('melon-wise/lib/listview/DataSource', [
             return needsUpdate;
         };
         DataSource.prototype.calculateDirtyArrays = function calculateDirtyArrays(prevDataBlob) {
+            this.dirtyRows = [];
             for (var i = this.dataBlob.length - 1; i >= 0; i--) {
                 var dirty = !prevDataBlob[i] || this._rowHasChanged(this._getRowData(prevDataBlob, i), this._getRowData(this.dataBlob, i));
                 this.dirtyRows.push(!!dirty);
