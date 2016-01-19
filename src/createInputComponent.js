@@ -152,7 +152,7 @@ const InputComponent = React.createClass({
             || customValidity !== this.props.customValidity
         ) {
             this.setState({
-                value: value,
+                value,
                 validity: customValidity
                     ? this.validator.createCustomValidity(customValidity)
                     : this.checkValidity(value)
@@ -206,7 +206,7 @@ const InputComponent = React.createClass({
 
         // 这种对应非控制逻辑
         this.setState({
-            value: value,
+            value,
             validity: customValidity
                     ? this.validator.createCustomValidity(customValidity)
                     : this.checkValidity(value)
@@ -281,7 +281,7 @@ const InputComponent = React.createClass({
                 value,
                 states,
                 onChange,
-                ref: (child) => {
+                ref: child => {
                     if (child) {
                         this.child = child;
                     }
@@ -295,8 +295,8 @@ const InputComponent = React.createClass({
 
 });
 
-exports.isValidInputElement = (element) => {
-    return React.isValidElement(element) && element.props.type === InputComponent;
+exports.isValidInputElement = element => {
+    return React.isValidElement(element) && element.type === InputComponent;
 };
 
 

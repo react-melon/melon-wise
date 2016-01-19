@@ -213,7 +213,7 @@ define('melon-wise/lib/Tappable', [
             var me = this;
             if (this._initialTouch) {
                 this.processEvent(event);
-                var afterEndTouch;
+                var afterEndTouch = undefined;
                 var movement = this.calculateMovement(this._lastTouch);
                 if (movement.x <= this.props.moveThreshold && movement.y <= this.props.moveThreshold && this.props.onTap) {
                     event.preventDefault();

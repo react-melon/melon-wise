@@ -9,9 +9,9 @@ const cx = require('./util/cxBuilder').create('Row');
 
 function Row(props) {
 
-    let {columnNum, noGap} = props;
-    let margin = -20 / (columnNum - 1) + '%';
-    let style = noGap ? null : {
+    const {columnNum, noGap} = props;
+    const margin = -20 / (columnNum - 1) + '%';
+    const style = noGap ? null : {
         marginLeft: margin,
         marginRight: margin
     };
@@ -21,8 +21,8 @@ function Row(props) {
             {React.Children.map(props.children, function (child, index) {
                 return React.cloneElement(child, {
                     key: index,
-                    columnNum: columnNum,
-                    noGap: noGap
+                    columnNum,
+                    noGap
                 });
             })}
         </div>

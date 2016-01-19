@@ -63,7 +63,7 @@ let Select = React.createClass({
                     {...rest}
                     value={value}
                     onChange={this.onChange}
-                    ref={(input) => {
+                    ref={input => {
                         this.input = input;
                     }}>
                     {value ? null : <option label="未选择" value="" />}

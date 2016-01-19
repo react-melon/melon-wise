@@ -19,7 +19,7 @@ export default class Validity {
     }
 
     isValid() {
-        for (var i = 0, states = this.states, len = states.length; i < len; ++i) {
+        for (let i = 0, states = this.states, len = states.length; i < len; ++i) {
             if (!states[i].isValid) {
                 return false;
             }
@@ -28,7 +28,7 @@ export default class Validity {
     }
 
     getMessage() {
-        for (var states = this.states, i = 0, len = states.length; i < len; ++i) {
+        for (let states = this.states, i = 0, len = states.length; i < len; ++i) {
             if (!states[i].isValid) {
                 return states[i].message;
             }

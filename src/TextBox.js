@@ -59,7 +59,7 @@ const TextBox = React.createClass({
                     onBlur={this.onBlur}
                     onFocus={this.onFocus}
                     autoComplete="off"
-                    ref={(input) => {
+                    ref={input => {
                         this.input = input;
                     }} />
                 {unit ? <div className={cx().part('unit').build()}>{unit}</div> : null}

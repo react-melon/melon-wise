@@ -42,14 +42,14 @@ const Popup = React.createClass({
 
     componentWillReceiveProps(nextProps) {
 
-        var show = nextProps.show;
+        const show = nextProps.show;
 
         if (show === this.state.show) {
             return;
         }
 
-        var onEvent = show ? this.onShow : this.onHide;
-        this.setState({show: show}, onEvent);
+        const onEvent = show ? this.onShow : this.onHide;
+        this.setState({show}, onEvent);
 
     },
 

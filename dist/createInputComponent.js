@@ -145,7 +145,7 @@ define('melon-wise/lib/createInputComponent', [
         }
     });
     exports.isValidInputElement = function (element) {
-        return React.isValidElement(element) && element.props.type === InputComponent;
+        return React.isValidElement(element) && element.type === InputComponent;
     };
     exports.create = function (Component) {
         var InputComponentWrapper = React.createClass({

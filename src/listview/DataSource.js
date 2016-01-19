@@ -38,7 +38,7 @@ class DataSource {
     }
 
     rowShouldUpdate(rowIndex: number): bool {
-        var needsUpdate = this.dirtyRows[rowIndex];
+        const needsUpdate = this.dirtyRows[rowIndex];
         return needsUpdate;
     }
 

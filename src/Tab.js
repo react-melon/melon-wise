@@ -32,7 +32,7 @@ const Tab = React.createClass({
         let {selectedIndex} = this.props;
 
         return {
-            selectedIndex: selectedIndex
+            selectedIndex
         };
 
     },
@@ -79,15 +79,15 @@ const Tab = React.createClass({
 
     render() {
 
-        var props = this.props;
-        var percent = 1 / this.getTabCount() * 100 + '%';
-        var tabIndex = 0;
-        var tabContent = [];
+        const props = this.props;
+        const percent = 1 / this.getTabCount() * 100 + '%';
+        let tabIndex = 0;
+        let tabContent = [];
 
-        var tabs = React.Children.map(props.children, function (tab, index) {
+        const tabs = React.Children.map(props.children, function (tab, index) {
 
-            var selected = this.getSelected(tab, index);
-            var {
+            const selected = this.getSelected(tab, index);
+            const {
                 disabled,
                 children
             } = tab.props;
@@ -106,7 +106,7 @@ const Tab = React.createClass({
 
             return React.cloneElement(tab, {
                 key: index,
-                selected: selected,
+                selected,
                 tabIndex: index,
                 style: {width: percent},
                 onTap: disabled ? null : this.handleTabClick.bind(this, index)

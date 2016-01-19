@@ -8,7 +8,7 @@ const ReactDOM = require('react-dom');
 
 const cx = require('./util/cxBuilder').create('Tappable');
 
-let {PropTypes} = React;
+const {PropTypes} = React;
 
 function getTouchProps(touch) {
     if (!touch) {
@@ -22,7 +22,7 @@ function getTouchProps(touch) {
     };
 }
 
-var touchStyles = {
+const touchStyles = {
     WebkitTapHighlightColor: 'rgba(0,0,0,0)',
     WebkitTouchCallout: 'none',
     WebkitUserSelect: 'none',
@@ -143,7 +143,7 @@ class Tappable extends React.Component {
         };
         this._scrollParents = [];
         this._scrollParentPos = [];
-        var node = ReactDOM.findDOMNode(this);
+        let node = ReactDOM.findDOMNode(this);
 
         while (node) {
             if (node.scrollHeight > node.offsetHeight || node.scrollWidth > node.offsetWidth) {
@@ -165,11 +165,11 @@ class Tappable extends React.Component {
     }
 
     detectScroll() {
-        var currentScrollPos = {
+        let currentScrollPos = {
             top: 0,
             left: 0
         };
-        for (var i = 0; i < this._scrollParents.length; i++) {
+        for (let i = 0; i < this._scrollParents.length; i++) {
             currentScrollPos.top += this._scrollParents[i].scrollTop;
             currentScrollPos.left += this._scrollParents[i].scrollLeft;
         }
@@ -205,7 +205,7 @@ class Tappable extends React.Component {
 
             this.props.onTouchMove && this.props.onTouchMove(event);
             this._lastTouch = getTouchProps(event.touches[0]);
-            var movement = this.calculateMovement(this._lastTouch);
+            const movement = this.calculateMovement(this._lastTouch);
             if (movement.x > this.props.pressMoveThreshold || movement.y > this.props.pressMoveThreshold) {
                 this.cancelPressDetection();
             }
@@ -234,19 +234,19 @@ class Tappable extends React.Component {
     }
 
     onTouchEnd(event) {
-        var me = this;
+        const me = this;
 
         if (this._initialTouch) {
             this.processEvent(event);
-            var afterEndTouch;
-            var movement = this.calculateMovement(this._lastTouch);
+            let afterEndTouch;
+            const movement = this.calculateMovement(this._lastTouch);
             if (movement.x <= this.props.moveThreshold && movement.y <= this.props.moveThreshold && this.props.onTap) {
                 event.preventDefault();
                 afterEndTouch = function () {
-                    var finalParentScrollPos = me._scrollParents.map(function (node) {
+                    const finalParentScrollPos = me._scrollParents.map(function (node) {
                         return node.scrollTop + node.scrollLeft;
                     });
-                    var stoppedMomentumScroll = me._scrollParentPos.some(function (end, i) {
+                    const stoppedMomentumScroll = me._scrollParentPos.some(function (end, i) {
                         return end !== finalParentScrollPos[i];
                     });
                     if (!stoppedMomentumScroll) {
@@ -349,20 +349,20 @@ class Tappable extends React.Component {
     }
 
     render() {
-        var props = this.props;
-        var className = cx(props)
+        const props = this.props;
+        const className = cx(props)
             .addStates({active: this.state.isActive})
             .build();
 
-        var style = {
+        const style = {
             ...touchStyles,
             ...props.style
         };
 
-        var newComponentProps = {
+        let newComponentProps = {
             ...props,
-            style: style,
-            className: className,
+            style,
+            className,
             disabled: props.disabled,
             handlers: this.handlers,
             ...this.handlers()
