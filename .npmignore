@@ -6,7 +6,10 @@ test
 tool
 src
 edp-*.js
+bower.json
+.bowerrc
 .fecsrc
 .fecsignore
+*.conf
 *.orig
 *.log

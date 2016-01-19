@@ -7,7 +7,8 @@ define('melon-wise/lib/MonthPicker', [
     'react-dom',
     './util/cxBuilder',
     './util/date',
-    './monthpicker/SeperatePopup',
+    './monthpicker/SeparatePopup',
+    './util/separatePopupHelper',
     './createInputComponent'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
@@ -17,16 +18,15 @@ define('melon-wise/lib/MonthPicker', [
     var _reactDom2 = babelHelpers.interopRequireDefault(_reactDom);
     var cx = require('./util/cxBuilder').create('Monthpicker');
     var DateTime = require('./util/date');
-    var SeperatePopup = require('./monthpicker/SeperatePopup');
+    var SeparatePopup = require('./monthpicker/SeparatePopup');
+    var popupHelper = require('./util/separatePopupHelper');
     var MonthPicker = _react2.default.createClass({
         displayName: 'MonthPicker',
         getInitialState: function () {
             return { date: this.parseDate(this.props.value) };
         },
         componentDidMount: function () {
-            var container = this.container = document.createElement('div');
-            container.className = cx().part('popup').build();
-            document.body.appendChild(container);
+            this.container = popupHelper.createPopup({ className: cx().part('popup').build() });
             this.renderPopup(false);
         },
         componentWillReceiveProps: function (nextProps) {
@@ -36,12 +36,8 @@ define('melon-wise/lib/MonthPicker', [
             }
         },
         componentWillUnmount: function () {
-            var container = this.container;
-            if (container) {
-                _reactDom2.default.unmountComponentAtNode(container);
-                container.parentElement.removeChild(container);
-                this.popup = this.container = container = null;
-            }
+            popupHelper.destoryPopup(this.container);
+            this.container = null;
         },
         parseDate: function (date) {
             if (!date) {
@@ -80,7 +76,7 @@ define('melon-wise/lib/MonthPicker', [
             var end = _props.end;
             var endDate = end ? this.parseDate(end) : new Date();
             var beginDate = begin ? this.parseDate(begin) : DateTime.addYears(endDate, -80);
-            _reactDom2.default.render(_react2.default.createElement(SeperatePopup, {
+            _reactDom2.default.render(_react2.default.createElement(SeparatePopup, {
                 show: isOpen,
                 transitionTimeout: 300,
                 transitionType: 'translate',

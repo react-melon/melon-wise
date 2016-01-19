@@ -9,7 +9,12 @@ const cx = require('../util/cxBuilder').create('RowSpan');
 
 function RowSpan(props) {
 
-    let {occupy, style, columnNum, noGap, ...other} = props;
+    let {
+        occupy, style,
+        columnNum, noGap,
+        ...other
+    } = props;
+
     style = {
         width: (occupy / columnNum) * 100 + '%',
         WebkitBoxFlex: occupy,

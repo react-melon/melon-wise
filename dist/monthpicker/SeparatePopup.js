@@ -1,4 +1,4 @@
-define('melon-wise/lib/monthpicker/SeperatePopup', [
+define('melon-wise/lib/monthpicker/SeparatePopup', [
     'require',
     'exports',
     'module',
@@ -27,10 +27,10 @@ define('melon-wise/lib/monthpicker/SeperatePopup', [
     var cx = require('../util/cxBuilder').create('Monthpicker');
     var DateTime = require('../util/date');
     var domUtil = require('../util/dom');
-    var SeperatePopup = function (_React$Component) {
-        babelHelpers.inherits(SeperatePopup, _React$Component);
-        function SeperatePopup(props) {
-            babelHelpers.classCallCheck(this, SeperatePopup);
+    var SeparatePopup = function (_React$Component) {
+        babelHelpers.inherits(SeparatePopup, _React$Component);
+        function SeparatePopup(props) {
+            babelHelpers.classCallCheck(this, SeparatePopup);
             _React$Component.call(this, props);
             this.onCancel = this.onCancel.bind(this);
             this.onChange = this.onChange.bind(this);
@@ -42,24 +42,24 @@ define('melon-wise/lib/monthpicker/SeperatePopup', [
             };
             this.timer = null;
         }
-        SeperatePopup.prototype.componentDidUpdate = function componentDidUpdate() {
+        SeparatePopup.prototype.componentDidUpdate = function componentDidUpdate() {
             domUtil.on(document.body, 'touchmove', this.onTouchMove);
         };
-        SeperatePopup.prototype.componentWillUnmount = function componentWillUnmount() {
+        SeparatePopup.prototype.componentWillUnmount = function componentWillUnmount() {
             var timer = this.timer;
             if (timer) {
                 clearTimeout(timer);
             }
             domUtil.off(document.body, 'touchmove', this.onTouchMove);
         };
-        SeperatePopup.prototype.onTouchMove = function onTouchMove(e) {
+        SeparatePopup.prototype.onTouchMove = function onTouchMove(e) {
             var target = e.target;
             var main = _reactDom2.default.findDOMNode(this);
             if (!domUtil.contains(main, target) && this.props.show) {
                 e.preventDefault();
             }
         };
-        SeperatePopup.prototype.onHide = function onHide() {
+        SeparatePopup.prototype.onHide = function onHide() {
             var _this = this;
             var onHide = this.props.onHide;
             onHide && onHide();
@@ -67,10 +67,10 @@ define('melon-wise/lib/monthpicker/SeperatePopup', [
                 _this.setState({ mode: 'year' });
             }, 300);
         };
-        SeperatePopup.prototype.onCancel = function onCancel() {
+        SeparatePopup.prototype.onCancel = function onCancel() {
             this.onHide();
         };
-        SeperatePopup.prototype.onChange = function onChange(e) {
+        SeparatePopup.prototype.onChange = function onChange(e) {
             var _this2 = this;
             var _state = this.state;
             var mode = _state.mode;
@@ -92,7 +92,7 @@ define('melon-wise/lib/monthpicker/SeperatePopup', [
                 }
             });
         };
-        SeperatePopup.prototype.render = function render() {
+        SeparatePopup.prototype.render = function render() {
             var _props = this.props;
             var show = _props.show;
             var begin = _props.begin;
@@ -147,15 +147,15 @@ define('melon-wise/lib/monthpicker/SeperatePopup', [
                 className: cx().part('cancel').build()
             }, '\u53D6\u6D88')));
         };
-        return SeperatePopup;
+        return SeparatePopup;
     }(_react2.default.Component);
-    SeperatePopup.displayName = 'SeperatePopup';
-    SeperatePopup.propTypes = babelHelpers._extends({}, _Popup2.default.propTypes, {
+    SeparatePopup.displayName = 'SeparatePopup';
+    SeparatePopup.propTypes = babelHelpers._extends({}, _Popup2.default.propTypes, {
         date: _react.PropTypes.instanceOf(Date),
         begin: _react.PropTypes.instanceOf(Date),
         end: _react.PropTypes.instanceOf(Date)
     });
-    SeperatePopup.defaultProps = babelHelpers._extends({}, _Popup2.default.defaultProps);
-    exports.default = SeperatePopup;
+    SeparatePopup.defaultProps = babelHelpers._extends({}, _Popup2.default.defaultProps);
+    exports.default = SeparatePopup;
     module.exports = exports.default;
 });

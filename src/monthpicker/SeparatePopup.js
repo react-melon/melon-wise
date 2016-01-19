@@ -1,5 +1,5 @@
 /**
- * @file monthpicker SeperatePopup
+ * @file monthpicker SeparatePopup
  * @author cxtom(cxtom2010@gmail.com)
  */
 
@@ -14,7 +14,7 @@ const cx = require('../util/cxBuilder').create('Monthpicker');
 const DateTime = require('../util/date');
 const domUtil = require('../util/dom');
 
-class SeperatePopup extends React.Component {
+class SeparatePopup extends React.Component {
 
     constructor(props) {
         super(props);
@@ -184,17 +184,17 @@ class SeperatePopup extends React.Component {
 
 }
 
-SeperatePopup.displayName = 'SeperatePopup';
+SeparatePopup.displayName = 'SeparatePopup';
 
-SeperatePopup.propTypes = {
+SeparatePopup.propTypes = {
     ...Popup.propTypes,
     date: PropTypes.instanceOf(Date),
     begin: PropTypes.instanceOf(Date),
     end: PropTypes.instanceOf(Date)
 };
 
-SeperatePopup.defaultProps = {
+SeparatePopup.defaultProps = {
     ...Popup.defaultProps
 };
 
-export default SeperatePopup;
+export default SeparatePopup;

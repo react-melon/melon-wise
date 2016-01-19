@@ -10,7 +10,7 @@ const Tappable = require('../Tappable');
 
 function TabItem(props) {
 
-    let {selected, label, ...others} = props;
+    const {selected, label, ...others} = props;
 
     return (
         <Tappable {...others} className={cx(props).addStates({selected}).build()}>

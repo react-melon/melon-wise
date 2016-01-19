@@ -55,18 +55,17 @@ define('melon-wise/lib/LazyImage', [
         LazyImage.prototype.render = function render() {
             var _props = this.props;
             var src = _props.src;
-            var defaultImageSrc = _props.defaultImageSrc;
+            var initialSrc = _props.initialSrc;
             var other = babelHelpers.objectWithoutProperties(_props, [
                 'src',
-                'defaultImageSrc'
+                'initialSrc'
             ]);
             var load = this.state.load;
-            var image = load ? src : defaultImageSrc;
             return _react2.default.createElement('img', babelHelpers._extends({}, other, {
+                className: cx(this.props).build(),
                 onLoad: load ? this.onLoad : null,
                 onError: load ? this.onError : null,
-                src: image,
-                className: cx(this.props).build()
+                src: load ? src : initialSrc
             }));
         };
         return LazyImage;
@@ -74,11 +73,10 @@ define('melon-wise/lib/LazyImage', [
     LazyImage.displayName = 'LazyImage';
     LazyImage.propTypes = {
         src: PropTypes.string,
-        defaultImageSrc: PropTypes.string,
+        initialSrc: PropTypes.string,
         onLoad: PropTypes.func,
-        onError: PropTypes.func,
-        controled: PropTypes.bool
+        onError: PropTypes.func
     };
-    LazyImage.defaultProps = { defaultImageSrc: 'http://m.baidu.com/static/search/image_default.png' };
+    LazyImage.defaultProps = { initialSrc: 'http://m.baidu.com/static/search/image_default.png' };
     module.exports = LazyImage;
 });

@@ -8,7 +8,8 @@ import ReactDOM from 'react-dom';
 
 const cx = require('./util/cxBuilder').create('Monthpicker');
 const DateTime = require('./util/date');
-const SeperatePopup = require('./monthpicker/SeperatePopup');
+const SeparatePopup = require('./monthpicker/SeparatePopup');
+const popupHelper = require('./util/separatePopupHelper');
 
 const MonthPicker = React.createClass({
 
@@ -22,9 +23,9 @@ const MonthPicker = React.createClass({
     },
 
     componentDidMount() {
-        let container = this.container = document.createElement('div');
-        container.className = cx().part('popup').build();
-        document.body.appendChild(container);
+        this.container = popupHelper.createPopup({
+            className: cx().part('popup').build()
+        });
         this.renderPopup(false);
     },
 
@@ -40,13 +41,8 @@ const MonthPicker = React.createClass({
     },
 
     componentWillUnmount() {
-
-        let {container} = this;
-        if (container) {
-            ReactDOM.unmountComponentAtNode(container);
-            container.parentElement.removeChild(container);
-            this.popup = this.container = container = null;
-        }
+        popupHelper.destoryPopup(this.container);
+        this.container = null;
     },
 
 
@@ -118,7 +114,7 @@ const MonthPicker = React.createClass({
         const beginDate = begin ? this.parseDate(begin) : DateTime.addYears(endDate, -80);
 
         ReactDOM.render(
-            <SeperatePopup
+            <SeparatePopup
                 show={isOpen}
                 transitionTimeout={300}
                 transitionType="translate"

@@ -8,18 +8,17 @@ const cx = require('./util/cxBuilder').create('Mask');
 
 const {PropTypes} = React;
 
-export default class Mask extends React.Component {
+function Mask(props) {
 
-    static propTypes = {
-        show: PropTypes.bool
-    };
+    const {show} = props;
 
-    render() {
-        const props = this.props;
-        const {show} = props;
-
-        return (
-            <div {...props} className={cx(props).addStates({show}).build()} />
-        );
-    }
+    return (
+        <div {...props} className={cx(props).addStates({show}).build()} />
+    );
 }
+
+Mask.propTypes = {
+    show: PropTypes.bool
+};
+
+module.exports = Mask;

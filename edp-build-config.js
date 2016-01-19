@@ -68,6 +68,8 @@ exports.getProcessors = function () {
         }
     });
 
+    var commonjsModuleCompiler = new ModuleCompiler();
+
     return {
         amd: [
             babel,
@@ -77,7 +79,7 @@ exports.getProcessors = function () {
         ],
         commonjs: [
             commonjsBabel,
-            new ModuleCompiler(),
+            commonjsModuleCompiler,
             pathMapperProcessor
         ],
         release: [

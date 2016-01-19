@@ -35,7 +35,9 @@ class LazyImage extends React.Component {
     }
 
     componentWillReceiveProps(props) {
-        if (!this.state.load && props.load && this.isControlled
+        if (!this.state.load
+            && props.load
+            && this.isControlled
             || props.src !== this.props.src) {
             this.loadImage();
         }
@@ -43,11 +45,12 @@ class LazyImage extends React.Component {
 
     loadImage() {
 
-        let {
+        const {
             src
         } = this.props;
 
-        let me = this;
+        const me = this;
+
         let image = new Image();
 
         image.onload = function (e) {
@@ -58,34 +61,32 @@ class LazyImage extends React.Component {
     }
 
     onLoad(e) {
-        let {onLoad} = this.props;
+        const {onLoad} = this.props;
         onLoad && onLoad(e);
     }
 
     onError(e) {
-        let {onError} = this.props;
+        const {onError} = this.props;
         onError && onError(e);
     }
 
     render() {
 
-        let {
+        const {
             src,
-            defaultImageSrc,
+            initialSrc,
             ...other
         } = this.props;
 
-        let {load} = this.state;
-
-        let image = load ? src : defaultImageSrc;
+        const {load} = this.state;
 
         return (
             <img
                 {...other}
+                className={cx(this.props).build()}
                 onLoad={load ? this.onLoad : null}
                 onError={load ? this.onError : null}
-                src={image}
-                className={cx(this.props).build()} />
+                src={load ? src : initialSrc} />
         );
 
     }
@@ -96,14 +97,13 @@ LazyImage.displayName = 'LazyImage';
 
 LazyImage.propTypes = {
     src: PropTypes.string,
-    defaultImageSrc: PropTypes.string,
+    initialSrc: PropTypes.string,
     onLoad: PropTypes.func,
-    onError: PropTypes.func,
-    controled: PropTypes.bool
+    onError: PropTypes.func
 };
 
 LazyImage.defaultProps = {
-    defaultImageSrc: 'http://m.baidu.com/static/search/image_default.png'
+    initialSrc: 'http://m.baidu.com/static/search/image_default.png'
 };
 
 module.exports = LazyImage;

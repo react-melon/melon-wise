@@ -4,23 +4,11 @@
  */
 
 exports.on = function (target, eventName, handler) {
-    if (target.addEventListener) {
-        target.addEventListener(eventName, handler);
-    }
-    else {
-        target.attachEvent('on' + eventName, handler);
-    }
+    target.addEventListener(eventName, handler);
 };
 
 exports.off = function (target, eventName, handler) {
-
-    if (target.removeEventListener) {
-        target.removeEventListener(eventName, handler);
-    }
-    else {
-        target.detachEvent('on' + eventName, handler);
-    }
-
+    target.removeEventListener(eventName, handler);
 };
 
 exports.contains = function (container, contained) {

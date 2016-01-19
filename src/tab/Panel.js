@@ -9,7 +9,7 @@ const cx = require('../util/cxBuilder').create('TabPanel');
 
 function TabPanel(props) {
 
-    let {
+    const {
         active,
         ...others
     } = props;
