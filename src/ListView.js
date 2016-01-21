@@ -23,6 +23,7 @@ class ListView extends React.Component {
             ...rest
         } = props;
 
+        const total = dataSource.dataBlob.length;
         const bodyComponent = dataSource.dataBlob.map(function (row, index) {
 
             return (
@@ -32,7 +33,8 @@ class ListView extends React.Component {
                     render={renderRow.bind(
                         null,
                         dataSource.getRowData(index),
-                        index
+                        index,
+                        total
                     )}/>
             );
         });

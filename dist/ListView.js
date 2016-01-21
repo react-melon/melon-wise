@@ -30,11 +30,12 @@ define('melon-wise/lib/ListView', [
                 'dataSource',
                 'renderRow'
             ]);
+            var total = dataSource.dataBlob.length;
             var bodyComponent = dataSource.dataBlob.map(function (row, index) {
                 return React.createElement(StaticRender, {
                     key: index,
                     shouldUpdate: dataSource.rowShouldUpdate(index),
-                    render: renderRow.bind(null, dataSource.getRowData(index), index)
+                    render: renderRow.bind(null, dataSource.getRowData(index), index, total)
                 });
             });
             return React.createElement(component, babelHelpers._extends({}, rest, { className: cx(props).build() }), bodyComponent);

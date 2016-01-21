@@ -7,10 +7,13 @@ define('melon-wise/lib/util/separatePopupHelper', [
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
     var ReactDOM = require('react-dom');
-    exports.createPopup = function (domProps) {
+    exports.createPopup = function (domProps, wrapper) {
+        if (!wrapper) {
+            wrapper = document.body;
+        }
         var container = document.createElement('div');
         container = babelHelpers._extends({}, container, domProps);
-        document.body.appendChild(container);
+        wrapper.appendChild(container);
         return container;
     };
     exports.destoryPopup = function (container) {

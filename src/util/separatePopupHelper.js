@@ -5,7 +5,11 @@
 
 const ReactDOM = require('react-dom');
 
-exports.createPopup = function (domProps) {
+exports.createPopup = function (domProps, wrapper) {
+
+    if (!wrapper) {
+        wrapper = document.body;
+    }
 
     let container = document.createElement('div');
 
@@ -14,7 +18,7 @@ exports.createPopup = function (domProps) {
         ...domProps
     };
 
-    document.body.appendChild(container);
+    wrapper.appendChild(container);
 
     return container;
 };
