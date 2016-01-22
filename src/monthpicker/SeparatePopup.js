@@ -4,55 +4,34 @@
  */
 
 import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
 import Popup from '../Popup';
 import Tappable from '../Tappable';
 
-import Selector from './Selector';
+import Selector from '../Selector';
 
 const cx = require('melon-classname').create('Monthpicker');
-const DateTime = require('../util/date');
-const domUtil = require('../util/dom');
+const dateUtil = require('../util/date');
 
-class SeparatePopup extends React.Component {
+let SeparatePopup = React.createClass({
 
-    constructor(props) {
-        super(props);
+    mixins: [require('../mixins/SeparateMixin')],
 
-        this.onCancel = this.onCancel.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.onTouchMove = this.onTouchMove.bind(this);
-        this.onHide = this.onHide.bind(this);
-
-        this.state = {
-            date: props.date,
-            mode: 'year'
-        };
+    getInitialState() {
 
         this.timer = null;
-    }
 
-    componentDidUpdate() {
-        domUtil.on(document.body, 'touchmove', this.onTouchMove);
-    }
+        return {
+            date: this.props.date,
+            mode: 'year'
+        };
+    },
 
     componentWillUnmount() {
         let {timer} = this;
         if (timer) {
             clearTimeout(timer);
         }
-
-        domUtil.off(document.body, 'touchmove', this.onTouchMove);
-    }
-
-    onTouchMove(e) {
-        const {target} = e;
-        const main = ReactDOM.findDOMNode(this);
-
-        if (!domUtil.contains(main, target) && this.props.show) {
-            e.preventDefault();
-        }
-    }
+    },
 
     onHide() {
         const {onHide} = this.props;
@@ -61,11 +40,11 @@ class SeparatePopup extends React.Component {
         this.timer = setTimeout(() => {
             this.setState({mode: 'year'});
         }, 300);
-    }
+    },
 
     onCancel() {
         this.onHide();
-    }
+    },
 
     onChange(e) {
 
@@ -74,7 +53,7 @@ class SeparatePopup extends React.Component {
             date
         } = this.state;
 
-        let newDate = DateTime.cloneAsDate(date);
+        let newDate = dateUtil.cloneAsDate(date);
         newDate[mode === 'year' ? 'setFullYear' : 'setMonth'](e.value);
 
         let nextState = {
@@ -98,7 +77,7 @@ class SeparatePopup extends React.Component {
                 });
             }
         });
-    }
+    },
 
     render() {
 
@@ -120,14 +99,14 @@ class SeparatePopup extends React.Component {
 
             const endYear = end.getFullYear();
 
-            for (let i = 0, len = DateTime.yearDiff(end, begin); i < len; i++) {
+            for (let i = 0, len = dateUtil.yearDiff(end, begin); i < len; i++) {
                 items.push({
                     name: endYear - i,
                     value: endYear - i
                 });
             }
 
-            index = DateTime.yearDiff(date, begin);
+            index = dateUtil.yearDiff(end, date);
 
         }
         else {
@@ -137,10 +116,10 @@ class SeparatePopup extends React.Component {
 
             index = date.getMonth();
 
-            if (DateTime.isEqualYear(date, end)) {
+            if (dateUtil.isEqualYear(date, end)) {
                 len = end.getMonth() + 1;
             }
-            else if (DateTime.isEqualYear(date, begin)) {
+            else if (dateUtil.isEqualYear(date, begin)) {
                 beginMonth = begin.getMonth();
                 len = len - beginMonth;
 
@@ -149,7 +128,7 @@ class SeparatePopup extends React.Component {
 
             for (let i = beginMonth; i < len; i++) {
                 items.push({
-                    name: DateTime.datePad(i + 1),
+                    name: dateUtil.datePad(i + 1),
                     value: i
                 });
             }
@@ -167,6 +146,7 @@ class SeparatePopup extends React.Component {
                         <Selector
                             ref="selector"
                             items={items}
+                            className={cx().part('selector').build()}
                             selectedIndex={index}
                             variants={[mode]}
                             onChange={this.onChange} />
@@ -182,9 +162,9 @@ class SeparatePopup extends React.Component {
         );
     }
 
-}
+});
 
-SeparatePopup.displayName = 'SeparatePopup';
+SeparatePopup.displayName = 'MonthPickerSeparatePopup';
 
 SeparatePopup.propTypes = {
     ...Popup.propTypes,
@@ -197,4 +177,4 @@ SeparatePopup.defaultProps = {
     ...Popup.defaultProps
 };
 
-export default SeparatePopup;
+module.exports = SeparatePopup;

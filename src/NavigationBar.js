@@ -37,7 +37,7 @@ function NavigationBar(props) {
         <nav className={cx(props).build()}>
             {leftButton}
             {rightButton}
-            <Title level={1}>{title}</Title>
+            <Title level={2}>{title}</Title>
         </nav>
     );
 

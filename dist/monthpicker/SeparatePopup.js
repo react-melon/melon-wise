@@ -4,78 +4,57 @@ define('melon-wise/lib/monthpicker/SeparatePopup', [
     'module',
     '../babelHelpers',
     'react',
-    'react-dom',
     '../Popup',
     '../Tappable',
-    './Selector',
+    '../Selector',
     'melon-classname',
     '../util/date',
-    '../util/dom'
+    '../mixins/SeparateMixin'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
-    exports.__esModule = true;
     var _react = require('react');
     var _react2 = babelHelpers.interopRequireDefault(_react);
-    var _reactDom = require('react-dom');
-    var _reactDom2 = babelHelpers.interopRequireDefault(_reactDom);
     var _Popup = require('../Popup');
     var _Popup2 = babelHelpers.interopRequireDefault(_Popup);
     var _Tappable = require('../Tappable');
     var _Tappable2 = babelHelpers.interopRequireDefault(_Tappable);
-    var _Selector = require('./Selector');
+    var _Selector = require('../Selector');
     var _Selector2 = babelHelpers.interopRequireDefault(_Selector);
     var cx = require('melon-classname').create('Monthpicker');
-    var DateTime = require('../util/date');
-    var domUtil = require('../util/dom');
-    var SeparatePopup = function (_React$Component) {
-        babelHelpers.inherits(SeparatePopup, _React$Component);
-        function SeparatePopup(props) {
-            babelHelpers.classCallCheck(this, SeparatePopup);
-            _React$Component.call(this, props);
-            this.onCancel = this.onCancel.bind(this);
-            this.onChange = this.onChange.bind(this);
-            this.onTouchMove = this.onTouchMove.bind(this);
-            this.onHide = this.onHide.bind(this);
-            this.state = {
-                date: props.date,
+    var dateUtil = require('../util/date');
+    var SeparatePopup = _react2.default.createClass({
+        displayName: 'SeparatePopup',
+        mixins: [require('../mixins/SeparateMixin')],
+        getInitialState: function () {
+            this.timer = null;
+            return {
+                date: this.props.date,
                 mode: 'year'
             };
-            this.timer = null;
-        }
-        SeparatePopup.prototype.componentDidUpdate = function componentDidUpdate() {
-            domUtil.on(document.body, 'touchmove', this.onTouchMove);
-        };
-        SeparatePopup.prototype.componentWillUnmount = function componentWillUnmount() {
+        },
+        componentWillUnmount: function () {
             var timer = this.timer;
             if (timer) {
                 clearTimeout(timer);
             }
-            domUtil.off(document.body, 'touchmove', this.onTouchMove);
-        };
-        SeparatePopup.prototype.onTouchMove = function onTouchMove(e) {
-            var target = e.target;
-            var main = _reactDom2.default.findDOMNode(this);
-            if (!domUtil.contains(main, target) && this.props.show) {
-                e.preventDefault();
-            }
-        };
-        SeparatePopup.prototype.onHide = function onHide() {
+        },
+        onHide: function () {
             var _this = this;
             var onHide = this.props.onHide;
             onHide && onHide();
             this.timer = setTimeout(function () {
                 _this.setState({ mode: 'year' });
             }, 300);
-        };
-        SeparatePopup.prototype.onCancel = function onCancel() {
+        },
+        onCancel: function () {
             this.onHide();
-        };
-        SeparatePopup.prototype.onChange = function onChange(e) {
+        },
+        onChange: function (e) {
             var _this2 = this;
             var _state = this.state;
             var mode = _state.mode;
             var date = _state.date;
-            var newDate = DateTime.cloneAsDate(date);
+            var newDate = dateUtil.cloneAsDate(date);
             newDate[mode === 'year' ? 'setFullYear' : 'setMonth'](e.value);
             var nextState = { date: newDate };
             if (mode === 'year') {
@@ -91,8 +70,8 @@ define('melon-wise/lib/monthpicker/SeparatePopup', [
                     });
                 }
             });
-        };
-        SeparatePopup.prototype.render = function render() {
+        },
+        render: function () {
             var _props = this.props;
             var show = _props.show;
             var begin = _props.begin;
@@ -104,27 +83,27 @@ define('melon-wise/lib/monthpicker/SeparatePopup', [
             var index = undefined;
             if (mode === 'year') {
                 var endYear = end.getFullYear();
-                for (var i = 0, len = DateTime.yearDiff(end, begin); i < len; i++) {
+                for (var i = 0, len = dateUtil.yearDiff(end, begin); i < len; i++) {
                     items.push({
                         name: endYear - i,
                         value: endYear - i
                     });
                 }
-                index = DateTime.yearDiff(date, begin);
+                index = dateUtil.yearDiff(end, date);
             } else {
                 var beginMonth = 0;
                 var len = 12;
                 index = date.getMonth();
-                if (DateTime.isEqualYear(date, end)) {
+                if (dateUtil.isEqualYear(date, end)) {
                     len = end.getMonth() + 1;
-                } else if (DateTime.isEqualYear(date, begin)) {
+                } else if (dateUtil.isEqualYear(date, begin)) {
                     beginMonth = begin.getMonth();
                     len = len - beginMonth;
                     index = index - beginMonth;
                 }
                 for (var i = beginMonth; i < len; i++) {
                     items.push({
-                        name: DateTime.datePad(i + 1),
+                        name: dateUtil.datePad(i + 1),
                         value: i
                     });
                 }
@@ -138,6 +117,7 @@ define('melon-wise/lib/monthpicker/SeparatePopup', [
             }, _react2.default.createElement('div', null, _react2.default.createElement('div', { className: cx().part('panel').build() }, _react2.default.createElement(_Selector2.default, {
                 ref: 'selector',
                 items: items,
+                className: cx().part('selector').build(),
                 selectedIndex: index,
                 variants: [mode],
                 onChange: this.onChange
@@ -146,16 +126,14 @@ define('melon-wise/lib/monthpicker/SeparatePopup', [
                 onTap: this.onCancel,
                 className: cx().part('cancel').build()
             }, '\u53D6\u6D88')));
-        };
-        return SeparatePopup;
-    }(_react2.default.Component);
-    SeparatePopup.displayName = 'SeparatePopup';
+        }
+    });
+    SeparatePopup.displayName = 'MonthPickerSeparatePopup';
     SeparatePopup.propTypes = babelHelpers._extends({}, _Popup2.default.propTypes, {
         date: _react.PropTypes.instanceOf(Date),
         begin: _react.PropTypes.instanceOf(Date),
         end: _react.PropTypes.instanceOf(Date)
     });
     SeparatePopup.defaultProps = babelHelpers._extends({}, _Popup2.default.defaultProps);
-    exports.default = SeparatePopup;
-    module.exports = exports.default;
+    module.exports = SeparatePopup;
 });

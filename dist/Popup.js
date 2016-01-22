@@ -66,9 +66,6 @@ define('melon-wise/lib/Popup', [
             var show = this.state.show;
             windowScrollHelper[show ? 'stop' : 'restore']();
         },
-        renderPopupBody: function () {
-            return React.cloneElement(this.props.children, { className: cx().part('body').build() });
-        },
         render: function () {
             var props = this.props;
             var mask = props.mask;
@@ -76,12 +73,14 @@ define('melon-wise/lib/Popup', [
             var translateFrom = props.translateFrom;
             var transitionType = props.transitionType;
             var transitionTimeout = props.transitionTimeout;
+            var children = props.children;
             var others = babelHelpers.objectWithoutProperties(props, [
                 'mask',
                 'maskClickClose',
                 'translateFrom',
                 'transitionType',
-                'transitionTimeout'
+                'transitionTimeout',
+                'children'
             ]);
             var show = this.state.show;
             return React.createElement('div', babelHelpers._extends({}, others, { className: cx(props).addStates({ show: show }).build() }), React.createElement(TransitionGroup, {
@@ -89,7 +88,7 @@ define('melon-wise/lib/Popup', [
                 transitionTimeout: transitionTimeout || 500,
                 transitionType: transitionType || 'instant',
                 translateFrom: translateFrom || 'bottom'
-            }, show ? this.renderPopupBody() : null), mask ? React.createElement(Mask, {
+            }, show ? React.cloneElement(children, { className: cx().part('body').build() }) : null), mask ? React.createElement(Mask, {
                 show: show,
                 onClick: maskClickClose ? this.onMaskClick : null
             }) : null);

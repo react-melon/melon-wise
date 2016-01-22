@@ -27,59 +27,11 @@ define('melon-wise/lib/Tappable', [
         WebkitTapHighlightColor: 'rgba(0,0,0,0)',
         WebkitTouchCallout: 'none',
         WebkitUserSelect: 'none',
-        KhtmlUserSelect: 'none',
-        MozUserSelect: 'none',
-        msUserSelect: 'none',
         userSelect: 'none',
         cursor: 'pointer'
     };
     var Tappable = function (_React$Component) {
         babelHelpers.inherits(Tappable, _React$Component);
-        babelHelpers.createClass(Tappable, null, [
-            {
-                key: 'displayName',
-                value: 'Tappable',
-                enumerable: true
-            },
-            {
-                key: 'propTypes',
-                value: {
-                    moveThreshold: PropTypes.number,
-                    activeDelay: PropTypes.number,
-                    pressDelay: PropTypes.number,
-                    pressMoveThreshold: PropTypes.number,
-                    preventDefault: PropTypes.bool,
-                    stopPropagation: PropTypes.bool,
-                    onTap: PropTypes.func,
-                    onPress: PropTypes.func,
-                    onTouchStart: PropTypes.func,
-                    onTouchMove: PropTypes.func,
-                    onTouchEnd: PropTypes.func,
-                    onMouseDown: PropTypes.func,
-                    onMouseUp: PropTypes.func,
-                    onMouseMove: PropTypes.func,
-                    onMouseOut: PropTypes.func,
-                    component: PropTypes.any,
-                    className: PropTypes.string,
-                    classBase: PropTypes.string,
-                    style: PropTypes.object,
-                    disabled: PropTypes.bool
-                },
-                enumerable: true
-            },
-            {
-                key: 'defaultProps',
-                value: {
-                    activeDelay: 0,
-                    moveThreshold: 100,
-                    pressDelay: 1000,
-                    pressMoveThreshold: 5,
-                    component: 'span',
-                    classBase: 'Tappable'
-                },
-                enumerable: true
-            }
-        ]);
         function Tappable(props) {
             babelHelpers.classCallCheck(this, Tappable);
             _React$Component.call(this, props);
@@ -332,5 +284,36 @@ define('melon-wise/lib/Tappable', [
         };
         return Tappable;
     }(React.Component);
+    Tappable.displayName = 'Tappable';
+    Tappable.propTypes = {
+        moveThreshold: PropTypes.number,
+        activeDelay: PropTypes.number,
+        pressDelay: PropTypes.number,
+        pressMoveThreshold: PropTypes.number,
+        preventDefault: PropTypes.bool,
+        stopPropagation: PropTypes.bool,
+        onTap: PropTypes.func,
+        onPress: PropTypes.func,
+        onTouchStart: PropTypes.func,
+        onTouchMove: PropTypes.func,
+        onTouchEnd: PropTypes.func,
+        onMouseDown: PropTypes.func,
+        onMouseUp: PropTypes.func,
+        onMouseMove: PropTypes.func,
+        onMouseOut: PropTypes.func,
+        component: PropTypes.any,
+        className: PropTypes.string,
+        classBase: PropTypes.string,
+        style: PropTypes.object,
+        disabled: PropTypes.bool
+    };
+    Tappable.defaultProps = {
+        activeDelay: 0,
+        moveThreshold: 100,
+        pressDelay: 1000,
+        pressMoveThreshold: 5,
+        component: 'span',
+        classBase: 'Tappable'
+    };
     module.exports = Tappable;
 });

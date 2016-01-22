@@ -10,8 +10,6 @@ const {PropTypes} = React;
 
 class Form extends React.Component {
 
-    static displayName = 'Form';
-
     constructor(props) {
         super(props);
         this.onSubmit = this.onSubmit.bind(this);
@@ -20,29 +18,6 @@ class Form extends React.Component {
 
         this.fields = [];
     }
-
-    static propTypes = {
-        onSumbit: PropTypes.func,
-        target: PropTypes.string,
-        action: PropTypes.string,
-        method: PropTypes.oneOf(['POST', 'GET']),
-        validator: PropTypes.shape({
-            validate: PropTypes.func.isRequired
-        })
-    };
-
-    static defaultProps = {
-        validator
-    };
-
-    static childContextTypes = {
-        attachForm: PropTypes.func,
-        detachForm: PropTypes.func,
-        validator: PropTypes.shape({
-            validate: PropTypes.func.isRequired
-        }),
-        pointer: PropTypes.string.isRequired
-    };
 
     getChildContext() {
         return {
@@ -167,5 +142,30 @@ class Form extends React.Component {
     }
 
 }
+
+Form.displayName = 'Form';
+
+Form.propTypes = {
+    onSumbit: PropTypes.func,
+    target: PropTypes.string,
+    action: PropTypes.string,
+    method: PropTypes.oneOf(['POST', 'GET']),
+    validator: PropTypes.shape({
+        validate: PropTypes.func.isRequired
+    })
+};
+
+Form.defaultProps = {
+    validator
+};
+
+Form.childContextTypes = {
+    attachForm: PropTypes.func,
+    detachForm: PropTypes.func,
+    validator: PropTypes.shape({
+        validate: PropTypes.func.isRequired
+    }),
+    pointer: PropTypes.string.isRequired
+};
 
 module.exports = Form;

@@ -1,0 +1,35 @@
+
+@require 'rider'
+
+initialize()
+
+@require '../src/css/**'
+@require './css/**'
+
+#app
+    .ui-view
+        &-main
+            padding: 4em 2em 0 2em
+            background-color: #fbfbfb
+
+.variant-bottom-1px-border
+    position: relative
+
+    &.variant-light:after
+        background: #f3f3f3
+
+    &:after
+        content: ''
+        display: block
+        height: 1px
+        background: #e5e5e5
+        position: absolute
+        width: 100%
+        bottom: -1px
+        left: 0
+        z-index: 1
+
+    @media screen and (-webkit-min-device-pixel-ratio: 1.5)
+        &:after
+            transform: scaley(0.5)
+            transform-origin: 0 0

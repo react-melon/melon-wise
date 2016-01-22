@@ -34,7 +34,7 @@ define('melon-wise/lib/NavigationBar', [
             className: cx().part('right').build(),
             onTap: onRightTap
         }, leftIcon) : null;
-        return React.createElement('nav', { className: cx(props).build() }, leftButton, rightButton, React.createElement(Title, { level: 1 }, title));
+        return React.createElement('nav', { className: cx(props).build() }, leftButton, rightButton, React.createElement(Title, { level: 2 }, title));
     }
     NavigationBar.displayName = 'NavigationBar';
     var PropTypes = React.PropTypes;

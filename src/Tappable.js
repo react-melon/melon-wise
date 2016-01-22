@@ -26,50 +26,14 @@ const touchStyles = {
     WebkitTapHighlightColor: 'rgba(0,0,0,0)',
     WebkitTouchCallout: 'none',
     WebkitUserSelect: 'none',
-    KhtmlUserSelect: 'none',
-    MozUserSelect: 'none',
-    msUserSelect: 'none',
+    // KhtmlUserSelect: 'none',
+    // MozUserSelect: 'none',
+    // msUserSelect: 'none',
     userSelect: 'none',
     cursor: 'pointer'
 };
 
 class Tappable extends React.Component {
-
-    static displayName = 'Tappable';
-
-    static propTypes = {
-        moveThreshold: PropTypes.number, // pixels to move before cancelling tap
-        activeDelay: PropTypes.number, // ms to wait before adding the `-active` class
-        pressDelay: PropTypes.number, // ms to wait before detecting a press
-        pressMoveThreshold: PropTypes.number, // pixels to move before cancelling press
-        preventDefault: PropTypes.bool, // whether to preventDefault on all events
-        stopPropagation: PropTypes.bool, // whether to stopPropagation on all events
-
-        onTap: PropTypes.func, // fires when a tap is detected
-        onPress: PropTypes.func, // fires when a press is detected
-        onTouchStart: PropTypes.func, // pass-through touch event
-        onTouchMove: PropTypes.func, // pass-through touch event
-        onTouchEnd: PropTypes.func, // pass-through touch event
-        onMouseDown: PropTypes.func, // pass-through mouse event
-        onMouseUp: PropTypes.func, // pass-through mouse event
-        onMouseMove: PropTypes.func, // pass-through mouse event
-        onMouseOut: PropTypes.func, // pass-through mouse event
-
-        component: PropTypes.any, // component to create
-        className: PropTypes.string, // optional className
-        classBase: PropTypes.string, // base for generated classNames
-        style: PropTypes.object, // additional style properties for the component
-        disabled: PropTypes.bool // only applies to buttons
-    };
-
-    static defaultProps = {
-        activeDelay: 0,
-        moveThreshold: 100,
-        pressDelay: 1000,
-        pressMoveThreshold: 5,
-        component: 'span',
-        classBase: 'Tappable'
-    };
 
     constructor(props) {
         super(props);
@@ -383,5 +347,43 @@ class Tappable extends React.Component {
         return React.createElement(props.component, newComponentProps, props.children);
     }
 }
+
+
+Tappable.displayName = 'Tappable';
+
+Tappable.propTypes = {
+    moveThreshold: PropTypes.number, // pixels to move before cancelling tap
+    activeDelay: PropTypes.number, // ms to wait before adding the `-active` class
+    pressDelay: PropTypes.number, // ms to wait before detecting a press
+    pressMoveThreshold: PropTypes.number, // pixels to move before cancelling press
+    preventDefault: PropTypes.bool, // whether to preventDefault on all events
+    stopPropagation: PropTypes.bool, // whether to stopPropagation on all events
+
+    onTap: PropTypes.func, // fires when a tap is detected
+    onPress: PropTypes.func, // fires when a press is detected
+    onTouchStart: PropTypes.func, // pass-through touch event
+    onTouchMove: PropTypes.func, // pass-through touch event
+    onTouchEnd: PropTypes.func, // pass-through touch event
+    onMouseDown: PropTypes.func, // pass-through mouse event
+    onMouseUp: PropTypes.func, // pass-through mouse event
+    onMouseMove: PropTypes.func, // pass-through mouse event
+    onMouseOut: PropTypes.func, // pass-through mouse event
+
+    component: PropTypes.any, // component to create
+    className: PropTypes.string, // optional className
+    classBase: PropTypes.string, // base for generated classNames
+    style: PropTypes.object, // additional style properties for the component
+    disabled: PropTypes.bool // only applies to buttons
+};
+
+Tappable.defaultProps = {
+    activeDelay: 0,
+    moveThreshold: 100,
+    pressDelay: 1000,
+    pressMoveThreshold: 5,
+    component: 'span',
+    classBase: 'Tappable'
+};
+
 
 module.exports = Tappable;

@@ -193,7 +193,7 @@ define('melon-wise/lib/util/date', [
             return m;
         },
         yearDiff: function (d1, d2) {
-            return ~~(this.monthDiff(d1, d2) / 12);
+            return d1.getFullYear() - d2.getFullYear();
         },
         now: function () {
             if (Date.now) {

@@ -79,12 +79,6 @@ const Popup = React.createClass({
         windowScrollHelper[show ? 'stop' : 'restore']();
     },
 
-    renderPopupBody() {
-        return React.cloneElement(this.props.children, {
-            className: cx().part('body').build()
-        });
-    },
-
     render() {
 
         const {props} = this;
@@ -94,6 +88,7 @@ const Popup = React.createClass({
             translateFrom,
             transitionType,
             transitionTimeout,
+            children,
             ...others
         } = props;
         const {show} = this.state;
@@ -105,7 +100,7 @@ const Popup = React.createClass({
                     transitionTimeout={transitionTimeout || 500}
                     transitionType={transitionType || 'instant'}
                     translateFrom={translateFrom || 'bottom'}>
-                    {show ? this.renderPopupBody() : null}
+                    {show ? React.cloneElement(children, {className: cx().part('body').build()}) : null}
                 </TransitionGroup>
                 {mask ? <Mask show={show} onClick={maskClickClose ? this.onMaskClick : null} /> : null}
             </div>

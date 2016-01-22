@@ -12,11 +12,6 @@ define('melon-wise/lib/Form', [
     var PropTypes = React.PropTypes;
     var Form = function (_React$Component) {
         babelHelpers.inherits(Form, _React$Component);
-        babelHelpers.createClass(Form, null, [{
-                key: 'displayName',
-                value: 'Form',
-                enumerable: true
-            }]);
         function Form(props) {
             babelHelpers.classCallCheck(this, Form);
             _React$Component.call(this, props);
@@ -106,38 +101,25 @@ define('melon-wise/lib/Form', [
             var props = this.props;
             return React.createElement('form', babelHelpers._extends({}, props, { onSubmit: this.onSubmit }));
         };
-        babelHelpers.createClass(Form, null, [
-            {
-                key: 'propTypes',
-                value: {
-                    onSumbit: PropTypes.func,
-                    target: PropTypes.string,
-                    action: PropTypes.string,
-                    method: PropTypes.oneOf([
-                        'POST',
-                        'GET'
-                    ]),
-                    validator: PropTypes.shape({ validate: PropTypes.func.isRequired })
-                },
-                enumerable: true
-            },
-            {
-                key: 'defaultProps',
-                value: { validator: validator },
-                enumerable: true
-            },
-            {
-                key: 'childContextTypes',
-                value: {
-                    attachForm: PropTypes.func,
-                    detachForm: PropTypes.func,
-                    validator: PropTypes.shape({ validate: PropTypes.func.isRequired }),
-                    pointer: PropTypes.string.isRequired
-                },
-                enumerable: true
-            }
-        ]);
         return Form;
     }(React.Component);
+    Form.displayName = 'Form';
+    Form.propTypes = {
+        onSumbit: PropTypes.func,
+        target: PropTypes.string,
+        action: PropTypes.string,
+        method: PropTypes.oneOf([
+            'POST',
+            'GET'
+        ]),
+        validator: PropTypes.shape({ validate: PropTypes.func.isRequired })
+    };
+    Form.defaultProps = { validator: validator };
+    Form.childContextTypes = {
+        attachForm: PropTypes.func,
+        detachForm: PropTypes.func,
+        validator: PropTypes.shape({ validate: PropTypes.func.isRequired }),
+        pointer: PropTypes.string.isRequired
+    };
     module.exports = Form;
 });

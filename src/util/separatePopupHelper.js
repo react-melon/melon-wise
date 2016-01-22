@@ -13,10 +13,9 @@ exports.createPopup = function (domProps, wrapper) {
 
     let container = document.createElement('div');
 
-    container = {
-        ...container,
-        ...domProps
-    };
+    domProps && Object.keys(domProps).map(function (key) {
+        container[key] = domProps[key];
+    });
 
     wrapper.appendChild(container);
 
