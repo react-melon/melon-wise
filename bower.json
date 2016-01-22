@@ -1,6 +1,6 @@
 {
   "name": "melon-wise",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "homepage": "https://github.com/cxtom/melon-wise",
   "authors": [
     "cxtom2010@gmail.com"
@@ -30,7 +30,7 @@
     "module.conf"
   ],
   "dependencies": {
-    "react": "0.14.6",
-    "react-dom": "0.14.6"
+    "react": "~0.14.6",
+    "melon-classname": "~0.1.6"
   }
 }

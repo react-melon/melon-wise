@@ -5,7 +5,7 @@
 
 const React = require('react');
 
-const cx = require('../util/cxBuilder').create('TabPanel');
+const cx = require('melon-classname').create('TabPanel');
 
 function TabPanel(props) {
 

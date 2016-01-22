@@ -4,7 +4,7 @@
  */
 
 const React = require('react');
-const cx = require('./util/cxBuilder').create('Mask');
+const cx = require('melon-classname').create('Mask');
 
 const {PropTypes} = React;
 

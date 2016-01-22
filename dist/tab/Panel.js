@@ -4,11 +4,11 @@ define('melon-wise/lib/tab/Panel', [
     'module',
     '../babelHelpers',
     'react',
-    '../util/cxBuilder'
+    'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
     var React = require('react');
-    var cx = require('../util/cxBuilder').create('TabPanel');
+    var cx = require('melon-classname').create('TabPanel');
     function TabPanel(props) {
         var active = props.active;
         var others = babelHelpers.objectWithoutProperties(props, ['active']);

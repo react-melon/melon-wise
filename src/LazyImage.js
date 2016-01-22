@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-const cx = require('./util/cxBuilder').create('Lazyimage');
+const cx = require('melon-classname').create('Lazyimage');
 
 const {PropTypes} = React;
 

@@ -5,7 +5,7 @@
 
 const React = require('react');
 
-const cx = require('./util/cxBuilder').create('Title');
+const cx = require('melon-classname').create('Title');
 
 function Title(props) {
 

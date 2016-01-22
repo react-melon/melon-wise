@@ -5,7 +5,7 @@
 
 const React = require('react');
 
-const cx = require('./util/cxBuilder').create('Icon');
+const cx = require('melon-classname').create('Icon');
 
 function Icon(props) {
 

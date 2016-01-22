@@ -4,11 +4,11 @@ define('melon-wise/lib/Icon', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder'
+    'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var cx = require('./util/cxBuilder').create('Icon');
+    var cx = require('melon-classname').create('Icon');
     function Icon(props) {
         return React.createElement('i', babelHelpers._extends({}, props, { className: cx(props).build() }));
     }

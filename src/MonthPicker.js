@@ -6,7 +6,8 @@
 import React, {PropTypes} from 'react';
 import ReactDOM from 'react-dom';
 
-const cx = require('./util/cxBuilder').create('Monthpicker');
+const cx = require('melon-classname').create('Monthpicker');
+
 const DateTime = require('./util/date');
 const SeparatePopup = require('./monthpicker/SeparatePopup');
 const popupHelper = require('./util/separatePopupHelper');

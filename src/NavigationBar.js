@@ -5,7 +5,8 @@
 
 const React = require('react');
 
-const cx = require('./util/cxBuilder').create('NavigationBar');
+const cx = require('melon-classname').create('NavigationBar');
+
 const Title = require('./Title');
 const Tappable = require('./Tappable');
 

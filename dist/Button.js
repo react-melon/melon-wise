@@ -4,12 +4,12 @@ define('melon-wise/lib/Button', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder',
+    'melon-classname',
     './Tappable'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var cx = require('./util/cxBuilder').create('Button');
+    var cx = require('melon-classname').create('Button');
     var Tapable = require('./Tappable');
     function Button(props) {
         var label = props.label;

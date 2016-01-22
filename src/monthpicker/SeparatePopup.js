@@ -10,7 +10,7 @@ import Tappable from '../Tappable';
 
 import Selector from './Selector';
 
-const cx = require('../util/cxBuilder').create('Monthpicker');
+const cx = require('melon-classname').create('Monthpicker');
 const DateTime = require('../util/date');
 const domUtil = require('../util/dom');
 

@@ -4,7 +4,7 @@
  */
 
 import React, {PropTypes} from 'react';
-import cxBuilder from '../util/cxBuilder';
+import cxBuilder from 'melon-classname';
 
 const cx = cxBuilder.create('MonthpickerSelector');
 

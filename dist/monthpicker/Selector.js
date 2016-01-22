@@ -4,15 +4,15 @@ define('melon-wise/lib/monthpicker/Selector', [
     'module',
     '../babelHelpers',
     'react',
-    '../util/cxBuilder'
+    'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
     exports.__esModule = true;
     var _react = require('react');
     var _react2 = babelHelpers.interopRequireDefault(_react);
-    var _utilCxBuilder = require('../util/cxBuilder');
-    var _utilCxBuilder2 = babelHelpers.interopRequireDefault(_utilCxBuilder);
-    var cx = _utilCxBuilder2.default.create('MonthpickerSelector');
+    var _melonClassname = require('melon-classname');
+    var _melonClassname2 = babelHelpers.interopRequireDefault(_melonClassname);
+    var cx = _melonClassname2.default.create('MonthpickerSelector');
     var MonthPickerSelector = _react2.default.createClass({
         displayName: 'MonthPickerSelector',
         propTypes: {

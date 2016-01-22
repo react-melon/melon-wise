@@ -5,7 +5,7 @@ define('melon-wise/lib/MonthPicker', [
     './babelHelpers',
     'react',
     'react-dom',
-    './util/cxBuilder',
+    'melon-classname',
     './util/date',
     './monthpicker/SeparatePopup',
     './util/separatePopupHelper',
@@ -16,7 +16,7 @@ define('melon-wise/lib/MonthPicker', [
     var _react2 = babelHelpers.interopRequireDefault(_react);
     var _reactDom = require('react-dom');
     var _reactDom2 = babelHelpers.interopRequireDefault(_reactDom);
-    var cx = require('./util/cxBuilder').create('Monthpicker');
+    var cx = require('melon-classname').create('Monthpicker');
     var DateTime = require('./util/date');
     var SeparatePopup = require('./monthpicker/SeparatePopup');
     var popupHelper = require('./util/separatePopupHelper');

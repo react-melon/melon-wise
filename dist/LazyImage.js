@@ -4,12 +4,12 @@ define('melon-wise/lib/LazyImage', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder'
+    'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var _react = require('react');
     var _react2 = babelHelpers.interopRequireDefault(_react);
-    var cx = require('./util/cxBuilder').create('Lazyimage');
+    var cx = require('melon-classname').create('Lazyimage');
     var PropTypes = _react2.default.PropTypes;
     var LazyImage = function (_React$Component) {
         babelHelpers.inherits(LazyImage, _React$Component);

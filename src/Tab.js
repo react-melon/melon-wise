@@ -4,7 +4,7 @@
  */
 
 const React = require('react');
-const cx = require('./util/cxBuilder').create('Tab');
+const cx = require('melon-classname').create('Tab');
 
 const Item = require('./tab/Item');
 const TabPanel = require('./tab/Panel');

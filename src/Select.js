@@ -5,7 +5,7 @@
 
 const React = require('react');
 
-const cx = require('./util/cxBuilder').create('Select');
+const cx = require('melon-classname').create('Select');
 
 const nativeInputMixin = require('./mixins/NativeInputMixin');
 

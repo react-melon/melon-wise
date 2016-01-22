@@ -5,7 +5,7 @@
 
 const React = require('react');
 
-const cx = require('./util/cxBuilder').create('View');
+const cx = require('melon-classname').create('View');
 
 const View = React.createClass({
 

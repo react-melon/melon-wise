@@ -4,13 +4,13 @@ define('melon-wise/lib/ListView', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder',
+    'melon-classname',
     './listview/DataSource',
     './listview/StaticRenderer'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var cx = require('./util/cxBuilder').create('listview');
+    var cx = require('melon-classname').create('listview');
     var DataSource = require('./listview/DataSource');
     var StaticRender = require('./listview/StaticRenderer');
     var PropTypes = React.PropTypes;

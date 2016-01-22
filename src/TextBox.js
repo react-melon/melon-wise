@@ -5,7 +5,7 @@
 
 const React = require('react');
 
-const cx = require('./util/cxBuilder').create('textbox');
+const cx = require('melon-classname').create('textbox');
 
 const nativeInputMixin = require('./mixins/NativeInputMixin');
 

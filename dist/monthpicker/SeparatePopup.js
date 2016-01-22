@@ -8,7 +8,7 @@ define('melon-wise/lib/monthpicker/SeparatePopup', [
     '../Popup',
     '../Tappable',
     './Selector',
-    '../util/cxBuilder',
+    'melon-classname',
     '../util/date',
     '../util/dom'
 ], function (require, exports, module) {
@@ -24,7 +24,7 @@ define('melon-wise/lib/monthpicker/SeparatePopup', [
     var _Tappable2 = babelHelpers.interopRequireDefault(_Tappable);
     var _Selector = require('./Selector');
     var _Selector2 = babelHelpers.interopRequireDefault(_Selector);
-    var cx = require('../util/cxBuilder').create('Monthpicker');
+    var cx = require('melon-classname').create('Monthpicker');
     var DateTime = require('../util/date');
     var domUtil = require('../util/dom');
     var SeparatePopup = function (_React$Component) {

@@ -4,7 +4,7 @@
  */
 
 const React = require('react');
-const cx = require('./util/cxBuilder').create('Transitiongroup');
+const cx = require('melon-classname').create('Transitiongroup');
 const PropTypes = React.PropTypes;
 const ReactCSSTransitionGroup = require('react-addons-css-transition-group');
 

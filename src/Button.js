@@ -5,7 +5,7 @@
 
 const React = require('react');
 
-const cx = require('./util/cxBuilder').create('Button');
+const cx = require('melon-classname').create('Button');
 const Tapable = require('./Tappable');
 
 function Button(props) {

@@ -4,11 +4,11 @@ define('melon-wise/lib/View', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder'
+    'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var cx = require('./util/cxBuilder').create('View');
+    var cx = require('melon-classname').create('View');
     var View = React.createClass({
         displayName: 'View',
         propTypes: {

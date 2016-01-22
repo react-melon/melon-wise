@@ -4,13 +4,13 @@ define('melon-wise/lib/Tab', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder',
+    'melon-classname',
     './tab/Item',
     './tab/Panel'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var cx = require('./util/cxBuilder').create('Tab');
+    var cx = require('melon-classname').create('Tab');
     var Item = require('./tab/Item');
     var TabPanel = require('./tab/Panel');
     var PropTypes = React.PropTypes;

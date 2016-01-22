@@ -1,6 +1,6 @@
 {
   "name": "melon-wise",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "ui components for react on mobile",
   "main": "./src",
   "directories": {

@@ -4,11 +4,11 @@ define('melon-wise/lib/Mask', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder'
+    'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var cx = require('./util/cxBuilder').create('Mask');
+    var cx = require('melon-classname').create('Mask');
     var PropTypes = React.PropTypes;
     function Mask(props) {
         var show = props.show;

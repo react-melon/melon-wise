@@ -4,7 +4,8 @@
  */
 
 const React = require('react');
-const cx = require('./util/cxBuilder').create('listview');
+const cx = require('melon-classname').create('listview');
+
 const DataSource = require('./listview/DataSource');
 const StaticRender = require('./listview/StaticRenderer');
 

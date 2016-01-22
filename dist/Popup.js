@@ -4,14 +4,14 @@ define('melon-wise/lib/Popup', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder',
+    'melon-classname',
     './popup/windowScrollHelper',
     './Mask',
     './TransitionGroup'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var cx = require('./util/cxBuilder').create('Popup');
+    var cx = require('melon-classname').create('Popup');
     var windowScrollHelper = require('./popup/windowScrollHelper');
     var Mask = require('./Mask');
     var TransitionGroup = require('./TransitionGroup');

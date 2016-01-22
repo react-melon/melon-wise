@@ -5,7 +5,7 @@
 
 import React, {PropTypes} from 'react';
 
-const cx = require('./util/cxBuilder').create('Row');
+const cx = require('melon-classname').create('Row');
 
 function Row(props) {
 

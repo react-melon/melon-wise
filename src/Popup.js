@@ -4,7 +4,8 @@
  */
 
 const React = require('react');
-const cx = require('./util/cxBuilder').create('Popup');
+const cx = require('melon-classname').create('Popup');
+
 const windowScrollHelper = require('./popup/windowScrollHelper');
 const Mask = require('./Mask');
 const TransitionGroup = require('./TransitionGroup');

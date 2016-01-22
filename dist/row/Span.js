@@ -4,13 +4,13 @@ define('melon-wise/lib/row/Span', [
     'module',
     '../babelHelpers',
     'react',
-    '../util/cxBuilder'
+    'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
     exports.__esModule = true;
     var _react = require('react');
     var _react2 = babelHelpers.interopRequireDefault(_react);
-    var cx = require('../util/cxBuilder').create('RowSpan');
+    var cx = require('melon-classname').create('RowSpan');
     function RowSpan(props) {
         var occupy = props.occupy;
         var style = props.style;

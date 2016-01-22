@@ -5,12 +5,12 @@ define('melon-wise/lib/Tappable', [
     './babelHelpers',
     'react',
     'react-dom',
-    './util/cxBuilder'
+    'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
     var ReactDOM = require('react-dom');
-    var cx = require('./util/cxBuilder').create('Tappable');
+    var cx = require('melon-classname').create('Tappable');
     var PropTypes = React.PropTypes;
     function getTouchProps(touch) {
         if (!touch) {

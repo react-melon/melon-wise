@@ -6,7 +6,7 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
 
-const cx = require('./util/cxBuilder').create('Tappable');
+const cx = require('melon-classname').create('Tappable');
 
 const {PropTypes} = React;
 

@@ -4,13 +4,13 @@ define('melon-wise/lib/NavigationBar', [
     'module',
     './babelHelpers',
     'react',
-    './util/cxBuilder',
+    'melon-classname',
     './Title',
     './Tappable'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     var React = require('react');
-    var cx = require('./util/cxBuilder').create('NavigationBar');
+    var cx = require('melon-classname').create('NavigationBar');
     var Title = require('./Title');
     var Tappable = require('./Tappable');
     function NavigationBar(props) {

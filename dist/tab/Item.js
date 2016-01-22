@@ -4,12 +4,12 @@ define('melon-wise/lib/tab/Item', [
     'module',
     '../babelHelpers',
     'react',
-    '../util/cxBuilder',
+    'melon-classname',
     '../Tappable'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
     var React = require('react');
-    var cx = require('../util/cxBuilder').create('TabItem');
+    var cx = require('melon-classname').create('TabItem');
     var Tappable = require('../Tappable');
     function TabItem(props) {
         var selected = props.selected;

@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-const cx = require('../util/cxBuilder').create('RowSpan');
+const cx = require('melon-classname').create('RowSpan');
 
 function RowSpan(props) {
 

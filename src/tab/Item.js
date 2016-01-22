@@ -5,7 +5,7 @@
 
 const React = require('react');
 
-const cx = require('../util/cxBuilder').create('TabItem');
+const cx = require('melon-classname').create('TabItem');
 const Tappable = require('../Tappable');
 
 function TabItem(props) {
