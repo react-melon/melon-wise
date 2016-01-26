@@ -5,6 +5,7 @@
 
 module.exports = {
     components: [
-        'MonthPicker'
+        'MonthPicker',
+        'EnhancedSelect'
     ]
 };

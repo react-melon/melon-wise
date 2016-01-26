@@ -1,4 +1,5 @@
 dep
+lib
 node_modules
 output
 *.orig

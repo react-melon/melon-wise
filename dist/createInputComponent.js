@@ -149,13 +149,15 @@ define('melon-wise/lib/createInputComponent', [
     };
     exports.create = function (Component) {
         var InputComponentWrapper = React.createClass({
-            displayName: Component.displayName + 'InputWrapper',
+            displayName: 'InputComponentWrapper',
             render: function () {
                 var props = this.props;
+                var rest = babelHelpers.objectWithoutProperties(this, ['props']);
                 var children = props.children;
-                return React.createElement(InputComponent, props, React.createElement(Component, props, children));
+                return React.createElement(InputComponent, rest, React.createElement(Component, rest, children));
             }
         });
+        InputComponentWrapper.displayName = Component.displayName + 'InputWrapper';
         InputComponentWrapper.defaultProps = Component.defaultProps;
         InputComponentWrapper.propTypes = Component.propTypes;
         return InputComponentWrapper;

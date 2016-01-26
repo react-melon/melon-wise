@@ -304,23 +304,21 @@ exports.create = function (Component) {
 
     const InputComponentWrapper = React.createClass({
 
-        displayName: `${Component.displayName}InputWrapper`,
-
         render() {
 
             const {props} = this;
-            const {children} = props;
+            const {children, ...rest} = props;
 
             return (
-                <InputComponent {...props}>
-                    <Component {...props}>{children}</Component>
+                <InputComponent {...rest}>
+                    <Component {...rest}>{children}</Component>
                 </InputComponent>
             );
-
         }
 
     });
 
+    InputComponentWrapper.displayName = `${Component.displayName}InputWrapper`;
     InputComponentWrapper.defaultProps = Component.defaultProps;
     InputComponentWrapper.propTypes = Component.propTypes;
 

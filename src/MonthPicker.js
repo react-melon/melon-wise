@@ -161,8 +161,6 @@ const MonthPicker = React.createClass({
         return (
             <input
                 type="hidden"
-                style={{display: 'none'}}
-                onChange={this.onChange}
                 name={name}
                 value={this.stringifyValue(date)} />
         );

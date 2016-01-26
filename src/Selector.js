@@ -70,6 +70,7 @@ const Selector = React.createClass({
 
         onChange && onChange({
             value,
+            index,
             target: this
         });
     },

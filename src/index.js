@@ -6,6 +6,7 @@
 module.exports = {
 
     Button: require('./Button'),
+    EnhancedSelect: require('./EnhancedSelect'),
     Form: require('./Form'),
     Icon: require('./Icon'),
     LazyImage: require('./LazyImage'),
@@ -21,15 +22,15 @@ module.exports = {
     TextBox: require('./TextBox'),
     Title: require('./Tirle'),
     TransitionGroup: require('./TransitionGroup'),
-    Validator: require('./Validator'),
     View: require('./View'),
 
-
+    Validator: require('./Validator'),
     createInputComponent: require('./createInputComponent'),
 
     util: {
         date: require('./util/date'),
-        dom: require('./util/dom')
+        dom: require('./util/dom'),
+        separatePopupHelper: require('./util/separatePopupHelper')
     }
 
 };
