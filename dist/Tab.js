@@ -9,6 +9,7 @@ define('melon-wise/lib/Tab', [
     './tab/Panel'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
+    'use strict';
     var React = require('react');
     var cx = require('melon-classname').create('Tab');
     var Item = require('./tab/Item');
@@ -21,25 +22,25 @@ define('melon-wise/lib/Tab', [
             onChange: PropTypes.func,
             onBeforeChange: PropTypes.func
         },
-        getDefaultProps: function () {
+        getDefaultProps: function getDefaultProps() {
             return { selectedIndex: 0 };
         },
-        getInitialState: function () {
+        getInitialState: function getInitialState() {
             var selectedIndex = this.props.selectedIndex;
             return { selectedIndex: selectedIndex };
         },
-        componentWillReceiveProps: function (nextProps) {
+        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
             if (nextProps.selectedIndex !== this.state.selectedIndex) {
                 this.setState({ selectedIndex: nextProps.selectedIndex });
             }
         },
-        getTabCount: function () {
+        getTabCount: function getTabCount() {
             return React.Children.count(this.props.children);
         },
-        getSelected: function (tab, index) {
+        getSelected: function getSelected(tab, index) {
             return this.state.selectedIndex === index;
         },
-        handleTabClick: function (index, e) {
+        handleTabClick: function handleTabClick(index, e) {
             if (index === this.state.selectedIndex) {
                 return;
             }
@@ -57,7 +58,7 @@ define('melon-wise/lib/Tab', [
                 onChange && onChange(e);
             });
         },
-        render: function () {
+        render: function render() {
             var props = this.props;
             var percent = 1 / this.getTabCount() * 100 + '%';
             var tabIndex = 0;
@@ -88,7 +89,7 @@ define('melon-wise/lib/Tab', [
                 WebkitTransform: transform,
                 transform: transform
             };
-            return React.createElement('section', babelHelpers._extends({}, props, { className: cx(props).build() }), React.createElement('div', { className: cx().part('bar').build() }, tabs, React.createElement('i', {
+            return React.createElement('section', babelHelpers.extends({}, props, { className: cx(props).build() }), React.createElement('div', { className: cx().part('bar').build() }, tabs, React.createElement('i', {
                 className: cx().part('inkbar').build(),
                 style: InkBarStyles
             })), tabContent);

@@ -9,6 +9,7 @@ define('melon-wise/lib/ListView', [
     './listview/StaticRenderer'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
+    'use strict';
     var React = require('react');
     var cx = require('melon-classname').create('listview');
     var DataSource = require('./listview/DataSource');
@@ -18,28 +19,31 @@ define('melon-wise/lib/ListView', [
         babelHelpers.inherits(ListView, _React$Component);
         function ListView() {
             babelHelpers.classCallCheck(this, ListView);
-            _React$Component.apply(this, arguments);
+            return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(ListView).apply(this, arguments));
         }
-        ListView.prototype.render = function render() {
-            var props = this.props;
-            var component = props.component;
-            var dataSource = props.dataSource;
-            var renderRow = props.renderRow;
-            var rest = babelHelpers.objectWithoutProperties(props, [
-                'component',
-                'dataSource',
-                'renderRow'
-            ]);
-            var total = dataSource.dataBlob.length;
-            var bodyComponent = dataSource.dataBlob.map(function (row, index) {
-                return React.createElement(StaticRender, {
-                    key: index,
-                    shouldUpdate: dataSource.rowShouldUpdate(index),
-                    render: renderRow.bind(null, dataSource.getRowData(index), index, total)
-                });
-            });
-            return React.createElement(component, babelHelpers._extends({}, rest, { className: cx(props).build() }), bodyComponent);
-        };
+        babelHelpers.createClass(ListView, [{
+                key: 'render',
+                value: function render() {
+                    var props = this.props;
+                    var component = props.component;
+                    var dataSource = props.dataSource;
+                    var renderRow = props.renderRow;
+                    var rest = babelHelpers.objectWithoutProperties(props, [
+                        'component',
+                        'dataSource',
+                        'renderRow'
+                    ]);
+                    var total = dataSource.dataBlob.length;
+                    var bodyComponent = dataSource.dataBlob.map(function (row, index) {
+                        return React.createElement(StaticRender, {
+                            key: index,
+                            shouldUpdate: dataSource.rowShouldUpdate(index),
+                            render: renderRow.bind(null, dataSource.getRowData(index), index, total)
+                        });
+                    });
+                    return React.createElement(component, babelHelpers.extends({}, rest, { className: cx(props).build() }), bodyComponent);
+                }
+            }]);
         return ListView;
     }(React.Component);
     ListView.displayName = 'ListView';

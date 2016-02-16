@@ -8,6 +8,7 @@ define('melon-wise/lib/tab/Item', [
     '../Tappable'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
+    'use strict';
     var React = require('react');
     var cx = require('melon-classname').create('TabItem');
     var Tappable = require('../Tappable');
@@ -18,7 +19,7 @@ define('melon-wise/lib/tab/Item', [
             'selected',
             'label'
         ]);
-        return React.createElement(Tappable, babelHelpers._extends({}, others, { className: cx(props).addStates({ selected: selected }).build() }), label);
+        return React.createElement(Tappable, babelHelpers.extends({}, others, { className: cx(props).addStates({ selected: selected }).build() }), label);
     }
     module.exports = TabItem;
 });

@@ -1,6 +1,6 @@
 #!/bin/bash
 
 rm -rf lib
-edp build -f -s commonjs
+NODE_ENV=build edp build -f -s commonjs
 mv output/asset lib
 rm -rf output

@@ -8,6 +8,7 @@ define('melon-wise/lib/TransitionGroup', [
     'react-addons-css-transition-group'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
+    'use strict';
     var React = require('react');
     var cx = require('melon-classname').create('Transitiongroup');
     var PropTypes = React.PropTypes;
@@ -25,7 +26,7 @@ define('melon-wise/lib/TransitionGroup', [
         ]);
         var type = transitionType === 'translate' ? transitionType + '-' + translateFrom : transitionType;
         var isAnimate = transitionType !== 'instant';
-        return React.createElement(ReactCSSTransitionGroup, babelHelpers._extends({}, others, {
+        return React.createElement(ReactCSSTransitionGroup, babelHelpers.extends({}, others, {
             component: 'div',
             className: cx(props).build(),
             transitionName: 'transition-' + type,

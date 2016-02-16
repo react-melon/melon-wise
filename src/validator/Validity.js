@@ -8,7 +8,7 @@ function ValidityState({isValid, message}) {
     this.message = message || '';
 }
 
-export default class Validity {
+class Validity {
 
     constructor() {
         this.states = [];
@@ -36,3 +36,5 @@ export default class Validity {
         return '';
     }
 }
+
+module.exports = Validity;

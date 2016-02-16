@@ -3,11 +3,11 @@
  * @author  cxtom(cxtom2010@gmail.com)
  */
 
-function defaultRowHasChanged(r1, r2): boolean {
+function defaultRowHasChanged(r1, r2) {
     return r1 !== r2;
 }
 
-function defaultGetRowData(dataBlob, rowID): any {
+function defaultGetRowData(dataBlob, rowID) {
     return dataBlob[rowID];
 }
 
@@ -37,7 +37,7 @@ class DataSource {
         return this._getRowData(this.dataBlob, rowIndex);
     }
 
-    rowShouldUpdate(rowIndex: number): bool {
+    rowShouldUpdate(rowIndex) {
         const needsUpdate = this.dirtyRows[rowIndex];
         return needsUpdate;
     }

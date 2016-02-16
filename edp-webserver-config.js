@@ -4,19 +4,18 @@
  */
 
 /* globals home, redirect, content, empty, autocss, file, less, stylus, header, proxyNoneExists */
+/* eslint-disable no-console */
 
-exports.port = 8848;
+exports.port = 8838;
 exports.directoryIndexes = true;
 exports.documentRoot = __dirname;
 
-require('babel/register');
+require('babel-core/register');
 
-var babel = require('babel');
-var epr = require('edp-provider-rider');
-exports.stylus = epr.stylus;
+var babel = require('babel-core');
+var nib = require('nib');
 
-// 默认配置
-var stylusPlugin = epr.plugin();
+exports.stylus = require('stylus');
 
 function amdify(context) {
     context.content =  ''
@@ -36,8 +35,9 @@ exports.getLocations = function () {
             handler: [
                 file(),
                 stylus({
-                    stylus: epr.stylus,
-                    use: stylusPlugin
+                    'use': nib(),
+                    'resolve url': true,
+                    'paths': [require('path').join(__dirname, './dep')]
                 })
             ]
         },
@@ -53,7 +53,12 @@ exports.getLocations = function () {
                             .transform(
                                 context.content,
                                 {
-                                    optional: ['es7.classProperties']
+                                    presets: ['es2015', 'stage-0'],
+                                    plugins: [
+                                        'transform-react-jsx',
+                                        'transform-react-display-name',
+                                        'transform-strict-mode'
+                                    ]
                                 }
                             )
                             .code;

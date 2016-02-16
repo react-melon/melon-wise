@@ -12,10 +12,10 @@ define('melon-wise/lib/listview/StaticRenderer', [
             shouldUpdate: React.PropTypes.bool.isRequired,
             render: React.PropTypes.func.isRequired
         },
-        shouldComponentUpdate: function (nextProps) {
+        shouldComponentUpdate: function shouldComponentUpdate(nextProps) {
             return nextProps.shouldUpdate;
         },
-        render: function () {
+        render: function render() {
             return this.props.render();
         }
     });

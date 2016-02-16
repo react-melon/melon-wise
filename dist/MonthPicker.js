@@ -2,7 +2,6 @@ define('melon-wise/lib/MonthPicker', [
     'require',
     'exports',
     'module',
-    './babelHelpers',
     'react',
     'react-dom',
     'melon-classname',
@@ -11,35 +10,34 @@ define('melon-wise/lib/MonthPicker', [
     './util/separatePopupHelper',
     './createInputComponent'
 ], function (require, exports, module) {
-    var babelHelpers = require('./babelHelpers');
-    var _react = require('react');
-    var _react2 = babelHelpers.interopRequireDefault(_react);
-    var _reactDom = require('react-dom');
-    var _reactDom2 = babelHelpers.interopRequireDefault(_reactDom);
+    'use strict';
+    var React = require('react');
+    var ReactDOM = require('react-dom');
     var cx = require('melon-classname').create('Monthpicker');
     var DateTime = require('./util/date');
     var SeparatePopup = require('./monthpicker/SeparatePopup');
     var popupHelper = require('./util/separatePopupHelper');
-    var MonthPicker = _react2.default.createClass({
+    var PropTypes = React.PropTypes;
+    var MonthPicker = React.createClass({
         displayName: 'MonthPicker',
-        getInitialState: function () {
+        getInitialState: function getInitialState() {
             return { date: this.parseDate(this.props.value) };
         },
-        componentDidMount: function () {
+        componentDidMount: function componentDidMount() {
             this.container = popupHelper.createPopup({ className: cx().part('popup').build() });
             this.renderPopup(false);
         },
-        componentWillReceiveProps: function (nextProps) {
+        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
             var value = nextProps.value;
             if (value !== this.props.value) {
                 this.setState({ date: this.parseDate(value) });
             }
         },
-        componentWillUnmount: function () {
+        componentWillUnmount: function componentWillUnmount() {
             popupHelper.destoryPopup(this.container);
             this.container = null;
         },
-        parseDate: function (date) {
+        parseDate: function parseDate(date) {
             if (!date) {
                 return new Date();
             }
@@ -49,17 +47,17 @@ define('melon-wise/lib/MonthPicker', [
             var format = this.props.dateFormat.toLowerCase();
             return DateTime.parse(date, format);
         },
-        stringifyValue: function (date) {
+        stringifyValue: function stringifyValue(date) {
             if (!DateTime.isDateObject(date)) {
                 return date;
             }
             var format = this.props.dateFormat.toLowerCase();
             return DateTime.format(date, format, this.props.lang);
         },
-        onClick: function (e) {
+        onClick: function onClick(e) {
             this.renderPopup(true);
         },
-        onDateChange: function (_ref) {
+        onDateChange: function onDateChange(_ref) {
             var value = _ref.value;
             this.setState({ date: value });
             var onChange = this.props.onChange;
@@ -69,14 +67,14 @@ define('melon-wise/lib/MonthPicker', [
                 value: this.stringifyValue(value)
             });
         },
-        renderPopup: function (isOpen) {
+        renderPopup: function renderPopup(isOpen) {
             var _this = this;
             var _props = this.props;
             var begin = _props.begin;
             var end = _props.end;
             var endDate = end ? this.parseDate(end) : new Date();
             var beginDate = begin ? this.parseDate(begin) : DateTime.addYears(endDate, -80);
-            _reactDom2.default.render(_react2.default.createElement(SeparatePopup, {
+            ReactDOM.render(React.createElement(SeparatePopup, {
                 show: isOpen,
                 transitionTimeout: 300,
                 transitionType: 'translate',
@@ -84,33 +82,31 @@ define('melon-wise/lib/MonthPicker', [
                 begin: beginDate,
                 end: endDate,
                 date: this.state.date,
-                onHide: function () {
+                onHide: function onHide() {
                     _this.renderPopup(false);
                 },
                 onChange: this.onDateChange
             }), this.container);
         },
-        renderResult: function () {
+        renderResult: function renderResult() {
             var value = this.props.value;
-            return value ? _react2.default.createElement('div', { className: cx().part('result').build() }, value) : null;
+            return value ? React.createElement('div', { className: cx().part('result').build() }, value) : null;
         },
-        renderLabel: function () {
+        renderLabel: function renderLabel() {
             var label = this.props.label;
-            return label ? _react2.default.createElement('label', null, label) : null;
+            return label ? React.createElement('label', null, label) : null;
         },
-        renderHiddenInput: function () {
+        renderHiddenInput: function renderHiddenInput() {
             var name = this.props.name;
             var date = this.state.date;
-            return _react2.default.createElement('input', {
+            return React.createElement('input', {
                 type: 'hidden',
-                style: { display: 'none' },
-                onChange: this.onChange,
                 name: name,
                 value: this.stringifyValue(date)
             });
         },
-        render: function () {
-            return _react2.default.createElement('div', {
+        render: function render() {
+            return React.createElement('div', {
                 className: cx(this.props).build(),
                 onClick: this.onClick
             }, this.renderLabel(), this.renderResult(), this.renderHiddenInput());
@@ -121,19 +117,19 @@ define('melon-wise/lib/MonthPicker', [
         days: '\u65E5,\u4E00,\u4E8C,\u4E09,\u56DB,\u4E94,\u516D'
     };
     MonthPicker.propTypes = {
-        value: _react.PropTypes.string,
-        dateFormat: _react.PropTypes.string,
-        lang: _react.PropTypes.shape({
-            week: _react.PropTypes.string,
-            days: _react.PropTypes.string
+        value: PropTypes.string,
+        dateFormat: PropTypes.string,
+        lang: PropTypes.shape({
+            week: PropTypes.string,
+            days: PropTypes.string
         }),
-        end: _react.PropTypes.oneOfType([
-            _react.PropTypes.instanceOf(Date),
-            _react.PropTypes.string
+        end: PropTypes.oneOfType([
+            PropTypes.instanceOf(Date),
+            PropTypes.string
         ]),
-        begin: _react.PropTypes.oneOfType([
-            _react.PropTypes.instanceOf(Date),
-            _react.PropTypes.string
+        begin: PropTypes.oneOfType([
+            PropTypes.instanceOf(Date),
+            PropTypes.string
         ])
     };
     MonthPicker.defaultProps = {

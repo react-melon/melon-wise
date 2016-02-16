@@ -3,6 +3,7 @@ define('melon-wise/lib/util/dom', [
     'exports',
     'module'
 ], function (require, exports, module) {
+    'use strict';
     exports.on = function (target, eventName, handler) {
         target.addEventListener(eventName, handler);
     };

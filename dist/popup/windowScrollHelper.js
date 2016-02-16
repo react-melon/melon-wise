@@ -3,6 +3,7 @@ define('melon-wise/lib/popup/windowScrollHelper', [
     'exports',
     'module'
 ], function (require, exports, module) {
+    'use strict';
     var originalHTMLBodySize = {};
     function stop(name) {
         var element = document.getElementsByTagName(name)[0];

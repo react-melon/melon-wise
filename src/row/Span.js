@@ -3,7 +3,7 @@
  * @author cxtom(cxtom2010@gmail.com)
  */
 
-import React from 'react';
+const React = require('react');
 
 const cx = require('melon-classname').create('RowSpan');
 
@@ -44,4 +44,4 @@ RowSpan.defaultProps = {
     occupy: 4
 };
 
-export default RowSpan;
+module.exports = RowSpan;

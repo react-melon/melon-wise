@@ -4,6 +4,54 @@ define('melon-wise/lib/babelHelpers', [
     'module'
 ], function (require, exports, module) {
     var babelHelpers = {};
+    babelHelpers.classCallCheck = function (instance, Constructor) {
+        if (!(instance instanceof Constructor)) {
+            throw new TypeError('Cannot call a class as a function');
+        }
+    };
+    babelHelpers.createClass = function () {
+        function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+                var descriptor = props[i];
+                descriptor.enumerable = descriptor.enumerable || false;
+                descriptor.configurable = true;
+                if ('value' in descriptor)
+                    descriptor.writable = true;
+                Object.defineProperty(target, descriptor.key, descriptor);
+            }
+        }
+        return function (Constructor, protoProps, staticProps) {
+            if (protoProps)
+                defineProperties(Constructor.prototype, protoProps);
+            if (staticProps)
+                defineProperties(Constructor, staticProps);
+            return Constructor;
+        };
+    }();
+    babelHelpers.defineProperty = function (obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, {
+                value: value,
+                enumerable: true,
+                configurable: true,
+                writable: true
+            });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    };
+    babelHelpers.extends = Object.assign || function (target) {
+        for (var i = 1; i < arguments.length; i++) {
+            var source = arguments[i];
+            for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    target[key] = source[key];
+                }
+            }
+        }
+        return target;
+    };
     babelHelpers.inherits = function (subClass, superClass) {
         if (typeof superClass !== 'function' && superClass !== null) {
             throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
@@ -30,24 +78,21 @@ define('melon-wise/lib/babelHelpers', [
         }
         return target;
     };
-    babelHelpers.interopRequireDefault = function (obj) {
-        return obj && obj.__esModule ? obj : { 'default': obj };
-    };
-    babelHelpers._extends = Object.assign || function (target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i];
-            for (var key in source) {
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    target[key] = source[key];
-                }
-            }
+    babelHelpers.possibleConstructorReturn = function (self, call) {
+        if (!self) {
+            throw new ReferenceError('this hasn\'t been initialised - super() hasn\'t been called');
         }
-        return target;
+        return call && (typeof call === 'object' || typeof call === 'function') ? call : self;
     };
-    babelHelpers.classCallCheck = function (instance, Constructor) {
-        if (!(instance instanceof Constructor)) {
-            throw new TypeError('Cannot call a class as a function');
+    babelHelpers.toConsumableArray = function (arr) {
+        if (Array.isArray(arr)) {
+            for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++)
+                arr2[i] = arr[i];
+            return arr2;
+        } else {
+            return Array.from(arr);
         }
     };
+    babelHelpers;
     module.exports = babelHelpers;
 });

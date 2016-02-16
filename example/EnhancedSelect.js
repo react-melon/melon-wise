@@ -4,7 +4,6 @@
  */
 
 const React = require('react');
-
 const EnhancedSelect = require('melon-wise/EnhancedSelect');
 
 const items = [{
@@ -16,6 +15,18 @@ const items = [{
 }, {
     value: '03',
     name: '农民'
+}, {
+    value: '04',
+    name: '学生'
+}, {
+    value: '05',
+    name: '个体户'
+}, {
+    value: '06',
+    name: '无固定职业'
+}, {
+    value: '07',
+    name: '公务员'
 }];
 
 const View = React.createClass({

@@ -24,7 +24,7 @@ const SeparatePopup = React.createClass({
     },
 
     onChange({value, index}) {
-        const {onChange, onHide} = this.props;
+        const {onChange} = this.props;
 
         onChange && onChange({
             value,
@@ -32,6 +32,11 @@ const SeparatePopup = React.createClass({
             target: this
         });
 
+        this.onHide();
+    },
+
+    onHide() {
+        const {onHide} = this.props;
         onHide && onHide();
     },
 
@@ -61,7 +66,7 @@ const SeparatePopup = React.createClass({
                     </div>
                     <Tappable
                         component="div"
-                        onTap={this.onCancel}
+                        onTap={this.onHide}
                         className={cx().part('cancel').build()}>
                         取消
                     </Tappable>

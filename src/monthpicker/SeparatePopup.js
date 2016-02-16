@@ -3,14 +3,16 @@
  * @author cxtom(cxtom2010@gmail.com)
  */
 
-import React, {PropTypes} from 'react';
-import Popup from '../Popup';
-import Tappable from '../Tappable';
+const React = require('react');
+const Popup = require('../Popup');
+const Tappable = require('../Tappable');
 
-import Selector from '../Selector';
+const Selector = require('../Selector');
 
 const cx = require('melon-classname').create('Monthpicker');
 const dateUtil = require('../util/date');
+
+const PropTypes = React.PropTypes;
 
 let SeparatePopup = React.createClass({
 

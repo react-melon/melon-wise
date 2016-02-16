@@ -10,6 +10,7 @@ define('melon-wise/lib/Popup', [
     './TransitionGroup'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
+    'use strict';
     var React = require('react');
     var cx = require('melon-classname').create('Popup');
     var windowScrollHelper = require('./popup/windowScrollHelper');
@@ -26,18 +27,18 @@ define('melon-wise/lib/Popup', [
             mask: PropTypes.bool,
             onMaskClick: PropTypes.func
         },
-        getDefaultProps: function () {
+        getDefaultProps: function getDefaultProps() {
             return {
                 maskClickClose: true,
                 show: false,
                 mask: true
             };
         },
-        getInitialState: function () {
+        getInitialState: function getInitialState() {
             this.originalHTMLBodySize = {};
             return { show: this.props.show };
         },
-        componentWillReceiveProps: function (nextProps) {
+        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
             var show = nextProps.show;
             if (show === this.state.show) {
                 return;
@@ -45,28 +46,28 @@ define('melon-wise/lib/Popup', [
             var onEvent = show ? this.onShow : this.onHide;
             this.setState({ show: show }, onEvent);
         },
-        onShow: function () {
+        onShow: function onShow() {
             this.bodyScrolling();
             var onShow = this.props.onShow;
             if (onShow) {
                 onShow();
             }
         },
-        onHide: function () {
+        onHide: function onHide() {
             this.bodyScrolling();
             var onHide = this.props.onHide;
             if (onHide) {
                 onHide();
             }
         },
-        onMaskClick: function (e) {
+        onMaskClick: function onMaskClick(e) {
             this.setState({ show: false }, this.onHide);
         },
-        bodyScrolling: function () {
+        bodyScrolling: function bodyScrolling() {
             var show = this.state.show;
             windowScrollHelper[show ? 'stop' : 'restore']();
         },
-        render: function () {
+        render: function render() {
             var props = this.props;
             var mask = props.mask;
             var maskClickClose = props.maskClickClose;
@@ -83,7 +84,7 @@ define('melon-wise/lib/Popup', [
                 'children'
             ]);
             var show = this.state.show;
-            return React.createElement('div', babelHelpers._extends({}, others, { className: cx(props).addStates({ show: show }).build() }), React.createElement(TransitionGroup, {
+            return React.createElement('div', babelHelpers.extends({}, others, { className: cx(props).addStates({ show: show }).build() }), React.createElement(TransitionGroup, {
                 component: 'div',
                 transitionTimeout: transitionTimeout || 500,
                 transitionType: transitionType || 'instant',

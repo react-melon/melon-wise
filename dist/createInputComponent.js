@@ -7,6 +7,7 @@ define('melon-wise/lib/createInputComponent', [
     './Validator'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
+    'use strict';
     var React = require('react');
     var defaultValidator = require('./Validator');
     var PropTypes = React.PropTypes;
@@ -20,10 +21,10 @@ define('melon-wise/lib/createInputComponent', [
             onChange: PropTypes.func,
             validator: PropTypes.shape({ validate: PropTypes.func.isRequired })
         },
-        getDefaultProps: function () {
+        getDefaultProps: function getDefaultProps() {
             return { defaultValue: '' };
         },
-        getInitialState: function () {
+        getInitialState: function getInitialState() {
             var name = this.props.name;
             this.validator = this.props.validator || this.context.validator || defaultValidator;
             var pointer = this.context.pointer;
@@ -40,23 +41,23 @@ define('melon-wise/lib/createInputComponent', [
             detachForm: PropTypes.func
         },
         childContextTypes: { pointer: PropTypes.string },
-        getChildContext: function () {
+        getChildContext: function getChildContext() {
             var pointer = this.pointer;
             return { pointer: pointer ? pointer + '/' : null };
         },
-        componentDidMount: function () {
+        componentDidMount: function componentDidMount() {
             var attachForm = this.context.attachForm;
             if (attachForm) {
                 attachForm(this);
             }
         },
-        componentWillUnmount: function () {
+        componentWillUnmount: function componentWillUnmount() {
             var detachForm = this.context.detachForm;
             if (detachForm) {
                 detachForm(this);
             }
         },
-        componentWillReceiveProps: function (nextProps) {
+        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
             var customValidity = nextProps.customValidity;
             var defaultValue = nextProps.defaultValue;
             var _nextProps$value = nextProps.value;
@@ -68,15 +69,15 @@ define('melon-wise/lib/createInputComponent', [
                 });
             }
         },
-        validate: function (value) {
+        validate: function validate(value) {
             var validity = this.checkValidity(value);
             this.setState({ validity: validity });
             return validity;
         },
-        checkValidity: function (value) {
+        checkValidity: function checkValidity(value) {
             return this.validator.validate(value, this);
         },
-        onChange: function (e) {
+        onChange: function onChange(e) {
             var onChange = this.props.onChange;
             if (onChange) {
                 onChange(e);
@@ -92,7 +93,7 @@ define('melon-wise/lib/createInputComponent', [
                 validity: customValidity ? this.validator.createCustomValidity(customValidity) : this.checkValidity(value)
             });
         },
-        getValue: function () {
+        getValue: function getValue() {
             var child = this.child;
             if (child) {
                 if (typeof child.getValue === 'function') {
@@ -104,7 +105,7 @@ define('melon-wise/lib/createInputComponent', [
             }
             return this.state.value;
         },
-        render: function () {
+        render: function render() {
             var _this = this;
             var props = this.props;
             var onChange = this.onChange;
@@ -128,14 +129,14 @@ define('melon-wise/lib/createInputComponent', [
             if (validity && !validity.isValid()) {
                 states.invalid = true;
             }
-            var input = React.cloneElement(React.Children.only(children), babelHelpers._extends({}, restProps, {
+            var input = React.cloneElement(React.Children.only(children), babelHelpers.extends({}, restProps, {
                 pointer: pointer,
                 validity: validity,
                 validate: validate,
                 value: value,
                 states: states,
                 onChange: onChange,
-                ref: function (child) {
+                ref: function ref(child) {
                     if (child) {
                         _this.child = child;
                     }
@@ -150,10 +151,10 @@ define('melon-wise/lib/createInputComponent', [
     exports.create = function (Component) {
         var InputComponentWrapper = React.createClass({
             displayName: 'InputComponentWrapper',
-            render: function () {
+            render: function render() {
                 var props = this.props;
-                var rest = babelHelpers.objectWithoutProperties(this, ['props']);
                 var children = props.children;
+                var rest = babelHelpers.objectWithoutProperties(props, ['children']);
                 return React.createElement(InputComponent, rest, React.createElement(Component, rest, children));
             }
         });

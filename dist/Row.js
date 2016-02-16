@@ -8,9 +8,9 @@ define('melon-wise/lib/Row', [
     './row/Span'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
-    exports.__esModule = true;
-    var _react = require('react');
-    var _react2 = babelHelpers.interopRequireDefault(_react);
+    'use strict';
+    var React = require('react');
+    var PropTypes = React.PropTypes;
     var cx = require('melon-classname').create('Row');
     function Row(props) {
         var columnNum = props.columnNum;
@@ -20,11 +20,11 @@ define('melon-wise/lib/Row', [
             marginLeft: margin,
             marginRight: margin
         };
-        return _react2.default.createElement('div', babelHelpers._extends({}, props, {
+        return React.createElement('div', babelHelpers.extends({}, props, {
             className: cx(props).build(),
             style: style
-        }), _react2.default.Children.map(props.children, function (child, index) {
-            return _react2.default.cloneElement(child, {
+        }), React.Children.map(props.children, function (child, index) {
+            return React.cloneElement(child, {
                 key: index,
                 columnNum: columnNum,
                 noGap: noGap
@@ -33,14 +33,13 @@ define('melon-wise/lib/Row', [
     }
     Row.displayName = 'Row';
     Row.propTypes = {
-        columnNum: _react.PropTypes.number,
-        noGap: _react.PropTypes.bool
+        columnNum: PropTypes.number,
+        noGap: PropTypes.bool
     };
     Row.defaultProps = {
         columnNum: 12,
         noGap: false
     };
     Row.Span = require('./row/Span');
-    exports.default = Row;
-    module.exports = exports.default;
+    module.exports = Row;
 });

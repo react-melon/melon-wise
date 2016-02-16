@@ -47,6 +47,7 @@ class EnhancedSelect extends React.Component {
         this.setState({selectedIndex: index});
 
         this.props.onChange({
+            type: 'change',
             target: this,
             value
         });
@@ -64,7 +65,7 @@ class EnhancedSelect extends React.Component {
             }
         }
 
-        return 0;
+        return;
     }
 
     renderPopup(isShow) {
@@ -117,7 +118,7 @@ class EnhancedSelect extends React.Component {
             <input
                 type="hidden"
                 name={name}
-                value={items[selectedIndex].value} />
+                value={selectedIndex == null ? '' : items[selectedIndex].value} />
         );
     }
 

@@ -23,7 +23,7 @@ var StaticRenderer = React.createClass({
         render: React.PropTypes.func.isRequired
     },
 
-    shouldComponentUpdate(nextProps: { shouldUpdate: boolean }): boolean {
+    shouldComponentUpdate(nextProps) {
         return nextProps.shouldUpdate;
     },
 

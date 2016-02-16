@@ -4,6 +4,7 @@ define('melon-wise/lib/Validator', [
     'module',
     './validator/Validity'
 ], function (require, exports, module) {
+    'use strict';
     var Validity = require('./validator/Validity');
     function Validator() {
         this.rules = [];
@@ -50,7 +51,7 @@ define('melon-wise/lib/Validator', [
     };
     validator.addRule({
         name: 'required',
-        check: function (value, component) {
+        check: function check(value, component) {
             var requiredErrorMessage = component.props.rules.requiredErrorMessage;
             var isValid = value instanceof Array ? value.length : typeof value === 'string' ? value !== '' : value != null;
             return {

@@ -9,17 +9,18 @@ define('melon-wise/lib/Select', [
     './createInputComponent'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
+    'use strict';
     var React = require('react');
     var cx = require('melon-classname').create('Select');
     var nativeInputMixin = require('./mixins/NativeInputMixin');
     var Select = React.createClass({
         displayName: 'Select',
         mixins: [nativeInputMixin],
-        renderLabel: function () {
+        renderLabel: function renderLabel() {
             var label = this.props.label;
             return label ? React.createElement('label', null, label) : null;
         },
-        renderResult: function () {
+        renderResult: function renderResult() {
             var _props = this.props;
             var value = _props.value;
             var children = _props.children;
@@ -31,7 +32,7 @@ define('melon-wise/lib/Select', [
             });
             return value ? React.createElement('div', { className: cx().part('result').build() }, result) : null;
         },
-        render: function () {
+        render: function render() {
             var _this = this;
             var _props2 = this.props;
             var label = _props2.label;
@@ -46,10 +47,10 @@ define('melon-wise/lib/Select', [
                 'children',
                 'value'
             ]);
-            return React.createElement('div', { className: cx(this.props).build() }, this.renderLabel(), this.renderResult(), React.createElement('select', babelHelpers._extends({}, rest, {
+            return React.createElement('div', { className: cx(this.props).build() }, this.renderLabel(), this.renderResult(), React.createElement('select', babelHelpers.extends({}, rest, {
                 value: value,
                 onChange: this.onChange,
-                ref: function (input) {
+                ref: function ref(input) {
                     _this.input = input;
                 }
             }), value ? null : React.createElement('option', {

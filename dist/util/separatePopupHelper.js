@@ -4,6 +4,7 @@ define('melon-wise/lib/util/separatePopupHelper', [
     'module',
     'react-dom'
 ], function (require, exports, module) {
+    'use strict';
     var ReactDOM = require('react-dom');
     exports.createPopup = function (domProps, wrapper) {
         if (!wrapper) {

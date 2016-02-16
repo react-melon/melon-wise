@@ -3,7 +3,7 @@
  * @author cxtom<cxtom2010@gmail.com>
  */
 
-import React from 'react';
+const React = require('react');
 const cx = require('melon-classname').create('Lazyimage');
 
 const {PropTypes} = React;

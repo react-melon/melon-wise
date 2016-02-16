@@ -5,7 +5,7 @@ define('melon-wise/lib/validator/Validity', [
     '../babelHelpers'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
-    exports.__esModule = true;
+    'use strict';
     function ValidityState(_ref) {
         var isValid = _ref.isValid;
         var message = _ref.message;
@@ -17,27 +17,37 @@ define('melon-wise/lib/validator/Validity', [
             babelHelpers.classCallCheck(this, Validity);
             this.states = [];
         }
-        Validity.prototype.addState = function addState(state) {
-            this.states.push(new ValidityState(state));
-        };
-        Validity.prototype.isValid = function isValid() {
-            for (var i = 0, states = this.states, len = states.length; i < len; ++i) {
-                if (!states[i].isValid) {
-                    return false;
+        babelHelpers.createClass(Validity, [
+            {
+                key: 'addState',
+                value: function addState(state) {
+                    this.states.push(new ValidityState(state));
+                }
+            },
+            {
+                key: 'isValid',
+                value: function isValid() {
+                    for (var i = 0, states = this.states, len = states.length; i < len; ++i) {
+                        if (!states[i].isValid) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+            },
+            {
+                key: 'getMessage',
+                value: function getMessage() {
+                    for (var states = this.states, i = 0, len = states.length; i < len; ++i) {
+                        if (!states[i].isValid) {
+                            return states[i].message;
+                        }
+                    }
+                    return '';
                 }
             }
-            return true;
-        };
-        Validity.prototype.getMessage = function getMessage() {
-            for (var states = this.states, i = 0, len = states.length; i < len; ++i) {
-                if (!states[i].isValid) {
-                    return states[i].message;
-                }
-            }
-            return '';
-        };
+        ]);
         return Validity;
     }();
-    exports.default = Validity;
-    module.exports = exports.default;
+    module.exports = Validity;
 });

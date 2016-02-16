@@ -12,8 +12,6 @@
 
 exports.input = __dirname;
 
-require('babel/register');
-
 var path = require('path');
 exports.output = path.resolve(__dirname, 'output');
 
@@ -35,37 +33,7 @@ exports.getProcessors = function () {
     });
 
     var babel = new BabelProcessor({
-        files: ['src/**/*.js'],
-        compileOptions: {
-            stage: 0,
-            modules: 'common',
-            compact: false,
-            ast: false,
-            blacklist: ['strict'],
-            externalHelpers: true,
-            loose: 'all',
-            moduleId: '',
-            getModuleId: function (filename) {
-                return filename.replace('src/', '');
-            }
-        }
-    });
-
-    var commonjsBabel = new BabelProcessor({
-        files: ['src/**/*.js'],
-        compileOptions: {
-            stage: 0,
-            modules: 'common',
-            compact: false,
-            ast: false,
-            blacklist: ['strict'],
-            externalHelpers: true,
-            loose: 'all',
-            moduleId: '',
-            getModuleId: function (filename) {
-                return filename.replace('src/', '');
-            }
-        }
+        files: ['src/**/*.js']
     });
 
     var commonjsModuleCompiler = new ModuleCompiler();
@@ -78,7 +46,7 @@ exports.getProcessors = function () {
             pathMapperProcessor
         ],
         commonjs: [
-            commonjsBabel,
+            babel,
             commonjsModuleCompiler,
             pathMapperProcessor
         ],

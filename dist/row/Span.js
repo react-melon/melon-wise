@@ -7,9 +7,8 @@ define('melon-wise/lib/row/Span', [
     'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('../babelHelpers');
-    exports.__esModule = true;
-    var _react = require('react');
-    var _react2 = babelHelpers.interopRequireDefault(_react);
+    'use strict';
+    var React = require('react');
     var cx = require('melon-classname').create('RowSpan');
     function RowSpan(props) {
         var occupy = props.occupy;
@@ -22,7 +21,7 @@ define('melon-wise/lib/row/Span', [
             'columnNum',
             'noGap'
         ]);
-        style = babelHelpers._extends({
+        style = babelHelpers.extends({
             width: occupy / columnNum * 100 + '%',
             WebkitBoxFlex: occupy,
             WebkitFlex: [
@@ -33,18 +32,17 @@ define('melon-wise/lib/row/Span', [
         }, style);
         if (!noGap) {
             var padding = 20 / (columnNum - 1) + '%';
-            style = babelHelpers._extends({}, style, {
+            style = babelHelpers.extends({}, style, {
                 paddingLeft: padding,
                 paddingRight: padding
             });
         }
-        return _react2.default.createElement('div', babelHelpers._extends({}, other, {
+        return React.createElement('div', babelHelpers.extends({}, other, {
             className: cx(props).build(),
             style: style
         }));
     }
-    RowSpan.propsTypes = { occupy: _react2.default.PropTypes.number.isRequired };
+    RowSpan.propsTypes = { occupy: React.PropTypes.number.isRequired };
     RowSpan.defaultProps = { occupy: 4 };
-    exports.default = RowSpan;
-    module.exports = exports.default;
+    module.exports = RowSpan;
 });

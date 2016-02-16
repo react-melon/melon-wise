@@ -3,12 +3,14 @@
  * @author cxtom(cxtom2010@gmail.com)
  */
 
-import React, {PropTypes} from 'react';
-import ReactDOM from 'react-dom';
-import cxBuilder from 'melon-classname';
+const React = require('react');
+const ReactDOM = require('react-dom');
+const cxBuilder = require('melon-classname');
 
 const cx = cxBuilder.create('Selector');
 const ListView = require('./ListView');
+
+const PropTypes = React.PropTypes;
 
 const Selector = React.createClass({
 
@@ -53,7 +55,7 @@ const Selector = React.createClass({
 
     update() {
         const main = ReactDOM.findDOMNode(this);
-        const {selectedIndex} = this.props;
+        const {selectedIndex = 0} = this.props;
 
         const selectedItem = main.childNodes[selectedIndex];
         const itemHeight = selectedItem.getBoundingClientRect().height;

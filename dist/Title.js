@@ -7,12 +7,13 @@ define('melon-wise/lib/Title', [
     'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
+    'use strict';
     var React = require('react');
     var cx = require('melon-classname').create('Title');
     function Title(props) {
         var level = props.level;
         var rest = babelHelpers.objectWithoutProperties(props, ['level']);
-        return React.createElement('h' + level, babelHelpers._extends({}, rest, { className: cx(props).build() }));
+        return React.createElement('h' + level, babelHelpers.extends({}, rest, { className: cx(props).build() }));
     }
     Title.propsTypes = {
         level: React.PropTypes.oneOf([

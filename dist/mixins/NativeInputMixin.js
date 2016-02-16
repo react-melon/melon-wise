@@ -3,8 +3,9 @@ define('melon-wise/lib/mixins/NativeInputMixin', [
     'exports',
     'module'
 ], function (require, exports, module) {
+    'use strict';
     module.exports = {
-        onChange: function (e) {
+        onChange: function onChange(e) {
             var value = e.target.value;
             var onChange = this.props.onChange;
             onChange({
@@ -13,7 +14,7 @@ define('melon-wise/lib/mixins/NativeInputMixin', [
                 value: value
             });
         },
-        onBlur: function (e) {
+        onBlur: function onBlur(e) {
             var value = e.target.value;
             var onBlur = this.props.onBlur;
             onBlur && onBlur({

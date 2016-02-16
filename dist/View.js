@@ -7,6 +7,7 @@ define('melon-wise/lib/View', [
     'melon-classname'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
+    'use strict';
     var React = require('react');
     var cx = require('melon-classname').create('View');
     var View = React.createClass({
@@ -15,10 +16,10 @@ define('melon-wise/lib/View', [
             renderHeader: React.PropTypes.func,
             renderFooter: React.PropTypes.func
         },
-        onTouchStart: function (e) {
+        onTouchStart: function onTouchStart(e) {
             this.startY = e.touches[0].clientY;
         },
-        onTouchMove: function (e) {
+        onTouchMove: function onTouchMove(e) {
             var main = this.refs.main;
             var status = '11';
             var currentY = e.touches[0].clientY;
@@ -34,7 +35,7 @@ define('melon-wise/lib/View', [
                 }
             }
         },
-        render: function () {
+        render: function render() {
             var props = this.props;
             var renderHeader = props.renderHeader;
             var renderFooter = props.renderFooter;
@@ -51,15 +52,14 @@ define('melon-wise/lib/View', [
                 header: renderHeader
             };
             var parts = Object.keys(generator).reduce(function (result, name) {
-                var _babelHelpers$_extends;
                 var part = generator[name] && generator[name]();
                 if (!part) {
                     return result;
                 }
-                return babelHelpers._extends({}, result, (_babelHelpers$_extends = {}, _babelHelpers$_extends[name] = React.cloneElement(part, {
+                return babelHelpers.extends({}, result, babelHelpers.defineProperty({}, name, React.cloneElement(part, {
                     className: cx(part.props).part(name).build(),
                     key: name
-                }), _babelHelpers$_extends));
+                })));
             }, {});
             children = [
                 parts.header,
@@ -70,7 +70,7 @@ define('melon-wise/lib/View', [
                 }, children),
                 parts.footer
             ];
-            return React.createElement(component, babelHelpers._extends({}, others, {
+            return React.createElement(component, babelHelpers.extends({}, others, {
                 className: cx(props).build(),
                 onTouchStart: this.onTouchStart,
                 onTouchMove: this.onTouchMove

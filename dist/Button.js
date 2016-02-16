@@ -8,6 +8,7 @@ define('melon-wise/lib/Button', [
     './Tappable'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
+    'use strict';
     var React = require('react');
     var cx = require('melon-classname').create('Button');
     var Tapable = require('./Tappable');
@@ -19,7 +20,7 @@ define('melon-wise/lib/Button', [
             'children'
         ]);
         var content = label || children;
-        return React.createElement(Tapable, babelHelpers._extends({}, other, {
+        return React.createElement(Tapable, babelHelpers.extends({}, other, {
             component: 'button',
             classBase: 'variant',
             className: cx(props).build()

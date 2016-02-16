@@ -3,7 +3,9 @@
  * @author cxtom(cxtom2010@gmail.com)
  */
 
-import React, {PropTypes} from 'react';
+const React = require('react');
+
+const PropTypes = React.PropTypes;
 
 const cx = require('melon-classname').create('Row');
 
@@ -44,4 +46,4 @@ Row.defaultProps = {
 
 Row.Span = require('./row/Span');
 
-export default Row;
+module.exports = Row;
