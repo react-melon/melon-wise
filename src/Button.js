@@ -26,4 +26,6 @@ function Button(props) {
 
 }
 
+Button.displayName = 'Button';
+
 module.exports = Button;

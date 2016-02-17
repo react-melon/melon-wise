@@ -16,19 +16,24 @@
     "babel-plugin-transform-strict-mode": "^6.5.2",
     "babel-preset-es2015": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
+    "expect": "^1.14.0",
+    "expect-jsx": "^2.3.0",
+    "isparta": "^4.0.0",
+    "jsdom": "^8.0.2",
+    "mocha": "^2.4.5",
     "nib": "^1.1.0",
+    "react-addons-test-utils": "^0.14.7",
     "stylus": "^0.53.0"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/components --compilers js:babel/register",
-    "coverage": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover --report html ./node_modules/.bin/_mocha -- test/components",
-    "lint": "fecs src",
+    "test": "./node_modules/mocha/bin/mocha test/components/** --compilers js:babel-core/register",
+    "coverage": "./node_modules/.bin/babel-node ./node_modules/.bin/isparta cover --report html ./node_modules/.bin/_mocha -- test/components/**",
     "build:amd": "sh tool/build-amd.sh",
     "build:commonjs": "sh tool/build-commonjs.sh"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jinzhubaofu/melon.git"
+    "url": "git+https://github.com/cxtom/melon-wise.git"
   },
   "peerDependencies": {
     "react": ">=0.14",
@@ -55,7 +60,6 @@
   },
   "dependencies": {
     "react": "^0.14.6",
-    "react-dom": "^0.14.6",
-    "react-addons-css-transition-group": "^0.14.6"
+    "react-dom": "^0.14.6"
   }
 }

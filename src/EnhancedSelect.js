@@ -11,7 +11,9 @@ const popupHelper = require('./util/separatePopupHelper');
 
 const SeparatePopup = require('./enhancedselect/SeparatePopup');
 
-class EnhancedSelect extends React.Component {
+const {PropTypes, Component} = React;
+
+class EnhancedSelect extends Component {
 
     constructor(props) {
         super(props);
@@ -133,8 +135,6 @@ class EnhancedSelect extends React.Component {
         );
     }
 }
-
-const {PropTypes} = React;
 
 EnhancedSelect.displayName = 'EnhancedSelect';
 

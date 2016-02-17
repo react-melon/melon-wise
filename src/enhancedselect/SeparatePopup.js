@@ -50,7 +50,6 @@ const SeparatePopup = React.createClass({
         return (
             <Popup
                 show={show}
-                transitionTimeout={300}
                 transitionType="translate"
                 direction="bottom"
                 onHide={() => {

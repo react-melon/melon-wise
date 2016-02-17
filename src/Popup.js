@@ -8,7 +8,7 @@ const cx = require('melon-classname').create('Popup');
 
 const windowScrollHelper = require('./popup/windowScrollHelper');
 const Mask = require('./Mask');
-const TransitionGroup = require('./TransitionGroup');
+const CSSTransitionGroup = require('./CSSTransitionGroup');
 
 const PropTypes = React.PropTypes;
 
@@ -95,13 +95,16 @@ const Popup = React.createClass({
 
         return (
             <div {...others} className={cx(props).addStates({show}).build()}>
-                <TransitionGroup
+                <CSSTransitionGroup
                     component="div"
-                    transitionTimeout={transitionTimeout || 500}
+                    transitionTimeout={transitionTimeout || 400}
                     transitionType={transitionType || 'instant'}
                     translateFrom={translateFrom || 'bottom'}>
-                    {show ? React.cloneElement(children, {className: cx().part('body').build()}) : null}
-                </TransitionGroup>
+                    {show
+                        ? React.cloneElement(children, {className: cx().part('body').build(), childKey: 'melon-popup'})
+                        : null
+                    }
+                </CSSTransitionGroup>
                 {mask ? <Mask show={show} onClick={maskClickClose ? this.onMaskClick : null} /> : null}
             </div>
         );
