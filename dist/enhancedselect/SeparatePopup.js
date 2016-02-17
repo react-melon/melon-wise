@@ -46,7 +46,6 @@ define('melon-wise/lib/enhancedselect/SeparatePopup', [
             var selectedIndex = _props.selectedIndex;
             return React.createElement(Popup, {
                 show: show,
-                transitionTimeout: 300,
                 transitionType: 'translate',
                 direction: 'bottom',
                 onHide: function onHide() {

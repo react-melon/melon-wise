@@ -7,7 +7,7 @@ define('melon-wise/lib/Popup', [
     'melon-classname',
     './popup/windowScrollHelper',
     './Mask',
-    './TransitionGroup'
+    './CSSTransitionGroup'
 ], function (require, exports, module) {
     var babelHelpers = require('./babelHelpers');
     'use strict';
@@ -15,7 +15,7 @@ define('melon-wise/lib/Popup', [
     var cx = require('melon-classname').create('Popup');
     var windowScrollHelper = require('./popup/windowScrollHelper');
     var Mask = require('./Mask');
-    var TransitionGroup = require('./TransitionGroup');
+    var CSSTransitionGroup = require('./CSSTransitionGroup');
     var PropTypes = React.PropTypes;
     var Popup = React.createClass({
         displayName: 'Popup',
@@ -84,12 +84,15 @@ define('melon-wise/lib/Popup', [
                 'children'
             ]);
             var show = this.state.show;
-            return React.createElement('div', babelHelpers.extends({}, others, { className: cx(props).addStates({ show: show }).build() }), React.createElement(TransitionGroup, {
+            return React.createElement('div', babelHelpers.extends({}, others, { className: cx(props).addStates({ show: show }).build() }), React.createElement(CSSTransitionGroup, {
                 component: 'div',
-                transitionTimeout: transitionTimeout || 500,
+                transitionTimeout: transitionTimeout || 400,
                 transitionType: transitionType || 'instant',
                 translateFrom: translateFrom || 'bottom'
-            }, show ? React.cloneElement(children, { className: cx().part('body').build() }) : null), mask ? React.createElement(Mask, {
+            }, show ? React.cloneElement(children, {
+                className: cx().part('body').build(),
+                childKey: 'melon-popup'
+            }) : null), mask ? React.createElement(Mask, {
                 show: show,
                 onClick: maskClickClose ? this.onMaskClick : null
             }) : null);

@@ -108,7 +108,6 @@ define('melon-wise/lib/monthpicker/SeparatePopup', [
             }
             return React.createElement(Popup, {
                 show: show,
-                transitionTimeout: 300,
                 transitionType: 'translate',
                 direction: 'bottom',
                 onHide: this.onHide

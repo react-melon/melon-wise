@@ -17,8 +17,10 @@ define('melon-wise/lib/EnhancedSelect', [
     var cx = require('melon-classname').create('EnhancedSelect');
     var popupHelper = require('./util/separatePopupHelper');
     var SeparatePopup = require('./enhancedselect/SeparatePopup');
-    var EnhancedSelect = function (_React$Component) {
-        babelHelpers.inherits(EnhancedSelect, _React$Component);
+    var PropTypes = React.PropTypes;
+    var Component = React.Component;
+    var EnhancedSelect = function (_Component) {
+        babelHelpers.inherits(EnhancedSelect, _Component);
         function EnhancedSelect(props) {
             babelHelpers.classCallCheck(this, EnhancedSelect);
             var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EnhancedSelect).call(this, props));
@@ -132,8 +134,7 @@ define('melon-wise/lib/EnhancedSelect', [
             }
         ]);
         return EnhancedSelect;
-    }(React.Component);
-    var PropTypes = React.PropTypes;
+    }(Component);
     EnhancedSelect.displayName = 'EnhancedSelect';
     EnhancedSelect.propTypes = {
         defaultValue: PropTypes.string,

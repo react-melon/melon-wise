@@ -26,5 +26,6 @@ define('melon-wise/lib/Button', [
             className: cx(props).build()
         }), content);
     }
+    Button.displayName = 'Button';
     module.exports = Button;
 });
