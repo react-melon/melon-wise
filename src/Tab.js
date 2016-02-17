@@ -29,7 +29,7 @@ const Tab = React.createClass({
 
     getInitialState() {
 
-        let {selectedIndex} = this.props;
+        const {selectedIndex} = this.props;
 
         return {
             selectedIndex
@@ -42,6 +42,9 @@ const Tab = React.createClass({
         if (nextProps.selectedIndex !== this.state.selectedIndex) {
             this.setState({
                 selectedIndex: nextProps.selectedIndex
+            }, () => {
+                const {onChange, selectedIndex} = nextProps;
+                onChange({selectedIndex});
             });
         }
     },
@@ -54,19 +57,26 @@ const Tab = React.createClass({
         return this.state.selectedIndex === index;
     },
 
-    handleTabClick(index, e) {
+    handleTabClick(index) {
 
         if (index === this.state.selectedIndex) {
             return;
         }
 
-        let {onBeforeChange, onChange} = this.props;
+        const {onBeforeChange, onChange} = this.props;
 
-        e.selectedIndex = index;
+        let defaultPrevented = false;
+
+        let e = {
+            selectedIndex: index,
+            preventDefault() {
+                defaultPrevented = true;
+            }
+        };
 
         if (onBeforeChange) {
             onBeforeChange(e);
-            if (e.isDefaultPrevented()) {
+            if (defaultPrevented) {
                 return;
             }
         }

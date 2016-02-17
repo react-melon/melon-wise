@@ -1,5 +1,5 @@
 /**
- * @file monthpicker selector
+ * @file Selector
  * @author cxtom(cxtom2010@gmail.com)
  */
 

@@ -14,9 +14,9 @@
  */
 'use strict';
 
-var React = require('react');
+const React = require('react');
 
-var StaticRenderer = React.createClass({
+const StaticRenderer = React.createClass({
 
     propTypes: {
         shouldUpdate: React.PropTypes.bool.isRequired,

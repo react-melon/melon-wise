@@ -79,13 +79,6 @@ class Tappable extends React.Component {
             this.initPressDetection(event, this.endTouch);
             this._activeTimeout = setTimeout(this.makeActive.bind(this), this.props.activeDelay);
         }
-        else if (this.onPinchStart
-                && (this.props.onPinchStart
-                    || this.props.onPinchMove
-                    || this.props.onPinchEnd)
-                && event.touches.length === 2) {
-            this.onPinchStart(event);
-        }
     }
 
     makeActive() {
@@ -191,10 +184,6 @@ class Tappable extends React.Component {
                 }
             }
         }
-        else if (this._initialPinch && event.touches.length === 2 && this.onPinchMove) {
-            this.onPinchMove(event);
-            event.preventDefault();
-        }
     }
 
     onTouchEnd(event) {
@@ -206,6 +195,7 @@ class Tappable extends React.Component {
             const movement = this.calculateMovement(this._lastTouch);
             if (movement.x <= this.props.moveThreshold && movement.y <= this.props.moveThreshold && this.props.onTap) {
                 event.preventDefault();
+
                 afterEndTouch = function () {
                     const finalParentScrollPos = me._scrollParents.map(function (node) {
                         return node.scrollTop + node.scrollLeft;
@@ -220,10 +210,7 @@ class Tappable extends React.Component {
             }
             this.endTouch(event, afterEndTouch);
         }
-        else if (this.onPinchEnd && this._initialPinch && event.touches.length + event.changedTouches.length === 2) {
-            this.onPinchEnd(event);
-            event.preventDefault();
-        }
+
     }
 
     endTouch(event, callback) {
@@ -334,9 +321,6 @@ class Tappable extends React.Component {
 
         delete newComponentProps.onTap;
         delete newComponentProps.onPress;
-        delete newComponentProps.onPinchStart;
-        delete newComponentProps.onPinchMove;
-        delete newComponentProps.onPinchEnd;
         delete newComponentProps.moveThreshold;
         delete newComponentProps.pressDelay;
         delete newComponentProps.pressMoveThreshold;

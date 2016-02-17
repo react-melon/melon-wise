@@ -1,5 +1,5 @@
 /**
- * @file esui-react/Mask
+ * @file melon-wise/Mask
  * @author cxtom<cxtom2010@gmail.com>
  */
 
