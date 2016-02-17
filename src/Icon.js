@@ -1,5 +1,5 @@
 /**
- * @file esui-react/Icon
+ * @file melon-wise/Icon
  * @author cxtom<cxtom2010@gmail.com>
  */
 

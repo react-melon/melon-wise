@@ -26,6 +26,7 @@
     "doc",
     "example",
     "src",
+    "coverage",
     "edp-*.js",
     "module.conf"
   ],
