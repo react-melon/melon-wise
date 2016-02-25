@@ -5,7 +5,7 @@
 
 import TestUtils from 'react-addons-test-utils';
 
-export function nativeTouchData(x, y) {
+function nativeTouchData(x, y) {
     return {
         touches: [
             {pageX: x, pageY: y, clientX: x, clientY: y}
@@ -13,11 +13,11 @@ export function nativeTouchData(x, y) {
     };
 }
 
-export default function tap(node) {
-    TestUtils.Simulate.touchStart(node, nativeTouchData(0, 0));
-    TestUtils.Simulate.touchMove(node, nativeTouchData(0, 0));
+export default function tap(node, x = 0, y = 0) {
+    TestUtils.Simulate.touchStart(node, nativeTouchData(x, y));
+    TestUtils.Simulate.touchMove(node, nativeTouchData(x, y));
 
     setTimeout(function () {
-        TestUtils.Simulate.touchEnd(node, nativeTouchData(0, 0));
+        TestUtils.Simulate.touchEnd(node, nativeTouchData(x, y));
     }, 10);
 }

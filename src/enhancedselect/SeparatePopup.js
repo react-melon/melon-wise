@@ -53,7 +53,7 @@ const SeparatePopup = React.createClass({
                 transitionType="translate"
                 direction="bottom"
                 onHide={() => {
-                    this.props.onHide && this.props.onHide();
+                    this.onHide;
                 }} >
                 <div>
                     <div className={cx().part('panel').build()}>

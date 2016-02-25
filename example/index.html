@@ -26,7 +26,7 @@
 require.config({
     baseUrl: '/example',
     paths: {
-        'react': '../dep/react/react-with-addons',
+        'react': '../dep/react/react',
         'react-dom': '../dep/react/react-dom',
         'melon-wise': '../src/'
     },
@@ -35,10 +35,6 @@ require.config({
         location: '../dep/melon-classname/dist',
         main: 'index'
     }]
-});
-
-define('react-addons-css-transition-group', ['react'], function (react) {
-    return react.addons.CSSTransitionGroup;
 });
 
 require(['react', 'react-dom', 'common/App', 'common/config'], function (React, ReactDOM, App, config) {
