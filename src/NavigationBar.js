@@ -1,51 +1,54 @@
 /**
- * @file esui-react/NavigationBar
- * @author cxtom<cxtom2010@gmail.com>
+ * @file NavigationBar
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
+import React, {PropTypes, Component} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const cx = require('melon-classname').create('NavigationBar');
+import Tappable from './Tappable';
+import Title from './Title';
 
-const Title = require('./Title');
-const Tappable = require('./Tappable');
+const cx = create('NavigationBar');
 
-function NavigationBar(props) {
+export default class NavigationBar extends Component {
 
-    const {
-        title,
-        leftIcon,
-        rightIcon,
-        onLeftTap,
-        onRightTap,
-        ...other
-    } = props;
+    render() {
 
-    const leftButton = leftIcon ? (
-        <Tappable className={cx().part('left').build()} onTap={onLeftTap}>
-            {leftIcon}
-        </Tappable>
-    ) : null;
+        const props = this.props;
 
-    const rightButton = rightIcon ? (
-        <Tappable className={cx().part('right').build()} onTap={onRightTap}>
-            {leftIcon}
-        </Tappable>
-    ) : null;
+        const {
+            title,
+            leftIcon,
+            rightIcon,
+            onLeftTap,
+            onRightTap
+        } = props;
 
-    return (
-        <nav className={cx(props).build()}>
-            {leftButton}
-            {rightButton}
-            <Title level={2}>{title}</Title>
-        </nav>
-    );
+        const leftButton = leftIcon ? (
+            <Tappable className={cx().part('left').build()} onTap={onLeftTap}>
+                {leftIcon}
+            </Tappable>
+        ) : null;
+
+        const rightButton = rightIcon ? (
+            <Tappable className={cx().part('right').build()} onTap={onRightTap}>
+                {leftIcon}
+            </Tappable>
+        ) : null;
+
+        return (
+            <nav className={cx(props).build()}>
+                {leftButton}
+                {rightButton}
+                <Title level={2}>{title}</Title>
+            </nav>
+        );
+    }
 
 }
 
 NavigationBar.displayName = 'NavigationBar';
-
-const {PropTypes} = React;
 
 NavigationBar.propTypes = {
     hidden: PropTypes.bool,
@@ -57,6 +60,3 @@ NavigationBar.propTypes = {
 NavigationBar.defaultProps = {
     hidden: false
 };
-
-
-module.exports = NavigationBar;

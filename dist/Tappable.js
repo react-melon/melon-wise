@@ -1,18 +1,25 @@
-define('melon-wise/lib/Tappable', [
-    'require',
-    'exports',
-    'module',
-    './babelHelpers',
-    'react',
-    'react-dom',
-    'melon-classname'
-], function (require, exports, module) {
-    var babelHelpers = require('./babelHelpers');
+var babelHelpers = require('./babelHelpers');
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/Tappable', [
+            'exports',
+            'react',
+            'react-dom',
+            'melon-core/classname/cxBuilder'
+        ], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('react'), require('react-dom'), require('melon-core/classname/cxBuilder'));
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports, global.react, global.reactDom, global.cxBuilder);
+        global.Tappable = mod.exports;
+    }
+}(this, function (exports, _react, _reactDom, _cxBuilder) {
     'use strict';
-    var React = require('react');
-    var ReactDOM = require('react-dom');
-    var cx = require('melon-classname').create('Tappable');
-    var PropTypes = React.PropTypes;
+    Object.defineProperty(exports, '__esModule', { value: true });
+    var _react2 = babelHelpers.interopRequireDefault(_react);
+    var _reactDom2 = babelHelpers.interopRequireDefault(_reactDom);
+    var cx = (0, _cxBuilder.create)('Tappable');
     function getTouchProps(touch) {
         if (!touch) {
             return {};
@@ -80,8 +87,6 @@ define('melon-wise/lib/Tappable', [
                         this.initScrollDetection();
                         this.initPressDetection(event, this.endTouch);
                         this._activeTimeout = setTimeout(this.makeActive.bind(this), this.props.activeDelay);
-                    } else if (this.onPinchStart && (this.props.onPinchStart || this.props.onPinchMove || this.props.onPinchEnd) && event.touches.length === 2) {
-                        this.onPinchStart(event);
                     }
                 }
             },
@@ -108,7 +113,7 @@ define('melon-wise/lib/Tappable', [
                     };
                     this._scrollParents = [];
                     this._scrollParentPos = [];
-                    var node = ReactDOM.findDOMNode(this);
+                    var node = _reactDom2.default.findDOMNode(this);
                     while (node) {
                         if (node.scrollHeight > node.offsetHeight || node.scrollWidth > node.offsetWidth) {
                             this._scrollParents.push(node);
@@ -194,9 +199,6 @@ define('melon-wise/lib/Tappable', [
                                 this.setState({ isActive: true });
                             }
                         }
-                    } else if (this._initialPinch && event.touches.length === 2 && this.onPinchMove) {
-                        this.onPinchMove(event);
-                        event.preventDefault();
                     }
                 }
             },
@@ -206,7 +208,7 @@ define('melon-wise/lib/Tappable', [
                     var me = this;
                     if (this._initialTouch) {
                         this.processEvent(event);
-                        var afterEndTouch = undefined;
+                        var afterEndTouch = void 0;
                         var movement = this.calculateMovement(this._lastTouch);
                         if (movement.x <= this.props.moveThreshold && movement.y <= this.props.moveThreshold && this.props.onTap) {
                             event.preventDefault();
@@ -223,9 +225,6 @@ define('melon-wise/lib/Tappable', [
                             };
                         }
                         this.endTouch(event, afterEndTouch);
-                    } else if (this.onPinchEnd && this._initialPinch && event.touches.length + event.changedTouches.length === 2) {
-                        this.onPinchEnd(event);
-                        event.preventDefault();
                     }
                 }
             },
@@ -339,43 +338,41 @@ define('melon-wise/lib/Tappable', [
                     }, this.handlers());
                     delete newComponentProps.onTap;
                     delete newComponentProps.onPress;
-                    delete newComponentProps.onPinchStart;
-                    delete newComponentProps.onPinchMove;
-                    delete newComponentProps.onPinchEnd;
                     delete newComponentProps.moveThreshold;
                     delete newComponentProps.pressDelay;
                     delete newComponentProps.pressMoveThreshold;
                     delete newComponentProps.preventDefault;
                     delete newComponentProps.stopPropagation;
                     delete newComponentProps.component;
-                    return React.createElement(props.component, newComponentProps, props.children);
+                    return _react2.default.createElement(props.component, newComponentProps, props.children);
                 }
             }
         ]);
         return Tappable;
-    }(React.Component);
+    }(_react2.default.Component);
+    exports.default = Tappable;
     Tappable.displayName = 'Tappable';
     Tappable.propTypes = {
-        moveThreshold: PropTypes.number,
-        activeDelay: PropTypes.number,
-        pressDelay: PropTypes.number,
-        pressMoveThreshold: PropTypes.number,
-        preventDefault: PropTypes.bool,
-        stopPropagation: PropTypes.bool,
-        onTap: PropTypes.func,
-        onPress: PropTypes.func,
-        onTouchStart: PropTypes.func,
-        onTouchMove: PropTypes.func,
-        onTouchEnd: PropTypes.func,
-        onMouseDown: PropTypes.func,
-        onMouseUp: PropTypes.func,
-        onMouseMove: PropTypes.func,
-        onMouseOut: PropTypes.func,
-        component: PropTypes.any,
-        className: PropTypes.string,
-        classBase: PropTypes.string,
-        style: PropTypes.object,
-        disabled: PropTypes.bool
+        moveThreshold: _react.PropTypes.number,
+        activeDelay: _react.PropTypes.number,
+        pressDelay: _react.PropTypes.number,
+        pressMoveThreshold: _react.PropTypes.number,
+        preventDefault: _react.PropTypes.bool,
+        stopPropagation: _react.PropTypes.bool,
+        onTap: _react.PropTypes.func,
+        onPress: _react.PropTypes.func,
+        onTouchStart: _react.PropTypes.func,
+        onTouchMove: _react.PropTypes.func,
+        onTouchEnd: _react.PropTypes.func,
+        onMouseDown: _react.PropTypes.func,
+        onMouseUp: _react.PropTypes.func,
+        onMouseMove: _react.PropTypes.func,
+        onMouseOut: _react.PropTypes.func,
+        component: _react.PropTypes.any,
+        className: _react.PropTypes.string,
+        classBase: _react.PropTypes.string,
+        style: _react.PropTypes.object,
+        disabled: _react.PropTypes.bool
     };
     Tappable.defaultProps = {
         activeDelay: 0,
@@ -385,5 +382,4 @@ define('melon-wise/lib/Tappable', [
         component: 'span',
         classBase: 'Tappable'
     };
-    module.exports = Tappable;
-});
+}));

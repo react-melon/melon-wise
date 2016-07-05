@@ -1,52 +1,69 @@
 /**
  * @file melon-wise/MonthPicker
- * @author cxtom<cxtom2010@gmail.com>
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
 
-const cx = require('melon-classname').create('Monthpicker');
+import {create} from 'melon-core/classname/cxBuilder';
+import InputComponent from 'melon-core/InputComponent';
+import {getNextValidity} from 'melon-core/util/syncPropsToState';
 
-const DateTime = require('./util/date');
-const SeparatePopup = require('./monthpicker/SeparatePopup');
-const popupHelper = require('./util/separatePopupHelper');
+import * as DateTime from './util/date';
+import SeparatePopup from './monthpicker/SeparatePopup';
+import * as popupHelper from './util/separatePopupHelper';
 
-const {PropTypes} = React;
+const cx = create('MonthPicker');
 
-const MonthPicker = React.createClass({
+export default class MonthPicker extends InputComponent {
 
-    displayName: 'MonthPicker',
+    constructor(props, context) {
+        super(props, context);
 
-    getInitialState() {
+        const value = this.state.value;
 
-        return {
-            date: this.parseDate(this.props.value)
+        this.state = {
+            ...this.state,
+            date: value ? this.parseDate(value) : undefined
         };
-    },
+
+        this.onClick = this.onClick.bind(this);
+        this.onDateChange = this.onDateChange.bind(this);
+    }
 
     componentDidMount() {
+        super.componentDidMount();
         this.container = popupHelper.createPopup({
             className: cx().part('popup').build()
         });
         this.renderPopup(false);
-    },
-
-    componentWillReceiveProps(nextProps) {
-
-        const {value} = nextProps;
-
-        if (value !== this.props.value) {
-            this.setState({
-                date: this.parseDate(value)
-            });
-        }
-    },
+    }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         popupHelper.destoryPopup(this.container);
         this.container = null;
-    },
+    }
+
+    getSyncUpdates(nextProps) {
+
+        const {disabled, readOnly, customValidity, defaultValue} = nextProps;
+
+        let value = nextProps.value ? nextProps.value : defaultValue;
+
+        // 如果有值，那么就试着解析一下；否则设置为 undefined
+        let date = value ? this.parseDate(value) : undefined;
+
+        const vilidity = getNextValidity(this, {value, disabled, customValidity});
+
+        return {
+            date,
+            vilidity,
+            value: (disabled || readOnly || !value) ? value : this.stringifyValue(date)
+        };
+
+    }
 
 
     /**
@@ -58,10 +75,6 @@ const MonthPicker = React.createClass({
      */
     parseDate(date) {
 
-        if (!date) {
-            return new Date();
-        }
-
         if (DateTime.isDateObject(date)) {
             return date;
         }
@@ -69,7 +82,7 @@ const MonthPicker = React.createClass({
         let format = this.props.dateFormat.toLowerCase();
 
         return DateTime.parse(date, format);
-    },
+    }
 
     /**
      * 格式化日期
@@ -87,24 +100,24 @@ const MonthPicker = React.createClass({
         let format = this.props.dateFormat.toLowerCase();
 
         return DateTime.format(date, format, this.props.lang);
-    },
+    }
 
     onClick(e) {
         this.renderPopup(true);
-    },
+    }
 
     onDateChange({value}) {
 
         this.setState({date: value});
 
-        const {onChange} = this.props;
+        const onChange = this.props.onChange;
 
         onChange({
             type: 'change',
             target: this,
             value: this.stringifyValue(value)
         });
-    },
+    }
 
     renderPopup(isOpen) {
 
@@ -124,41 +137,41 @@ const MonthPicker = React.createClass({
                 direction="bottom"
                 begin={beginDate}
                 end={endDate}
-                date={this.state.date}
+                date={this.state.date || new Date()}
                 onHide={() => {
                     this.renderPopup(false);
                 }}
                 onChange={this.onDateChange} />,
             this.container
         );
-    },
+    }
 
     renderResult() {
 
-        const {value} = this.props;
+        const value = this.props.value;
 
         return value ? (
             <div className={cx().part('result').build()}>
                 {value}
             </div>
         ) : null;
-    },
+    }
 
     renderLabel() {
 
-        const {label} = this.props;
+        const label = this.props.label;
 
         return label ? (
             <label>
                 {label}
             </label>
         ) : null;
-    },
+    }
 
     renderHiddenInput() {
 
-        const {name} = this.props;
-        const {date} = this.state;
+        const name = this.props.name;
+        const date = this.state.date;
 
         return (
             <input
@@ -166,7 +179,7 @@ const MonthPicker = React.createClass({
                 name={name}
                 value={this.stringifyValue(date)} />
         );
-    },
+    }
 
     render() {
 
@@ -177,23 +190,15 @@ const MonthPicker = React.createClass({
                 {this.renderHiddenInput()}
             </div>
         );
-
     }
 
-});
+}
 
-MonthPicker.LANG = {
-    week: '周',
-    days: '日,一,二,三,四,五,六'
-};
+MonthPicker.displayName = 'MonthPicker';
 
 MonthPicker.propTypes = {
-    value: PropTypes.string,
+    ...MonthPicker.propTypes,
     dateFormat: PropTypes.string,
-    lang: PropTypes.shape({
-        week: PropTypes.string,
-        days: PropTypes.string
-    }),
     end: PropTypes.oneOfType([
         PropTypes.instanceOf(Date),
         PropTypes.string
@@ -205,9 +210,7 @@ MonthPicker.propTypes = {
 };
 
 MonthPicker.defaultProps = {
-    defaultValue: DateTime.format(new Date(), 'yyyy-mm', MonthPicker.LANG),
-    dateFormat: 'yyyy-MM',
-    lang: MonthPicker.LANG
+    ...InputComponent.defaultProps,
+    defaultValue: '',
+    dateFormat: 'yyyy-MM'
 };
-
-module.exports = require('./createInputComponent').create(MonthPicker);

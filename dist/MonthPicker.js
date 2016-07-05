@@ -1,141 +1,199 @@
-define('melon-wise/lib/MonthPicker', [
-    'require',
-    'exports',
-    'module',
-    'react',
-    'react-dom',
-    'melon-classname',
-    './util/date',
-    './monthpicker/SeparatePopup',
-    './util/separatePopupHelper',
-    './createInputComponent'
-], function (require, exports, module) {
+var babelHelpers = require('./babelHelpers');
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/MonthPicker', [
+            'exports',
+            'react',
+            'react-dom',
+            'melon-core/classname/cxBuilder',
+            'melon-core/InputComponent',
+            'melon-core/util/syncPropsToState',
+            './util/date',
+            './monthpicker/SeparatePopup',
+            './util/separatePopupHelper'
+        ], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('react'), require('react-dom'), require('melon-core/classname/cxBuilder'), require('melon-core/InputComponent'), require('melon-core/util/syncPropsToState'), require('./util/date'), require('./monthpicker/SeparatePopup'), require('./util/separatePopupHelper'));
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports, global.react, global.reactDom, global.cxBuilder, global.InputComponent, global.syncPropsToState, global.date, global.SeparatePopup, global.separatePopupHelper);
+        global.MonthPicker = mod.exports;
+    }
+}(this, function (exports, _react, _reactDom, _cxBuilder, _InputComponent2, _syncPropsToState, _date, _SeparatePopup, _separatePopupHelper) {
     'use strict';
-    var React = require('react');
-    var ReactDOM = require('react-dom');
-    var cx = require('melon-classname').create('Monthpicker');
-    var DateTime = require('./util/date');
-    var SeparatePopup = require('./monthpicker/SeparatePopup');
-    var popupHelper = require('./util/separatePopupHelper');
-    var PropTypes = React.PropTypes;
-    var MonthPicker = React.createClass({
-        displayName: 'MonthPicker',
-        getInitialState: function getInitialState() {
-            return { date: this.parseDate(this.props.value) };
-        },
-        componentDidMount: function componentDidMount() {
-            this.container = popupHelper.createPopup({ className: cx().part('popup').build() });
-            this.renderPopup(false);
-        },
-        componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-            var value = nextProps.value;
-            if (value !== this.props.value) {
-                this.setState({ date: this.parseDate(value) });
-            }
-        },
-        componentWillUnmount: function componentWillUnmount() {
-            popupHelper.destoryPopup(this.container);
-            this.container = null;
-        },
-        parseDate: function parseDate(date) {
-            if (!date) {
-                return new Date();
-            }
-            if (DateTime.isDateObject(date)) {
-                return date;
-            }
-            var format = this.props.dateFormat.toLowerCase();
-            return DateTime.parse(date, format);
-        },
-        stringifyValue: function stringifyValue(date) {
-            if (!DateTime.isDateObject(date)) {
-                return date;
-            }
-            var format = this.props.dateFormat.toLowerCase();
-            return DateTime.format(date, format, this.props.lang);
-        },
-        onClick: function onClick(e) {
-            this.renderPopup(true);
-        },
-        onDateChange: function onDateChange(_ref) {
-            var value = _ref.value;
-            this.setState({ date: value });
-            var onChange = this.props.onChange;
-            onChange({
-                type: 'change',
-                target: this,
-                value: this.stringifyValue(value)
-            });
-        },
-        renderPopup: function renderPopup(isOpen) {
-            var _this = this;
-            var _props = this.props;
-            var begin = _props.begin;
-            var end = _props.end;
-            var endDate = end ? this.parseDate(end) : new Date();
-            var beginDate = begin ? this.parseDate(begin) : DateTime.addYears(endDate, -80);
-            ReactDOM.render(React.createElement(SeparatePopup, {
-                show: isOpen,
-                transitionTimeout: 300,
-                transitionType: 'translate',
-                direction: 'bottom',
-                begin: beginDate,
-                end: endDate,
-                date: this.state.date,
-                onHide: function onHide() {
-                    _this.renderPopup(false);
-                },
-                onChange: this.onDateChange
-            }), this.container);
-        },
-        renderResult: function renderResult() {
-            var value = this.props.value;
-            return value ? React.createElement('div', { className: cx().part('result').build() }, value) : null;
-        },
-        renderLabel: function renderLabel() {
-            var label = this.props.label;
-            return label ? React.createElement('label', null, label) : null;
-        },
-        renderHiddenInput: function renderHiddenInput() {
-            var name = this.props.name;
-            var date = this.state.date;
-            return React.createElement('input', {
-                type: 'hidden',
-                name: name,
-                value: this.stringifyValue(date)
-            });
-        },
-        render: function render() {
-            return React.createElement('div', {
-                className: cx(this.props).build(),
-                onClick: this.onClick
-            }, this.renderLabel(), this.renderResult(), this.renderHiddenInput());
+    Object.defineProperty(exports, '__esModule', { value: true });
+    var _react2 = babelHelpers.interopRequireDefault(_react);
+    var _reactDom2 = babelHelpers.interopRequireDefault(_reactDom);
+    var _InputComponent3 = babelHelpers.interopRequireDefault(_InputComponent2);
+    var DateTime = babelHelpers.interopRequireWildcard(_date);
+    var _SeparatePopup2 = babelHelpers.interopRequireDefault(_SeparatePopup);
+    var popupHelper = babelHelpers.interopRequireWildcard(_separatePopupHelper);
+    var cx = (0, _cxBuilder.create)('MonthPicker');
+    var MonthPicker = function (_InputComponent) {
+        babelHelpers.inherits(MonthPicker, _InputComponent);
+        function MonthPicker(props, context) {
+            babelHelpers.classCallCheck(this, MonthPicker);
+            var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(MonthPicker).call(this, props, context));
+            var value = _this.state.value;
+            _this.state = babelHelpers.extends({}, _this.state, { date: value ? _this.parseDate(value) : undefined });
+            _this.onClick = _this.onClick.bind(_this);
+            _this.onDateChange = _this.onDateChange.bind(_this);
+            return _this;
         }
-    });
-    MonthPicker.LANG = {
-        week: '\u5468',
-        days: '\u65E5,\u4E00,\u4E8C,\u4E09,\u56DB,\u4E94,\u516D'
-    };
-    MonthPicker.propTypes = {
-        value: PropTypes.string,
-        dateFormat: PropTypes.string,
-        lang: PropTypes.shape({
-            week: PropTypes.string,
-            days: PropTypes.string
-        }),
-        end: PropTypes.oneOfType([
-            PropTypes.instanceOf(Date),
-            PropTypes.string
+        babelHelpers.createClass(MonthPicker, [
+            {
+                key: 'componentDidMount',
+                value: function componentDidMount() {
+                    babelHelpers.get(Object.getPrototypeOf(MonthPicker.prototype), 'componentDidMount', this).call(this);
+                    this.container = popupHelper.createPopup({ className: cx().part('popup').build() });
+                    this.renderPopup(false);
+                }
+            },
+            {
+                key: 'componentWillUnmount',
+                value: function componentWillUnmount() {
+                    babelHelpers.get(Object.getPrototypeOf(MonthPicker.prototype), 'componentWillUnmount', this).call(this);
+                    popupHelper.destoryPopup(this.container);
+                    this.container = null;
+                }
+            },
+            {
+                key: 'getSyncUpdates',
+                value: function getSyncUpdates(nextProps) {
+                    var disabled = nextProps.disabled;
+                    var readOnly = nextProps.readOnly;
+                    var customValidity = nextProps.customValidity;
+                    var defaultValue = nextProps.defaultValue;
+                    var value = nextProps.value ? nextProps.value : defaultValue;
+                    var date = value ? this.parseDate(value) : undefined;
+                    var vilidity = (0, _syncPropsToState.getNextValidity)(this, {
+                        value: value,
+                        disabled: disabled,
+                        customValidity: customValidity
+                    });
+                    return {
+                        date: date,
+                        vilidity: vilidity,
+                        value: disabled || readOnly || !value ? value : this.stringifyValue(date)
+                    };
+                }
+            },
+            {
+                key: 'parseDate',
+                value: function parseDate(date) {
+                    if (DateTime.isDateObject(date)) {
+                        return date;
+                    }
+                    var format = this.props.dateFormat.toLowerCase();
+                    return DateTime.parse(date, format);
+                }
+            },
+            {
+                key: 'stringifyValue',
+                value: function stringifyValue(date) {
+                    if (!DateTime.isDateObject(date)) {
+                        return date;
+                    }
+                    var format = this.props.dateFormat.toLowerCase();
+                    return DateTime.format(date, format, this.props.lang);
+                }
+            },
+            {
+                key: 'onClick',
+                value: function onClick(e) {
+                    this.renderPopup(true);
+                }
+            },
+            {
+                key: 'onDateChange',
+                value: function onDateChange(_ref) {
+                    var value = _ref.value;
+                    this.setState({ date: value });
+                    var onChange = this.props.onChange;
+                    onChange({
+                        type: 'change',
+                        target: this,
+                        value: this.stringifyValue(value)
+                    });
+                }
+            },
+            {
+                key: 'renderPopup',
+                value: function renderPopup(isOpen) {
+                    var _this2 = this;
+                    var _props = this.props;
+                    var begin = _props.begin;
+                    var end = _props.end;
+                    var endDate = end ? this.parseDate(end) : new Date();
+                    var beginDate = begin ? this.parseDate(begin) : DateTime.addYears(endDate, -80);
+                    _reactDom2.default.render(_react2.default.createElement(_SeparatePopup2.default, {
+                        show: isOpen,
+                        transitionTimeout: 300,
+                        transitionType: 'translate',
+                        direction: 'bottom',
+                        begin: beginDate,
+                        end: endDate,
+                        date: this.state.date || new Date(),
+                        onHide: function onHide() {
+                            _this2.renderPopup(false);
+                        },
+                        onChange: this.onDateChange
+                    }), this.container);
+                }
+            },
+            {
+                key: 'renderResult',
+                value: function renderResult() {
+                    var value = this.props.value;
+                    return value ? _react2.default.createElement('div', { className: cx().part('result').build() }, value) : null;
+                }
+            },
+            {
+                key: 'renderLabel',
+                value: function renderLabel() {
+                    var label = this.props.label;
+                    return label ? _react2.default.createElement('label', null, label) : null;
+                }
+            },
+            {
+                key: 'renderHiddenInput',
+                value: function renderHiddenInput() {
+                    var name = this.props.name;
+                    var date = this.state.date;
+                    return _react2.default.createElement('input', {
+                        type: 'hidden',
+                        name: name,
+                        value: this.stringifyValue(date)
+                    });
+                }
+            },
+            {
+                key: 'render',
+                value: function render() {
+                    return _react2.default.createElement('div', {
+                        className: cx(this.props).build(),
+                        onClick: this.onClick
+                    }, this.renderLabel(), this.renderResult(), this.renderHiddenInput());
+                }
+            }
+        ]);
+        return MonthPicker;
+    }(_InputComponent3.default);
+    exports.default = MonthPicker;
+    MonthPicker.displayName = 'MonthPicker';
+    MonthPicker.propTypes = babelHelpers.extends({}, MonthPicker.propTypes, {
+        dateFormat: _react.PropTypes.string,
+        end: _react.PropTypes.oneOfType([
+            _react.PropTypes.instanceOf(Date),
+            _react.PropTypes.string
         ]),
-        begin: PropTypes.oneOfType([
-            PropTypes.instanceOf(Date),
-            PropTypes.string
+        begin: _react.PropTypes.oneOfType([
+            _react.PropTypes.instanceOf(Date),
+            _react.PropTypes.string
         ])
-    };
-    MonthPicker.defaultProps = {
-        defaultValue: DateTime.format(new Date(), 'yyyy-mm', MonthPicker.LANG),
-        dateFormat: 'yyyy-MM',
-        lang: MonthPicker.LANG
-    };
-    module.exports = require('./createInputComponent').create(MonthPicker);
-});
+    });
+    MonthPicker.defaultProps = babelHelpers.extends({}, _InputComponent3.default.defaultProps, {
+        defaultValue: '',
+        dateFormat: 'yyyy-MM'
+    });
+}));

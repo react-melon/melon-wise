@@ -1,52 +1,57 @@
 /**
  * @file monthpicker SeparatePopup
- * @author cxtom(cxtom2010@gmail.com)
+ * @author cxtom(cxtom2008@gmail.com)
  */
 
-const React = require('react');
-const Popup = require('../Popup');
-const Tappable = require('../Tappable');
+import React, {PropTypes} from 'react';
+import Popup from '../Popup';
+import Tappable from '../Tappable';
+import {create} from 'melon-core/classname/cxBuilder';
+import LockBody from '../common/LockBody';
 
-const Selector = require('../Selector');
+import Selector from '../Selector';
+import * as dateUtil from '../util/date';
 
-const cx = require('melon-classname').create('Monthpicker');
-const dateUtil = require('../util/date');
+const cx = create('MonthPicker');
 
-const PropTypes = React.PropTypes;
+export default class SeparatePopup extends LockBody {
 
-let SeparatePopup = React.createClass({
+    constructor(props) {
 
-    mixins: [require('../mixins/SeparateMixin')],
-
-    getInitialState() {
+        super(props);
 
         this.timer = null;
 
-        return {
-            date: this.props.date,
+        this.state = {
+            date: props.date,
             mode: 'year'
         };
-    },
+
+        this.onHide = this.onHide.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onCancel = this.onCancel.bind(this);
+    }
 
     componentWillUnmount() {
-        let {timer} = this;
+        super.componentWillUnmount();
+        let timer = this.timer;
         if (timer) {
             clearTimeout(timer);
         }
-    },
+    }
 
     onHide() {
-        const {onHide} = this.props;
+        const onHide = this.props.onHide;
         onHide && onHide();
 
         this.timer = setTimeout(() => {
             this.setState({mode: 'year'});
         }, 300);
-    },
+    }
 
     onCancel() {
         this.onHide();
-    },
+    }
 
     onChange(e) {
 
@@ -70,7 +75,7 @@ let SeparatePopup = React.createClass({
 
             if (mode === 'month') {
 
-                const {onChange} = this.props;
+                const onChange = this.props.onChange;
                 this.onHide();
 
                 onChange && onChange({
@@ -79,14 +84,15 @@ let SeparatePopup = React.createClass({
                 });
             }
         });
-    },
+    }
 
     render() {
 
         const {
             show,
             begin,
-            end
+            end,
+            ...rest
         } = this.props;
 
         const {
@@ -124,7 +130,6 @@ let SeparatePopup = React.createClass({
             else if (dateUtil.isEqualYear(date, begin)) {
                 beginMonth = begin.getMonth();
                 len = len - beginMonth;
-
                 index = index - beginMonth;
             }
 
@@ -138,32 +143,31 @@ let SeparatePopup = React.createClass({
 
         return (
             <Popup
+                {...rest}
                 show={show}
                 transitionType="translate"
                 direction="bottom"
                 onHide={this.onHide}>
-                <div>
-                    <div className={cx().part('panel').build()}>
-                        <Selector
-                            ref="selector"
-                            items={items}
-                            className={cx().part('selector').build()}
-                            selectedIndex={index}
-                            variants={[mode]}
-                            onChange={this.onChange} />
-                    </div>
-                    <Tappable
-                        component="div"
-                        onTap={this.onCancel}
-                        className={cx().part('cancel').build()}>
-                        取消
-                    </Tappable>
+                <div className={cx.getPartClassName('panel')}>
+                    <Selector
+                        ref="selector"
+                        items={items}
+                        className={cx.getPartClassName('selector')}
+                        selectedIndex={index}
+                        variants={[mode]}
+                        onChange={this.onChange} />
                 </div>
+                <Tappable
+                    component="div"
+                    onTap={this.onCancel}
+                    className={cx.getPartClassName('cancel')}>
+                    取消
+                </Tappable>
             </Popup>
         );
     }
 
-});
+}
 
 SeparatePopup.displayName = 'MonthPickerSeparatePopup';
 
@@ -177,5 +181,3 @@ SeparatePopup.propTypes = {
 SeparatePopup.defaultProps = {
     ...Popup.defaultProps
 };
-
-module.exports = SeparatePopup;

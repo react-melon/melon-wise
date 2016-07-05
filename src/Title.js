@@ -3,11 +3,13 @@
  * @author leon(ludafa@outlook.com)
  */
 
-const React = require('react');
+import React from 'react';
 
-const cx = require('melon-classname').create('Title');
+import {create} from 'melon-core/classname/cxBuilder';
 
-function Title(props) {
+const cx = create('Title');
+
+export default function Title(props) {
 
     const {
         level,
@@ -31,6 +33,3 @@ Title.propsTypes = {
 Title.defaultProps = {
     level: 1
 };
-
-
-module.exports = Title;

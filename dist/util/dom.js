@@ -1,8 +1,14 @@
-define('melon-wise/lib/util/dom', [
-    'require',
-    'exports',
-    'module'
-], function (require, exports, module) {
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/util/dom', ['exports'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports);
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports);
+        global.dom = mod.exports;
+    }
+}(this, function (exports) {
     'use strict';
     exports.on = function (target, eventName, handler) {
         target.addEventListener(eventName, handler);
@@ -59,4 +65,4 @@ define('melon-wise/lib/util/dom', [
             element.className = element.className.replace(reg, ' ');
         }
     };
-});
+}));

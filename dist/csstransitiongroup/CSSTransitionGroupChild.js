@@ -1,20 +1,27 @@
-define('melon-wise/lib/csstransitiongroup/CSSTransitionGroupChild', [
-    'require',
-    'exports',
-    'module',
-    '../babelHelpers',
-    'react',
-    'react-dom',
-    '../util/dom'
-], function (require, exports, module) {
-    var babelHelpers = require('../babelHelpers');
+var babelHelpers = require('../babelHelpers');
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/csstransitiongroup/CSSTransitionGroupChild', [
+            'exports',
+            'react',
+            'react-dom',
+            '../util/dom'
+        ], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('react'), require('react-dom'), require('../util/dom'));
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports, global.react, global.reactDom, global.dom);
+        global.CSSTransitionGroupChild = mod.exports;
+    }
+}(this, function (exports, _react, _reactDom, _dom) {
     'use strict';
-    var React = require('react');
-    var ReactDOM = require('react-dom');
-    var domUtil = require('../util/dom');
-    var PropTypes = React.PropTypes;
-    var CSSTransitionGroupChild = function (_React$Component) {
-        babelHelpers.inherits(CSSTransitionGroupChild, _React$Component);
+    Object.defineProperty(exports, '__esModule', { value: true });
+    var _react2 = babelHelpers.interopRequireDefault(_react);
+    var _reactDom2 = babelHelpers.interopRequireDefault(_reactDom);
+    var domUtil = babelHelpers.interopRequireWildcard(_dom);
+    var CSSTransitionGroupChild = function (_Component) {
+        babelHelpers.inherits(CSSTransitionGroupChild, _Component);
         function CSSTransitionGroupChild(props) {
             babelHelpers.classCallCheck(this, CSSTransitionGroupChild);
             var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(CSSTransitionGroupChild).call(this, props));
@@ -30,9 +37,7 @@ define('melon-wise/lib/csstransitiongroup/CSSTransitionGroupChild', [
                     if (this.timeout) {
                         clearTimeout(this.timeout);
                     }
-                    this.transitionTimeouts.forEach(function (timeout) {
-                        clearTimeout(timeout);
-                    });
+                    this.transitionTimeouts.forEach(clearTimeout);
                 }
             },
             {
@@ -59,7 +64,7 @@ define('melon-wise/lib/csstransitiongroup/CSSTransitionGroupChild', [
             {
                 key: 'flushClassNameQueue',
                 value: function flushClassNameQueue() {
-                    this.classNameQueue.forEach(domUtil.addClass.bind(domUtil, ReactDOM.findDOMNode(this)));
+                    this.classNameQueue.forEach(domUtil.addClass.bind(domUtil, _reactDom2.default.findDOMNode(this)));
                     this.classNameQueue.length = 0;
                     this.timeout = null;
                 }
@@ -67,7 +72,7 @@ define('melon-wise/lib/csstransitiongroup/CSSTransitionGroupChild', [
             {
                 key: 'transition',
                 value: function transition(animationType, finishCallback) {
-                    var node = ReactDOM.findDOMNode(this);
+                    var node = _reactDom2.default.findDOMNode(this);
                     if (!node) {
                         if (finishCallback) {
                             finishCallback();
@@ -102,8 +107,8 @@ define('melon-wise/lib/csstransitiongroup/CSSTransitionGroupChild', [
             {
                 key: 'render',
                 value: function render() {
-                    var onlyChild = React.Children.only(this.props.children);
-                    return React.cloneElement(onlyChild, {
+                    var onlyChild = _react2.default.Children.only(this.props.children);
+                    return _react2.default.cloneElement(onlyChild, {
                         style: babelHelpers.extends({}, this.props.style, {
                             WebkitTransitionDuration: this.props.transitionTimeout + 'ms',
                             transitionDuration: this.props.transitionTimeout + 'ms'
@@ -113,17 +118,18 @@ define('melon-wise/lib/csstransitiongroup/CSSTransitionGroupChild', [
             }
         ]);
         return CSSTransitionGroupChild;
-    }(React.Component);
+    }(_react.Component);
+    exports.default = CSSTransitionGroupChild;
     CSSTransitionGroupChild.displayName = 'CSSTransitionGroupChild';
     CSSTransitionGroupChild.propTypes = {
-        transitionTimeout: PropTypes.number.isRequired,
-        transitionType: PropTypes.oneOf([
+        transitionTimeout: _react.PropTypes.number.isRequired,
+        transitionType: _react.PropTypes.oneOf([
             'instant',
             'opacity',
             'translate',
             'scale'
         ]).isRequired,
-        translateFrom: PropTypes.oneOf([
+        translateFrom: _react.PropTypes.oneOf([
             'top',
             'bottom',
             'left',
@@ -135,5 +141,4 @@ define('melon-wise/lib/csstransitiongroup/CSSTransitionGroupChild', [
         transitionType: 'instant',
         translateFrom: 'bottom'
     };
-    module.exports = CSSTransitionGroupChild;
-});
+}));

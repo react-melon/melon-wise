@@ -1,6 +1,6 @@
 /**
  * @file ListView DataSource
- * @author  cxtom(cxtom2010@gmail.com)
+ * @author  cxtom(cxtom2008@gmail.com)
  */
 
 function defaultRowHasChanged(r1, r2) {
@@ -11,7 +11,7 @@ function defaultGetRowData(dataBlob, rowID) {
     return dataBlob[rowID];
 }
 
-class DataSource {
+export default class DataSource {
 
     constructor(options = {}) {
         this._rowHasChanged = options.rowHasChanged || defaultRowHasChanged;
@@ -58,5 +58,3 @@ class DataSource {
     }
 
 }
-
-module.exports = DataSource;

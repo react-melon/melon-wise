@@ -6,7 +6,10 @@
                 {
                     "pragma": "React"
                 }
-            ]
+            ],
+            "fecs-prefer-class": ["off", "always"],
+            "fecs-use-for-of": ["off", "always"],
+            "fecs-valid-map-set": ["off", "always"]
         }
     }
 }

@@ -1,32 +1,46 @@
-define('melon-wise/lib/csstransitiongroup/TransitionChildMapping', [
-    'require',
-    'exports',
-    'module',
-    '../babelHelpers',
-    'react'
-], function (require, exports, module) {
-    var babelHelpers = require('../babelHelpers');
+var babelHelpers = require('../babelHelpers');
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/csstransitiongroup/TransitionChildMapping', [
+            'exports',
+            'react'
+        ], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('react'));
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports, global.react);
+        global.TransitionChildMapping = mod.exports;
+    }
+}(this, function (exports, _react) {
     'use strict';
     Object.defineProperty(exports, '__esModule', { value: true });
     exports.getChildMapping = getChildMapping;
     exports.mergeChildMappings = mergeChildMappings;
-    var React = require('react');
     function getChildMapping(children) {
+        if (!children) {
+            return null;
+        }
         var mappedChildren = {};
-        React.Children.forEach(children, function (child, index) {
-            var _child$props$childKey = child.props.childKey;
-            var childKey = _child$props$childKey === undefined ? Date.now() : _child$props$childKey;
+        _react.Children.forEach(children, function (child, index) {
+            var childKey = child.key || index.toString(36);
             mappedChildren[childKey] = child;
         });
         return mappedChildren;
     }
     function mergeChildMappings(prevChildMapping, nextChildMapping) {
-        var mergedChildren = babelHelpers.extends({}, prevChildMapping) || {};
+        if (!prevChildMapping) {
+            return nextChildMapping;
+        }
+        if (!nextChildMapping) {
+            return prevChildMapping;
+        }
+        var mergedChildren = babelHelpers.extends({}, prevChildMapping);
         Object.keys(nextChildMapping).forEach(function (key) {
-            if (!prevChildMapping[key] && prevChildMapping[key] !== nextChildMapping[key]) {
+            if (prevChildMapping[key] !== nextChildMapping[key]) {
                 mergedChildren[key] = nextChildMapping[key];
             }
         });
         return mergedChildren;
     }
-});
+}));

@@ -1,28 +1,32 @@
-define('melon-wise/lib/CSSTransitionGroup', [
-    'require',
-    'exports',
-    'module',
-    './babelHelpers',
-    'react',
-    'melon-classname',
-    './csstransitiongroup/TransitionChildMapping',
-    './csstransitiongroup/CSSTransitionGroupChild'
-], function (require, exports, module) {
-    var babelHelpers = require('./babelHelpers');
+var babelHelpers = require('./babelHelpers');
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/CSSTransitionGroup', [
+            'exports',
+            'react',
+            'melon-core/classname/cxBuilder',
+            './csstransitiongroup/TransitionChildMapping',
+            './csstransitiongroup/CSSTransitionGroupChild'
+        ], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('react'), require('melon-core/classname/cxBuilder'), require('./csstransitiongroup/TransitionChildMapping'), require('./csstransitiongroup/CSSTransitionGroupChild'));
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports, global.react, global.cxBuilder, global.TransitionChildMapping, global.CSSTransitionGroupChild);
+        global.CSSTransitionGroup = mod.exports;
+    }
+}(this, function (exports, _react, _cxBuilder, _TransitionChildMapping, _CSSTransitionGroupChild) {
     'use strict';
-    var React = require('react');
-    var cx = require('melon-classname').create('CssTransitionGroup');
-    var PropTypes = React.PropTypes;
-    var _require = require('./csstransitiongroup/TransitionChildMapping');
-    var getChildMapping = _require.getChildMapping;
-    var mergeChildMappings = _require.mergeChildMappings;
-    var CSSTransitionGroupChild = require('./csstransitiongroup/CSSTransitionGroupChild');
-    var CSSTransitionGroup = function (_React$Component) {
-        babelHelpers.inherits(CSSTransitionGroup, _React$Component);
+    Object.defineProperty(exports, '__esModule', { value: true });
+    var _react2 = babelHelpers.interopRequireDefault(_react);
+    var _CSSTransitionGroupChild2 = babelHelpers.interopRequireDefault(_CSSTransitionGroupChild);
+    var cx = (0, _cxBuilder.create)('CssTransitionGroup');
+    var CSSTransitionGroup = function (_Component) {
+        babelHelpers.inherits(CSSTransitionGroup, _Component);
         function CSSTransitionGroup(props) {
             babelHelpers.classCallCheck(this, CSSTransitionGroup);
             var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(CSSTransitionGroup).call(this, props));
-            _this.state = { children: getChildMapping(props.children, props.childKey) };
+            _this.state = { children: (0, _TransitionChildMapping.getChildMapping)(props.children) };
             _this.currentlyTransitioningKeys = [];
             _this.keysToEnter = [];
             _this.keysToLeave = [];
@@ -34,10 +38,10 @@ define('melon-wise/lib/CSSTransitionGroup', [
             {
                 key: 'componentWillReceiveProps',
                 value: function componentWillReceiveProps(nextProps) {
-                    var nextChildMapping = getChildMapping(nextProps.children);
+                    var nextChildMapping = (0, _TransitionChildMapping.getChildMapping)(nextProps.children);
                     var prevChildMapping = this.state.children;
-                    this.setState({ children: mergeChildMappings(prevChildMapping, nextChildMapping) });
-                    var key = undefined;
+                    this.setState({ children: (0, _TransitionChildMapping.mergeChildMappings)(prevChildMapping, nextChildMapping) });
+                    var key = void 0;
                     for (key in nextChildMapping) {
                         var hasPrev = prevChildMapping && prevChildMapping.hasOwnProperty(key);
                         if (nextChildMapping[key] && !hasPrev && !this.currentlyTransitioningKeys[key]) {
@@ -86,7 +90,7 @@ define('melon-wise/lib/CSSTransitionGroup', [
                         component.componentDidEnter();
                     }
                     delete this.currentlyTransitioningKeys[key];
-                    var currentChildMapping = getChildMapping(this.props.children);
+                    var currentChildMapping = (0, _TransitionChildMapping.getChildMapping)(this.props.children);
                     if (!currentChildMapping || !currentChildMapping.hasOwnProperty(key)) {
                         this.performLeave(key);
                     }
@@ -112,7 +116,7 @@ define('melon-wise/lib/CSSTransitionGroup', [
                         component.componentDidLeave();
                     }
                     delete this.currentlyTransitioningKeys[key];
-                    var currentChildMapping = getChildMapping(this.props.children);
+                    var currentChildMapping = (0, _TransitionChildMapping.getChildMapping)(this.props.children);
                     if (currentChildMapping && currentChildMapping.hasOwnProperty(key)) {
                         this.performEnter(key);
                     } else {
@@ -127,7 +131,7 @@ define('melon-wise/lib/CSSTransitionGroup', [
             {
                 key: 'childFactory',
                 value: function childFactory(child, props) {
-                    return React.createElement(CSSTransitionGroupChild, props, child);
+                    return _react2.default.createElement(_CSSTransitionGroupChild2.default, props, child);
                 }
             },
             {
@@ -148,7 +152,7 @@ define('melon-wise/lib/CSSTransitionGroup', [
                     ]);
                     for (var key in children) {
                         if (children[key]) {
-                            childrenToRender.push(React.cloneElement(this.childFactory(children[key], {
+                            childrenToRender.push(_react2.default.cloneElement(this.childFactory(children[key], {
                                 ref: key,
                                 key: key,
                                 transitionTimeout: transitionTimeout,
@@ -157,14 +161,14 @@ define('melon-wise/lib/CSSTransitionGroup', [
                             })));
                         }
                     }
-                    return React.createElement(component, babelHelpers.extends({}, others, { className: cx(this.props).build() }), childrenToRender);
+                    return _react2.default.createElement(component, babelHelpers.extends({}, others, { className: cx(this.props).build() }), childrenToRender);
                 }
             }
         ]);
         return CSSTransitionGroup;
-    }(React.Component);
+    }(_react.Component);
+    exports.default = CSSTransitionGroup;
     CSSTransitionGroup.displayName = 'CSSTransitionGroup';
-    CSSTransitionGroup.propTypes = babelHelpers.extends({}, CSSTransitionGroupChild.propTypes, { component: PropTypes.string });
-    CSSTransitionGroup.defaultProps = babelHelpers.extends({}, CSSTransitionGroupChild.defaultProps, { component: 'div' });
-    module.exports = CSSTransitionGroup;
-});
+    CSSTransitionGroup.propTypes = babelHelpers.extends({}, _CSSTransitionGroupChild2.default.propTypes, { component: _react.PropTypes.string });
+    CSSTransitionGroup.defaultProps = babelHelpers.extends({}, _CSSTransitionGroupChild2.default.defaultProps, { component: 'div' });
+}));

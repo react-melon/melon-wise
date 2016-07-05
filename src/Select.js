@@ -1,29 +1,24 @@
 /**
- * @file melon-wise/Select
- * @author cxtom<cxtom2010@gmail.com>
+ * @file Select
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
+import React, {PropTypes, Children} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
+import InputComponent from 'melon-core/InputComponent';
+import NativeInputComponent from './common/NativeInputComponent';
 
-const cx = require('melon-classname').create('Select');
+const cx = create('Select');
 
-const nativeInputMixin = require('./mixins/NativeInputMixin');
-
-let Select = React.createClass({
-
-    displayName: 'Select',
-
-    mixins: [nativeInputMixin],
+export default class Select extends NativeInputComponent {
 
     renderLabel() {
-        const {label} = this.props;
+        const label = this.props.label;
 
         return label ? (
-            <label>
-                {label}
-            </label>
+            <label>{label}</label>
         ) : null;
-    },
+    }
 
     renderResult() {
 
@@ -31,7 +26,7 @@ let Select = React.createClass({
 
         let result = '';
 
-        React.Children.forEach(children, function (child) {
+        Children.forEach(children, function (child) {
             if (child.props.value === value) {
                 result = child.props.label;
             }
@@ -42,14 +37,11 @@ let Select = React.createClass({
                 {result}
             </div>
         ) : null;
-    },
+    }
 
     render() {
 
         let {
-            label,
-            options,
-            className,
             children,
             value,
             ...rest
@@ -74,20 +66,20 @@ let Select = React.createClass({
 
     }
 
-});
+}
 
-const {PropTypes} = React;
+Select.displayName = 'Select';
 
 Select.propTypes = {
+    ...InputComponent.propTypes,
     onChange: PropTypes.func,
     defaultValue: PropTypes.string
 };
 
 Select.defaultProps = {
+    ...InputComponent.defaultProps,
     defaultValue: ''
 };
-
-Select = require('./createInputComponent').create(Select);
 
 Select.createOptions = function (dataSource) {
 
@@ -104,5 +96,3 @@ Select.createOptions = function (dataSource) {
     });
 
 };
-
-module.exports = Select;

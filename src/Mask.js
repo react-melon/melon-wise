@@ -1,16 +1,16 @@
 /**
- * @file melon-wise/Mask
- * @author cxtom<cxtom2010@gmail.com>
+ * @file Mask
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
-const cx = require('melon-classname').create('Mask');
+import React, {PropTypes} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const {PropTypes} = React;
+const cx = create('Mask');
 
-function Mask(props) {
+export default function Mask(props) {
 
-    const {show} = props;
+    const show = props.show;
 
     return (
         <div {...props} className={cx(props).addStates({show}).build()} />
@@ -21,4 +21,6 @@ Mask.propTypes = {
     show: PropTypes.bool
 };
 
-module.exports = Mask;
+Mask.defaultProps = {
+    show: false
+};

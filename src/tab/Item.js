@@ -1,14 +1,16 @@
 /**
- * @file esui-react Tabs Tab
- * @author cxtom<cxtom2010@gmail.com>
+ * @file Tabs Tab
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
+import React from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const cx = require('melon-classname').create('TabItem');
-const Tappable = require('../Tappable');
+import Tappable from '../Tappable';
 
-function TabItem(props) {
+const cx = create('TabItem');
+
+export default function TabItem(props) {
 
     const {selected, label, ...others} = props;
 
@@ -19,5 +21,3 @@ function TabItem(props) {
     );
 
 }
-
-module.exports = TabItem;

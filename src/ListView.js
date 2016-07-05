@@ -1,17 +1,17 @@
 /**
  * @file ListView
- * @author cxtom(cxtom2010@gmail.com)
+ * @author cxtom(cxtom2008@gmail.com)
  */
 
-const React = require('react');
-const cx = require('melon-classname').create('listview');
+import React, {PropTypes, Component} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const DataSource = require('./listview/DataSource');
-const StaticRender = require('./listview/StaticRenderer');
+import DataSource from './listview/DataSource';
+import StaticRender from './listview/StaticRenderer';
 
-const {PropTypes} = React;
+const cx = create('ListView');
 
-class ListView extends React.Component {
+export default class ListView extends Component {
 
     render() {
 
@@ -66,5 +66,3 @@ ListView.defaultProps = {
 };
 
 ListView.DataSource = DataSource;
-
-module.exports = ListView;

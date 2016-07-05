@@ -1,11 +1,17 @@
-define('melon-wise/lib/listview/DataSource', [
-    'require',
-    'exports',
-    'module',
-    '../babelHelpers'
-], function (require, exports, module) {
-    var babelHelpers = require('../babelHelpers');
+var babelHelpers = require('../babelHelpers');
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/listview/DataSource', ['exports'], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports);
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports);
+        global.DataSource = mod.exports;
+    }
+}(this, function (exports) {
     'use strict';
+    Object.defineProperty(exports, '__esModule', { value: true });
     function defaultRowHasChanged(r1, r2) {
         return r1 !== r2;
     }
@@ -60,5 +66,5 @@ define('melon-wise/lib/listview/DataSource', [
         ]);
         return DataSource;
     }();
-    module.exports = DataSource;
-});
+    exports.default = DataSource;
+}));

@@ -1,45 +1,29 @@
 /**
- * @file esui-react/Popup
- * @author cxtom<cxtom2010@gmail.com>
+ * @file Popup
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
-const cx = require('melon-classname').create('Popup');
+import React, {PropTypes, Component} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
+import CSSTransitionGroup from './CSSTransitionGroup';
+import * as windowScrollHelper from './popup/windowScrollHelper';
+import Mask from './Mask';
 
-const windowScrollHelper = require('./popup/windowScrollHelper');
-const Mask = require('./Mask');
-const CSSTransitionGroup = require('./CSSTransitionGroup');
+const cx = create('Popup');
 
-const PropTypes = React.PropTypes;
+export default class Popup extends Component {
 
+    constructor(props) {
 
-const Popup = React.createClass({
+        super(props);
 
-    propTypes: {
-        show: PropTypes.bool,
-        onHide: PropTypes.func,
-        onShow: PropTypes.func,
-        maskClickClose: PropTypes.bool,
-        mask: PropTypes.bool,
-        onMaskClick: PropTypes.func
-    },
-
-    getDefaultProps() {
-        return {
-            maskClickClose: true,
-            show: false,
-            mask: true
+        this.state = {
+            show: this.props.show,
+            key: Date.now()
         };
-    },
 
-    getInitialState() {
-
-        this.originalHTMLBodySize = {};
-
-        return {
-            show: this.props.show
-        };
-    },
+        this.onMaskClick = this.onMaskClick.bind(this);
+    }
 
     componentWillReceiveProps(nextProps) {
 
@@ -51,37 +35,36 @@ const Popup = React.createClass({
 
         const onEvent = show ? this.onShow : this.onHide;
         this.setState({show}, onEvent);
-
-    },
+    }
 
     onShow() {
         this.bodyScrolling();
-        const {onShow} = this.props;
+        const onShow = this.props.onShow;
         if (onShow) {
             onShow();
         }
-    },
+    }
 
     onHide() {
         this.bodyScrolling();
-        const {onHide} = this.props;
+        const onHide = this.props.onHide;
         if (onHide) {
             onHide();
         }
-    },
+    }
 
     onMaskClick(e) {
         this.setState({show: false}, this.onHide);
-    },
+    }
 
     bodyScrolling() {
         let show = this.state.show;
         windowScrollHelper[show ? 'stop' : 'restore']();
-    },
+    }
 
     render() {
 
-        const {props} = this;
+        const props = this.props;
         const {
             mask,
             maskClickClose,
@@ -91,7 +74,8 @@ const Popup = React.createClass({
             children,
             ...others
         } = props;
-        const {show} = this.state;
+
+        const show = this.state.show;
 
         return (
             <div {...others} className={cx(props).addStates({show}).build()}>
@@ -100,17 +84,37 @@ const Popup = React.createClass({
                     transitionTimeout={transitionTimeout || 400}
                     transitionType={transitionType || 'instant'}
                     translateFrom={translateFrom || 'bottom'}>
-                    {show
-                        ? React.cloneElement(children, {className: cx().part('body').build(), childKey: 'melon-popup'})
-                        : null
-                    }
+                    {show ? <div className={cx.getPartClassName('body')}>
+                        {children}
+                    </div> : null}
                 </CSSTransitionGroup>
-                {mask ? <Mask show={show} onClick={maskClickClose ? this.onMaskClick : null} /> : null}
+                {mask
+                    ? <Mask
+                        show={show}
+                        onClick={maskClickClose ? this.onMaskClick : null} />
+                    : null
+                }
             </div>
         );
-
     }
 
-});
+}
 
-module.exports = Popup;
+Popup.displayName = 'Popup';
+
+Popup.propTypes = {
+    ...CSSTransitionGroup.propTypes,
+    show: PropTypes.bool,
+    onHide: PropTypes.func,
+    onShow: PropTypes.func,
+    maskClickClose: PropTypes.bool,
+    mask: PropTypes.bool,
+    onMaskClick: PropTypes.func
+};
+
+Popup.defaultProps = {
+    ...CSSTransitionGroup.defaultProps,
+    maskClickClose: true,
+    show: false,
+    mask: true
+};

@@ -1,80 +1,76 @@
 /**
- * @file EnhancedSelectSeparatePopup
- * @author cxtom<cxtom2010@gmail.com>
+ * @file melon-wise/select/EnhancedSelectSeparatePopup
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
-const cx = require('melon-classname').create('EnhancedSelectPopup');
+import React, {PropTypes} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const Popup = require('../Popup');
-const Selector = require('../Selector');
-const Tappable = require('../Tappable');
+import Popup from '../Popup';
+import Selector from '../Selector';
+import LockBody from '../common/LockBody';
 
-const {PropTypes} = React;
+const cx = create('EnhancedSelectPopup');
 
-const SeparatePopup = React.createClass({
+export default class SeparatePopup extends LockBody {
 
-    displayName: 'EnhancedSelectSeparatePopup',
-
-    mixins: [require('../mixins/SeparateMixin')],
-
-    propTypes: {
-        items: PropTypes.array,
-        show: PropTypes.bool
-    },
+    constructor(props) {
+        super(props);
+        this.onChange = this.onChange.bind(this);
+        this.onHide = this.onHide.bind(this);
+    }
 
     onChange({value, index}) {
-        const {onChange} = this.props;
-
-        onChange && onChange({
+        this.props.onChange({
             value,
             index,
             target: this
         });
 
         this.onHide();
-    },
+    }
 
     onHide() {
-        const {onHide} = this.props;
-        onHide && onHide();
-    },
+        this.props.onHide();
+    }
 
     render() {
 
         const {
-            show, items,
-            selectedIndex
+            items,
+            selectedIndex,
+            ...rest
         } = this.props;
 
         return (
             <Popup
-                show={show}
+                {...rest}
                 transitionType="translate"
-                direction="bottom"
-                onHide={() => {
-                    this.onHide;
-                }} >
-                <div>
-                    <div className={cx().part('panel').build()}>
-                        <Selector
-                            items={items}
-                            className={cx().part('selector').build()}
-                            selectedIndex={selectedIndex}
-                            onChange={this.onChange} />
-                    </div>
-                    <Tappable
-                        component="div"
-                        onTap={this.onHide}
-                        className={cx().part('cancel').build()}>
-                        取消
-                    </Tappable>
+                direction="bottom" >
+                <div className={cx.getPartClassName('panel')}>
+                    <Selector
+                        items={items}
+                        className={cx.getPartClassName('selector')}
+                        selectedIndex={selectedIndex}
+                        onChange={this.onChange} />
+                </div>
+                <div
+                    onClick={this.onHide}
+                    className={cx.getPartClassName('cancel')}>
+                    取消
                 </div>
             </Popup>
         );
 
     }
-});
+}
 
-module.exports = SeparatePopup;
+SeparatePopup.displayName = 'EnhancedSelectSeparatePopup',
+
+SeparatePopup.propTypes = {
+    items: PropTypes.array,
+    show: PropTypes.bool,
+    onChange: PropTypes.func.isRequired,
+    onHide: PropTypes.func.isRequired
+};
 

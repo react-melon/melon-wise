@@ -1,11 +1,11 @@
 /**
  * @file separate popup helper
- * @author cxtom (cxtom2010@gmail.com)
+ * @author cxtom (cxtom2008@gmail.com)
  */
 
-const ReactDOM = require('react-dom');
+import ReactDOM from 'react-dom';
 
-exports.createPopup = function (domProps, wrapper) {
+export function createPopup(domProps, wrapper) {
 
     if (!wrapper) {
         wrapper = document.body;
@@ -20,13 +20,13 @@ exports.createPopup = function (domProps, wrapper) {
     wrapper.appendChild(container);
 
     return container;
-};
+}
 
-exports.destoryPopup = function (container) {
+export function destoryPopup(container) {
 
     if (container) {
         ReactDOM.unmountComponentAtNode(container);
         container.parentElement.removeChild(container);
         container = null;
     }
-};
+}

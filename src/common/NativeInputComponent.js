@@ -1,28 +1,28 @@
 /**
- * @file InputMixin
- * @author cxtom(cxtom2010@gmail.com)
+ * @file NativeInputComponent
+ * @author cxtom(cxtom2008@gmail.com)
  */
 
-module.exports = {
+import InputComponent from 'melon-core/InputComponent';
+
+export default class NativeInputComponent extends InputComponent {
 
     onChange(e) {
 
         const value = e.target.value;
 
-        const {onChange} = this.props;
-
-        onChange({
+        super.onChange({
             type: 'change',
             target: this,
             value
         });
-    },
+    }
 
     onBlur(e) {
 
         const value = e.target.value;
 
-        const {onBlur} = this.props;
+        const onBlur = this.props.onBlur;
 
         onBlur && onBlur({
             type: 'blur',
@@ -31,4 +31,4 @@ module.exports = {
         });
     }
 
-};
+}

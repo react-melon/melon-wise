@@ -1,22 +1,21 @@
 /**
  * @file mapChildren
- * @author cxtom<cxtom2010@gmail.com>
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
+import {Children} from 'react';
 
 export function getChildMapping(children) {
 
+    if (!children) {
+        return null;
+    }
+
     let mappedChildren = {};
 
-    React.Children.forEach(children, (child, index) => {
-
-        const {
-            childKey = Date.now()
-        } = child.props;
-
+    Children.forEach(children, (child, index) => {
+        const childKey = child.key || index.toString(36);
         mappedChildren[childKey] = child;
-
     });
 
     return mappedChildren;
@@ -24,14 +23,20 @@ export function getChildMapping(children) {
 
 export function mergeChildMappings(prevChildMapping, nextChildMapping) {
 
-    let mergedChildren = {...prevChildMapping} || {};
+    if (!prevChildMapping) {
+        return nextChildMapping;
+    }
+
+    if (!nextChildMapping) {
+        return prevChildMapping;
+    }
+
+    let mergedChildren = {...prevChildMapping};
 
     Object.keys(nextChildMapping).forEach(function (key) {
-
-        if (!prevChildMapping[key] && prevChildMapping[key] !== nextChildMapping[key]) {
+        if (prevChildMapping[key] !== nextChildMapping[key]) {
             mergedChildren[key] = nextChildMapping[key];
         }
-
     });
 
     return mergedChildren;

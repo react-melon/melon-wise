@@ -1,33 +1,36 @@
-define('melon-wise/lib/EnhancedSelect', [
-    'require',
-    'exports',
-    'module',
-    './babelHelpers',
-    'react',
-    'react-dom',
-    'melon-classname',
-    './util/separatePopupHelper',
-    './enhancedselect/SeparatePopup',
-    './createInputComponent'
-], function (require, exports, module) {
-    var babelHelpers = require('./babelHelpers');
+var babelHelpers = require('./babelHelpers');
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/EnhancedSelect', [
+            'exports',
+            'react',
+            'react-dom',
+            'melon-core/classname/cxBuilder',
+            'melon-core/InputComponent',
+            './util/separatePopupHelper',
+            './enhancedselect/SeparatePopup'
+        ], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('react'), require('react-dom'), require('melon-core/classname/cxBuilder'), require('melon-core/InputComponent'), require('./util/separatePopupHelper'), require('./enhancedselect/SeparatePopup'));
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports, global.react, global.reactDom, global.cxBuilder, global.InputComponent, global.separatePopupHelper, global.SeparatePopup);
+        global.EnhancedSelect = mod.exports;
+    }
+}(this, function (exports, _react, _reactDom, _cxBuilder, _InputComponent2, _separatePopupHelper, _SeparatePopup) {
     'use strict';
-    var React = require('react');
-    var ReactDOM = require('react-dom');
-    var cx = require('melon-classname').create('EnhancedSelect');
-    var popupHelper = require('./util/separatePopupHelper');
-    var SeparatePopup = require('./enhancedselect/SeparatePopup');
-    var PropTypes = React.PropTypes;
-    var Component = React.Component;
-    var EnhancedSelect = function (_Component) {
-        babelHelpers.inherits(EnhancedSelect, _Component);
-        function EnhancedSelect(props) {
+    Object.defineProperty(exports, '__esModule', { value: true });
+    var _react2 = babelHelpers.interopRequireDefault(_react);
+    var _reactDom2 = babelHelpers.interopRequireDefault(_reactDom);
+    var _InputComponent3 = babelHelpers.interopRequireDefault(_InputComponent2);
+    var popupHelper = babelHelpers.interopRequireWildcard(_separatePopupHelper);
+    var _SeparatePopup2 = babelHelpers.interopRequireDefault(_SeparatePopup);
+    var cx = (0, _cxBuilder.create)('EnhancedSelect');
+    var EnhancedSelect = function (_InputComponent) {
+        babelHelpers.inherits(EnhancedSelect, _InputComponent);
+        function EnhancedSelect(props, context) {
             babelHelpers.classCallCheck(this, EnhancedSelect);
-            var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EnhancedSelect).call(this, props));
-            var items = props.items;
-            var value = props.value;
-            _this.state = { selectedIndex: _this.getSelectedIndex(items, value) };
-            _this.onClick = _this.onClick.bind(_this);
+            var _this = babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(EnhancedSelect).call(this, props, context));
             _this.onChange = _this.onChange.bind(_this);
             return _this;
         }
@@ -35,7 +38,7 @@ define('melon-wise/lib/EnhancedSelect', [
             {
                 key: 'componentDidMount',
                 value: function componentDidMount() {
-                    this.container = popupHelper.createPopup({ className: cx().part('popup').build() });
+                    this.container = popupHelper.createPopup({ className: cx.getPartClassName('popup') });
                     this.renderPopup(false);
                 }
             },
@@ -51,8 +54,7 @@ define('melon-wise/lib/EnhancedSelect', [
                 value: function onChange(_ref) {
                     var index = _ref.index;
                     var value = _ref.value;
-                    this.setState({ selectedIndex: index });
-                    this.props.onChange({
+                    babelHelpers.get(Object.getPrototypeOf(EnhancedSelect.prototype), 'onChange', this).call(this, {
                         type: 'change',
                         target: this,
                         value: value
@@ -60,20 +62,14 @@ define('melon-wise/lib/EnhancedSelect', [
                 }
             },
             {
-                key: 'onClick',
-                value: function onClick() {
-                    this.renderPopup(true);
-                }
-            },
-            {
                 key: 'getSelectedIndex',
-                value: function getSelectedIndex(items, value) {
-                    for (var i = items.length - 1; i >= 0; i--) {
+                value: function getSelectedIndex(value) {
+                    var items = this.props.items;
+                    for (var i = 0, len = items.length; i < len; i++) {
                         if (items[i].value === value) {
                             return i;
                         }
                     }
-                    return;
                 }
             },
             {
@@ -81,9 +77,9 @@ define('melon-wise/lib/EnhancedSelect', [
                 value: function renderPopup(isShow) {
                     var _this2 = this;
                     var items = this.props.items;
-                    ReactDOM.render(React.createElement(SeparatePopup, {
+                    _reactDom2.default.render(_react2.default.createElement(_SeparatePopup2.default, {
                         show: isShow,
-                        selectedIndex: this.state.selectedIndex,
+                        selectedIndex: this.getSelectedIndex(this.state.value),
                         items: items,
                         onChange: this.onChange,
                         onHide: function onHide() {
@@ -96,57 +92,53 @@ define('melon-wise/lib/EnhancedSelect', [
                 key: 'renderResult',
                 value: function renderResult() {
                     var _props = this.props;
-                    var value = _props.value;
+                    var placeholder = _props.placeholder;
                     var items = _props.items;
-                    var selectedIndex = this.state.selectedIndex;
-                    return value ? React.createElement('div', { className: cx().part('result').build() }, items[selectedIndex].name) : null;
+                    var value = this.state.value;
+                    var selectedItem = items[this.getSelectedIndex(value)];
+                    return selectedItem && value ? _react2.default.createElement('div', { className: cx.getPartClassName('result') }, selectedItem.name) : _react2.default.createElement('div', { className: cx.getPartClassName('label-placeholder') }, placeholder);
                 }
             },
             {
                 key: 'renderLabel',
                 value: function renderLabel() {
                     var label = this.props.label;
-                    return label ? React.createElement('label', { className: cx().part('label').build() }, label) : null;
+                    return label ? _react2.default.createElement('label', { className: cx().part('label').build() }, label) : null;
                 }
             },
             {
                 key: 'renderHiddenInput',
                 value: function renderHiddenInput() {
-                    var _props2 = this.props;
-                    var items = _props2.items;
-                    var name = _props2.name;
-                    var selectedIndex = this.state.selectedIndex;
-                    return React.createElement('input', {
+                    return _react2.default.createElement('input', {
                         type: 'hidden',
                         name: name,
-                        value: selectedIndex == null ? '' : items[selectedIndex].value
+                        value: this.state.value
                     });
                 }
             },
             {
                 key: 'render',
                 value: function render() {
-                    return React.createElement('div', {
+                    var _this3 = this;
+                    return _react2.default.createElement('div', {
                         className: cx(this.props).build(),
-                        onClick: this.onClick
+                        onClick: function onClick() {
+                            return _this3.renderPopup(true);
+                        }
                     }, this.renderLabel(), this.renderResult(), this.renderHiddenInput());
                 }
             }
         ]);
         return EnhancedSelect;
-    }(Component);
+    }(_InputComponent3.default);
+    exports.default = EnhancedSelect;
     EnhancedSelect.displayName = 'EnhancedSelect';
-    EnhancedSelect.propTypes = {
-        defaultValue: PropTypes.string,
-        value: PropTypes.string,
-        label: PropTypes.string,
-        onChange: PropTypes.func,
-        items: PropTypes.arrayOf(PropTypes.shape({
-            name: PropTypes.string,
-            value: PropTypes.string
-        })).isRequired,
-        itemBorder: PropTypes.bool
-    };
-    EnhancedSelect.defaultProps = { defaultValue: '' };
-    module.exports = require('./createInputComponent').create(EnhancedSelect);
-});
+    EnhancedSelect.propTypes = babelHelpers.extends({}, _InputComponent3.default.propTypes, {
+        label: _react.PropTypes.string,
+        items: _react.PropTypes.arrayOf(_react.PropTypes.shape({
+            name: _react.PropTypes.string,
+            value: _react.PropTypes.string
+        })).isRequired
+    });
+    EnhancedSelect.defaultProps = babelHelpers.extends({}, _InputComponent3.default.defaultProps, { defaultValue: '' });
+}));

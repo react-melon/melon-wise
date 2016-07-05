@@ -3,9 +3,9 @@
  * @author cxtom(cxtom2008@gmail.com)
  */
 
-const React = require('react');
+import React from 'react';
 
-const MonthPicker = require('melon-wise/MonthPicker');
+import MonthPicker from 'melon-wise/MonthPicker';
 
 const View = React.createClass({
 

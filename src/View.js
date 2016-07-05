@@ -1,24 +1,25 @@
 /**
- * @file esui-react/View
- * @author cxtom<cxtom2010@gmail.com>
+ * @file melon-wise/View
+ * @author cxtom<2008@gmail.com>
  */
 
-const React = require('react');
+import React, {PropTypes, Component} from 'react';
 
-const cx = require('melon-classname').create('View');
+import {create} from 'melon-core/classname/cxBuilder';
 
-const View = React.createClass({
+const cx = create('View');
 
-    displayName: 'View',
+export default class View extends Component {
 
-    propTypes: {
-        renderHeader: React.PropTypes.func,
-        renderFooter: React.PropTypes.func
-    },
+    constructor(props) {
+        super(props);
+        this.onTouchStart = this.onTouchStart.bind(this);
+        this.onTouchMove = this.onTouchMove.bind(this);
+    }
 
     onTouchStart(e) {
         this.startY = e.touches[0].clientY;
-    },
+    }
 
     onTouchMove(e) {
 
@@ -47,11 +48,11 @@ const View = React.createClass({
                 e.preventDefault();
             }
         }
-    },
+    }
 
     render() {
 
-        const {props} = this;
+        const props = this.props;
 
         let {
             renderHeader,
@@ -105,10 +106,16 @@ const View = React.createClass({
 
     }
 
-});
+}
+
+View.displayName = 'View';
+
+View.propTypes = {
+    renderHeader: PropTypes.func,
+    renderFooter: PropTypes.func,
+    component: PropTypes.string
+};
 
 View.defaultProps = {
     component: 'div'
 };
-
-module.exports = View;

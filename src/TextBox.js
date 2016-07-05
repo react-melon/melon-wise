@@ -1,60 +1,41 @@
 /**
- * @file esui-react/TextBox
- * @author cxtom<cxtom2010@gmail.com>
+ * @file TextBox
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
+import React, {PropTypes} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
+import InputComponent from 'melon-core/InputComponent';
+import NativeInputComponent from './common/NativeInputComponent';
+import Validity from 'melon-core/Validity';
 
-const cx = require('melon-classname').create('textbox');
+const cx = create('TextBox');
 
-const nativeInputMixin = require('./mixins/NativeInputMixin');
-
-const TextBox = React.createClass({
-
-    displayName: 'TextBox',
-
-    mixins: [nativeInputMixin],
-
-    componentWillUnmount() {
-        this.timer && clearTimeout(this.timer);
-    },
+export default class TextBox extends NativeInputComponent {
 
     renderLabel() {
-        const {label} = this.props;
+        const label = this.props.label;
 
         return label ? (
-            <label>
-                {label}
-            </label>
+            <label>{label}</label>
         ) : null;
-    },
+    }
 
     onFocus(e) {
-        const {target} = e;
-        const {onFocus} = this.props;
-
-        this.timer = setTimeout(() => {
-            target.scrollIntoView();
-        }, 100);
-
-        onFocus && onFocus();
-    },
+        const onFocus = this.props.onFocus;
+        this.input.scrollIntoView();
+        onFocus && onFocus(e);
+    }
 
     render() {
 
-        let {
-            unit,
-            value,
-            className,
-            ...rest
-        } = this.props;
+        const unit = this.props.unit;
 
         return (
-            <div className={cx(this.props).build()}>
+            <div {...this.props} className={cx(this.props).addStates(this.getStyleStates()).build()}>
                 {this.renderLabel()}
                 <input
-                    {...rest}
-                    value={value}
+                    value={this.state.value}
                     onChange={this.onChange}
                     onBlur={this.onBlur}
                     onFocus={this.onFocus}
@@ -62,25 +43,27 @@ const TextBox = React.createClass({
                     ref={input => {
                         this.input = input;
                     }} />
-                {unit ? <div className={cx().part('unit').build()}>{unit}</div> : null}
+                {unit ? <div className={cx.getPartClassName('unit')}>{unit}</div> : null}
+                <Validity validity={this.state.validity} />
             </div>
         );
 
     }
+}
 
-});
-
-const {PropTypes} = React;
+TextBox.displayName = 'TextBox';
 
 TextBox.propTypes = {
+    ...InputComponent.propTypes,
     onFocus: PropTypes.func,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
-    defaultValue: PropTypes.string
+    defaultValue: PropTypes.string,
+    validateEvents: PropTypes.array
 };
 
 TextBox.defaultProps = {
-    defaultValue: ''
+    ...InputComponent.defaultProps,
+    defaultValue: '',
+    validateEvents: ['change', 'blur']
 };
-
-module.exports = require('./createInputComponent').create(TextBox);

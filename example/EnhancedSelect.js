@@ -3,8 +3,8 @@
  * @author cxtom(cxtom2008@gmail.com)
  */
 
-const React = require('react');
-const EnhancedSelect = require('melon-wise/EnhancedSelect');
+import React from 'react';
+import EnhancedSelect from 'melon-wise/EnhancedSelect';
 
 const items = [{
     value: '01',

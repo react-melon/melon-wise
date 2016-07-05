@@ -1,74 +1,92 @@
-define('melon-wise/lib/Select', [
-    'require',
-    'exports',
-    'module',
-    './babelHelpers',
-    'react',
-    'melon-classname',
-    './mixins/NativeInputMixin',
-    './createInputComponent'
-], function (require, exports, module) {
-    var babelHelpers = require('./babelHelpers');
+var babelHelpers = require('./babelHelpers');
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/Select', [
+            'exports',
+            'react',
+            'melon-core/classname/cxBuilder',
+            'melon-core/InputComponent',
+            './common/NativeInputComponent'
+        ], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('react'), require('melon-core/classname/cxBuilder'), require('melon-core/InputComponent'), require('./common/NativeInputComponent'));
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports, global.react, global.cxBuilder, global.InputComponent, global.NativeInputComponent);
+        global.Select = mod.exports;
+    }
+}(this, function (exports, _react, _cxBuilder, _InputComponent, _NativeInputComponent2) {
     'use strict';
-    var React = require('react');
-    var cx = require('melon-classname').create('Select');
-    var nativeInputMixin = require('./mixins/NativeInputMixin');
-    var Select = React.createClass({
-        displayName: 'Select',
-        mixins: [nativeInputMixin],
-        renderLabel: function renderLabel() {
-            var label = this.props.label;
-            return label ? React.createElement('label', null, label) : null;
-        },
-        renderResult: function renderResult() {
-            var _props = this.props;
-            var value = _props.value;
-            var children = _props.children;
-            var result = '';
-            React.Children.forEach(children, function (child) {
-                if (child.props.value === value) {
-                    result = child.props.label;
-                }
-            });
-            return value ? React.createElement('div', { className: cx().part('result').build() }, result) : null;
-        },
-        render: function render() {
-            var _this = this;
-            var _props2 = this.props;
-            var label = _props2.label;
-            var options = _props2.options;
-            var className = _props2.className;
-            var children = _props2.children;
-            var value = _props2.value;
-            var rest = babelHelpers.objectWithoutProperties(_props2, [
-                'label',
-                'options',
-                'className',
-                'children',
-                'value'
-            ]);
-            return React.createElement('div', { className: cx(this.props).build() }, this.renderLabel(), this.renderResult(), React.createElement('select', babelHelpers.extends({}, rest, {
-                value: value,
-                onChange: this.onChange,
-                ref: function ref(input) {
-                    _this.input = input;
-                }
-            }), value ? null : React.createElement('option', {
-                label: '\u672A\u9009\u62E9',
-                value: ''
-            }), children));
+    Object.defineProperty(exports, '__esModule', { value: true });
+    var _react2 = babelHelpers.interopRequireDefault(_react);
+    var _InputComponent2 = babelHelpers.interopRequireDefault(_InputComponent);
+    var _NativeInputComponent3 = babelHelpers.interopRequireDefault(_NativeInputComponent2);
+    var cx = (0, _cxBuilder.create)('Select');
+    var Select = function (_NativeInputComponent) {
+        babelHelpers.inherits(Select, _NativeInputComponent);
+        function Select() {
+            babelHelpers.classCallCheck(this, Select);
+            return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(Select).apply(this, arguments));
         }
+        babelHelpers.createClass(Select, [
+            {
+                key: 'renderLabel',
+                value: function renderLabel() {
+                    var label = this.props.label;
+                    return label ? _react2.default.createElement('label', null, label) : null;
+                }
+            },
+            {
+                key: 'renderResult',
+                value: function renderResult() {
+                    var _props = this.props;
+                    var value = _props.value;
+                    var children = _props.children;
+                    var result = '';
+                    _react.Children.forEach(children, function (child) {
+                        if (child.props.value === value) {
+                            result = child.props.label;
+                        }
+                    });
+                    return value ? _react2.default.createElement('div', { className: cx().part('result').build() }, result) : null;
+                }
+            },
+            {
+                key: 'render',
+                value: function render() {
+                    var _this2 = this;
+                    var _props2 = this.props;
+                    var children = _props2.children;
+                    var value = _props2.value;
+                    var rest = babelHelpers.objectWithoutProperties(_props2, [
+                        'children',
+                        'value'
+                    ]);
+                    return _react2.default.createElement('div', { className: cx(this.props).build() }, this.renderLabel(), this.renderResult(), _react2.default.createElement('select', babelHelpers.extends({}, rest, {
+                        value: value,
+                        onChange: this.onChange,
+                        ref: function ref(input) {
+                            _this2.input = input;
+                        }
+                    }), value ? null : _react2.default.createElement('option', {
+                        label: '\u672A\u9009\u62E9',
+                        value: ''
+                    }), children));
+                }
+            }
+        ]);
+        return Select;
+    }(_NativeInputComponent3.default);
+    exports.default = Select;
+    Select.displayName = 'Select';
+    Select.propTypes = babelHelpers.extends({}, _InputComponent2.default.propTypes, {
+        onChange: _react.PropTypes.func,
+        defaultValue: _react.PropTypes.string
     });
-    var PropTypes = React.PropTypes;
-    Select.propTypes = {
-        onChange: PropTypes.func,
-        defaultValue: PropTypes.string
-    };
-    Select.defaultProps = { defaultValue: '' };
-    Select = require('./createInputComponent').create(Select);
+    Select.defaultProps = babelHelpers.extends({}, _InputComponent2.default.defaultProps, { defaultValue: '' });
     Select.createOptions = function (dataSource) {
         return dataSource.map(function (option, index) {
-            return React.createElement('option', {
+            return _react2.default.createElement('option', {
                 key: index,
                 disabled: option.disabled,
                 value: option.value,
@@ -76,5 +94,4 @@ define('melon-wise/lib/Select', [
             });
         });
     };
-    module.exports = Select;
-});
+}));

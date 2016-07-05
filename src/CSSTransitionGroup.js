@@ -1,26 +1,26 @@
 /**
- * @file esui-react/CSSTransitionGroup
- * @author cxtom<cxtom2010@gmail.com>
+ * @file melon-wise/CSSTransitionGroup
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
-const cx = require('melon-classname').create('CssTransitionGroup');
-const PropTypes = React.PropTypes;
-
-const {
+import React, {Component, PropTypes} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
+import {
     getChildMapping,
     mergeChildMappings
-} = require('./csstransitiongroup/TransitionChildMapping');
+} from './csstransitiongroup/TransitionChildMapping';
 
-const CSSTransitionGroupChild = require('./csstransitiongroup/CSSTransitionGroupChild');
+import CSSTransitionGroupChild from './csstransitiongroup/CSSTransitionGroupChild';
 
-class CSSTransitionGroup extends React.Component {
+const cx = create('CssTransitionGroup');
+
+export default class CSSTransitionGroup extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            children: getChildMapping(props.children, props.childKey)
+            children: getChildMapping(props.children)
         };
 
         this.currentlyTransitioningKeys = [];
@@ -153,9 +153,7 @@ class CSSTransitionGroup extends React.Component {
 
         let childrenToRender = [];
 
-        const {
-            children
-        } = this.state;
+        const children = this.state.children;
 
         const {
             component,
@@ -199,5 +197,3 @@ CSSTransitionGroup.defaultProps = {
     ...CSSTransitionGroupChild.defaultProps,
     component: 'div'
 };
-
-module.exports = CSSTransitionGroup;

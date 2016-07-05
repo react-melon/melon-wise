@@ -10,19 +10,10 @@ exports.port = 8838;
 exports.directoryIndexes = true;
 exports.documentRoot = __dirname;
 
-require('babel-core/register');
-
 var babel = require('babel-core');
 var nib = require('nib');
 
 exports.stylus = require('stylus');
-
-function amdify(context) {
-    context.content =  ''
-        + 'define(function (require, exports, module) {\n'
-        +     context.content
-        + '\n});';
-}
 
 exports.getLocations = function () {
     return [
@@ -50,25 +41,24 @@ exports.getLocations = function () {
                 function (context) {
                     try {
                         context.content = babel
-                            .transform(
-                                context.content,
-                                {
-                                    presets: ['es2015', 'stage-0'],
-                                    plugins: [
-                                        'transform-react-jsx',
-                                        'transform-react-display-name',
-                                        'transform-strict-mode'
-                                    ]
+                            .transform(context.content, {
+                                compact: false,
+                                ast: false,
+                                presets: ['es2015', 'stage-1', 'react'],
+                                plugins: [
+                                    'transform-es2015-modules-amd'
+                                ],
+                                moduleId: '',
+                                getModuleId: function (filename) {
+                                    return filename.replace('src/', '');
                                 }
-                            )
-                            .code;
+                            }).code;
                     }
                     catch (e) {
                         console.error(e.stack);
                         context.status = 500;
                     }
-                },
-                amdify
+                }
             ]
         },
         {

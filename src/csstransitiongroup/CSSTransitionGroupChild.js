@@ -1,14 +1,13 @@
 /**
  * @file esui-react/CSSTransitionGroupChild
- * @author cxtom<cxtom2010@gmail.com>
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const domUtil = require('../util/dom');
-const PropTypes = React.PropTypes;
+import React, {PropTypes, Component} from 'react';
+import ReactDOM from 'react-dom';
+import * as domUtil from '../util/dom';
 
-class CSSTransitionGroupChild extends React.Component {
+export default class CSSTransitionGroupChild extends Component {
 
     constructor(props) {
         super(props);
@@ -23,9 +22,7 @@ class CSSTransitionGroupChild extends React.Component {
         if (this.timeout) {
             clearTimeout(this.timeout);
         }
-        this.transitionTimeouts.forEach(function (timeout) {
-            clearTimeout(timeout);
-        });
+        this.transitionTimeouts.forEach(clearTimeout);
     }
 
     componentWillEnter(done) {
@@ -125,5 +122,3 @@ CSSTransitionGroupChild.defaultProps = {
     transitionType: 'instant',
     translateFrom: 'bottom'
 };
-
-module.exports = CSSTransitionGroupChild;

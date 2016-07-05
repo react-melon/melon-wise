@@ -1,17 +1,20 @@
 /**
- * @file main
- * @author cxtom(cxtom2010@gmail.com)
+ * @file flexrow/span
+ * @author cxtom(cxtom2008@gmail.com)
  */
 
-const React = require('react');
+import React, {PropTypes} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const cx = require('melon-classname').create('RowSpan');
+const cx = create('FlexRowSpan');
 
-function RowSpan(props) {
+export default function FlexRowSpan(props) {
 
     let {
-        occupy, style,
-        columnNum, noGap,
+        occupy,
+        style,
+        columnNum,
+        noGap,
         ...other
     } = props;
 
@@ -36,12 +39,12 @@ function RowSpan(props) {
     );
 }
 
-RowSpan.propsTypes = {
-    occupy: React.PropTypes.number.isRequired
+FlexRowSpan.displayName = 'FlexRowSpan';
+
+FlexRowSpan.propsTypes = {
+    occupy: PropTypes.number.isRequired
 };
 
-RowSpan.defaultProps = {
+FlexRowSpan.defaultProps = {
     occupy: 4
 };
-
-module.exports = RowSpan;

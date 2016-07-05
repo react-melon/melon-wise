@@ -3,14 +3,14 @@
  * @author leon(ludafa@outlook.com)
  */
 
-const React = require('react');
-const NavigationBar = require('melon-wise/NavigationBar');
-const View = require('melon-wise/View');
+import React from 'react';
+import NavigationBar from 'melon-wise/NavigationBar';
+import View from 'melon-wise/View';
 
 const App = React.createClass({
 
     render() {
-        const {Component} = this.props;
+        const Component = this.props.Component;
         return (
             <View renderHeader={this.renderHeader}>
                 {this.renderContent(Component)}

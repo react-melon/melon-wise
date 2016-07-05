@@ -3,12 +3,11 @@
  * @author cxtom(cxtom2010@gmail.com)
  */
 
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const cx = require('melon-classname').create('Tappable');
-
-const {PropTypes} = React;
+const cx = create('Tappable');
 
 function getTouchProps(touch) {
     if (!touch) {
@@ -26,14 +25,11 @@ const touchStyles = {
     WebkitTapHighlightColor: 'rgba(0,0,0,0)',
     WebkitTouchCallout: 'none',
     WebkitUserSelect: 'none',
-    // KhtmlUserSelect: 'none',
-    // MozUserSelect: 'none',
-    // msUserSelect: 'none',
     userSelect: 'none',
     cursor: 'pointer'
 };
 
-class Tappable extends React.Component {
+export default class Tappable extends React.Component {
 
     constructor(props) {
         super(props);
@@ -368,6 +364,3 @@ Tappable.defaultProps = {
     component: 'span',
     classBase: 'Tappable'
 };
-
-
-module.exports = Tappable;

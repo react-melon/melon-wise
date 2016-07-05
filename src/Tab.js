@@ -1,91 +1,63 @@
 /**
- * @file esui-react/Tab
- * @author cxtom<cxtom2010@gmail.com>
+ * @file Tab
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
-const cx = require('melon-classname').create('Tab');
+import React, {PropTypes, Component} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const Item = require('./tab/Item');
-const TabPanel = require('./tab/Panel');
+import Item from './tab/Item';
+import TabPanel from './tab/Panel';
 
-const {PropTypes} = React;
+const cx = create('Tab');
 
-const Tab = React.createClass({
+export default class Tab extends Component {
 
-    displayName: 'Tab',
+    constructor(props) {
+        super(props);
 
-    propTypes: {
-        selectedIndex: PropTypes.number,
-        onChange: PropTypes.func,
-        onBeforeChange: PropTypes.func
-    },
-
-    getDefaultProps() {
-        return {
-            selectedIndex: 0
-        };
-    },
-
-    getInitialState() {
-
-        const {selectedIndex} = this.props;
-
-        return {
+        const selectedIndex = this.props.selectedIndex;
+        this.state = {
             selectedIndex
         };
-
-    },
+    }
 
     componentWillReceiveProps(nextProps) {
 
         if (nextProps.selectedIndex !== this.state.selectedIndex) {
             this.setState({
                 selectedIndex: nextProps.selectedIndex
-            }, () => {
-                const {onChange, selectedIndex} = nextProps;
-                onChange({selectedIndex});
             });
         }
-    },
+    }
 
     getTabCount() {
         return React.Children.count(this.props.children);
-    },
+    }
 
     getSelected(tab, index) {
         return this.state.selectedIndex === index;
-    },
+    }
 
-    handleTabClick(index) {
+    handleTabClick(index, e) {
 
         if (index === this.state.selectedIndex) {
             return;
         }
 
-        const {onBeforeChange, onChange} = this.props;
+        const onChange = this.props.onChange;
 
-        let defaultPrevented = false;
+        e.index = index;
 
-        let e = {
-            selectedIndex: index,
-            preventDefault() {
-                defaultPrevented = true;
-            }
-        };
-
-        if (onBeforeChange) {
-            onBeforeChange(e);
-            if (defaultPrevented) {
-                return;
-            }
+        // Controlled
+        if (onChange) {
+            onChange(e);
+            return;
         }
 
-        this.setState({selectedIndex: index}, function () {
-            onChange && onChange(e);
-        });
+        this.setState({selectedIndex: index});
 
-    },
+    }
 
     render() {
 
@@ -144,8 +116,18 @@ const Tab = React.createClass({
 
     }
 
-});
+}
+
+Tab.displayName = 'Tab';
+
+Tab.propTypes = {
+    selectedIndex: PropTypes.number,
+    onChange: PropTypes.func,
+    onBeforeChange: PropTypes.func
+};
+
+Tab.defaultProps = {
+    selectedIndex: 0
+};
 
 Tab.Item = Item;
-
-module.exports = Tab;

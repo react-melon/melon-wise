@@ -1,23 +1,23 @@
 /**
- * @file esui-react Tabs Panel
- * @author cxtom<cxtom2010@gmail.com>
+ * @file TabPanel
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
+import React from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const cx = require('melon-classname').create('TabPanel');
+const cx = create('TabPanel');
 
-function TabPanel(props) {
+export default function TabPanel(props) {
 
-    const {
-        active,
-        ...others
-    } = props;
+    const className = cx(props)
+        .addStates({
+            active: props.active
+        })
+        .build();
 
     return (
-        <div {...props} className={cx(props).addStates({active}).build()} />
+        <div {...props} className={className} />
     );
 
 }
-
-module.exports = TabPanel;

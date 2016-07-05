@@ -1,13 +1,14 @@
 /**
  * @file melon-wise/Icon
- * @author cxtom<cxtom2010@gmail.com>
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
+import React from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
 
-const cx = require('melon-classname').create('Icon');
+const cx = create('Icon');
 
-function Icon(props) {
+export default function Icon(props) {
 
     return (
         <i {...props} className={cx(props).build()} />
@@ -15,4 +16,4 @@ function Icon(props) {
 
 }
 
-module.exports = Icon;
+Icon.displayName = 'Icon';

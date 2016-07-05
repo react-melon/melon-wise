@@ -1,50 +1,62 @@
-define('melon-wise/lib/NavigationBar', [
-    'require',
-    'exports',
-    'module',
-    './babelHelpers',
-    'react',
-    'melon-classname',
-    './Title',
-    './Tappable'
-], function (require, exports, module) {
-    var babelHelpers = require('./babelHelpers');
-    'use strict';
-    var React = require('react');
-    var cx = require('melon-classname').create('NavigationBar');
-    var Title = require('./Title');
-    var Tappable = require('./Tappable');
-    function NavigationBar(props) {
-        var title = props.title;
-        var leftIcon = props.leftIcon;
-        var rightIcon = props.rightIcon;
-        var onLeftTap = props.onLeftTap;
-        var onRightTap = props.onRightTap;
-        var other = babelHelpers.objectWithoutProperties(props, [
-            'title',
-            'leftIcon',
-            'rightIcon',
-            'onLeftTap',
-            'onRightTap'
-        ]);
-        var leftButton = leftIcon ? React.createElement(Tappable, {
-            className: cx().part('left').build(),
-            onTap: onLeftTap
-        }, leftIcon) : null;
-        var rightButton = rightIcon ? React.createElement(Tappable, {
-            className: cx().part('right').build(),
-            onTap: onRightTap
-        }, leftIcon) : null;
-        return React.createElement('nav', { className: cx(props).build() }, leftButton, rightButton, React.createElement(Title, { level: 2 }, title));
+var babelHelpers = require('./babelHelpers');
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/NavigationBar', [
+            'exports',
+            'react',
+            'melon-core/classname/cxBuilder',
+            './Tappable',
+            './Title'
+        ], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(exports, require('react'), require('melon-core/classname/cxBuilder'), require('./Tappable'), require('./Title'));
+    } else {
+        var mod = { exports: {} };
+        factory(mod.exports, global.react, global.cxBuilder, global.Tappable, global.Title);
+        global.NavigationBar = mod.exports;
     }
+}(this, function (exports, _react, _cxBuilder, _Tappable, _Title) {
+    'use strict';
+    Object.defineProperty(exports, '__esModule', { value: true });
+    var _react2 = babelHelpers.interopRequireDefault(_react);
+    var _Tappable2 = babelHelpers.interopRequireDefault(_Tappable);
+    var _Title2 = babelHelpers.interopRequireDefault(_Title);
+    var cx = (0, _cxBuilder.create)('NavigationBar');
+    var NavigationBar = function (_Component) {
+        babelHelpers.inherits(NavigationBar, _Component);
+        function NavigationBar() {
+            babelHelpers.classCallCheck(this, NavigationBar);
+            return babelHelpers.possibleConstructorReturn(this, Object.getPrototypeOf(NavigationBar).apply(this, arguments));
+        }
+        babelHelpers.createClass(NavigationBar, [{
+                key: 'render',
+                value: function render() {
+                    var props = this.props;
+                    var title = props.title;
+                    var leftIcon = props.leftIcon;
+                    var rightIcon = props.rightIcon;
+                    var onLeftTap = props.onLeftTap;
+                    var onRightTap = props.onRightTap;
+                    var leftButton = leftIcon ? _react2.default.createElement(_Tappable2.default, {
+                        className: cx().part('left').build(),
+                        onTap: onLeftTap
+                    }, leftIcon) : null;
+                    var rightButton = rightIcon ? _react2.default.createElement(_Tappable2.default, {
+                        className: cx().part('right').build(),
+                        onTap: onRightTap
+                    }, leftIcon) : null;
+                    return _react2.default.createElement('nav', { className: cx(props).build() }, leftButton, rightButton, _react2.default.createElement(_Title2.default, { level: 2 }, title));
+                }
+            }]);
+        return NavigationBar;
+    }(_react.Component);
+    exports.default = NavigationBar;
     NavigationBar.displayName = 'NavigationBar';
-    var PropTypes = React.PropTypes;
     NavigationBar.propTypes = {
-        hidden: PropTypes.bool,
-        title: PropTypes.any,
-        leftIcon: PropTypes.element,
-        rightIcon: PropTypes.element
+        hidden: _react.PropTypes.bool,
+        title: _react.PropTypes.any,
+        leftIcon: _react.PropTypes.element,
+        rightIcon: _react.PropTypes.element
     };
     NavigationBar.defaultProps = { hidden: false };
-    module.exports = NavigationBar;
-});
+}));

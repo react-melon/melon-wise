@@ -28,13 +28,10 @@ require.config({
     paths: {
         'react': '../dep/react/react',
         'react-dom': '../dep/react/react-dom',
-        'melon-wise': '../src/'
-    },
-    packages: [{
-        name: 'melon-classname',
-        location: '../dep/melon-classname/dist',
-        main: 'index'
-    }]
+        'melon-wise': '../src/',
+        'melon-core': '../dep/melon-core/dist',
+        'tappable': '../dep/tappable/source/tappable'
+    }
 });
 
 require(['react', 'react-dom', 'common/App', 'common/config'], function (React, ReactDOM, App, config) {
@@ -42,7 +39,7 @@ require(['react', 'react-dom', 'common/App', 'common/config'], function (React, 
     function dispatch() {
 
         var hash = window.location.hash;
-        var name = hash ? hash.slice(2) : 'MonthPicker';
+        var name = hash ? hash.slice(1) : 'MonthPicker';
 
         require([name], function (Component) {
             ReactDOM.render(

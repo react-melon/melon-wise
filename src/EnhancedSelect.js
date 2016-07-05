@@ -1,40 +1,31 @@
 /**
  * @file EnhancedSelect
- * @author cxtom<cxtom2010@gmail.com>
+ * @author cxtom<cxtom2008@gmail.com>
  */
 
-const React = require('react');
-const ReactDOM = require('react-dom');
-const cx = require('melon-classname').create('EnhancedSelect');
+import React, {PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+import {create} from 'melon-core/classname/cxBuilder';
+import InputComponent from 'melon-core/InputComponent';
 
-const popupHelper = require('./util/separatePopupHelper');
+import * as popupHelper from './util/separatePopupHelper';
+import SeparatePopup from './enhancedselect/SeparatePopup';
 
-const SeparatePopup = require('./enhancedselect/SeparatePopup');
+const cx = create('EnhancedSelect');
 
-const {PropTypes, Component} = React;
+export default class EnhancedSelect extends InputComponent {
 
-class EnhancedSelect extends Component {
-
-    constructor(props) {
-        super(props);
-
-        const {
-            items, value
-        } = props;
-
-        this.state = {
-            selectedIndex: this.getSelectedIndex(items, value)
-        };
-
-        this.onClick = this.onClick.bind(this);
+    constructor(props, context) {
+        super(props, context);
         this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
 
-        this.container = popupHelper.createPopup({
-            className: cx().part('popup').build()
-        });
+        this.container = popupHelper
+            .createPopup({
+                className: cx.getPartClassName('popup')
+            });
 
         this.renderPopup(false);
     }
@@ -45,39 +36,31 @@ class EnhancedSelect extends Component {
     }
 
     onChange({index, value}) {
-
-        this.setState({selectedIndex: index});
-
-        this.props.onChange({
+        super.onChange({
             type: 'change',
             target: this,
             value
         });
     }
 
-    onClick() {
-        this.renderPopup(true);
-    }
+    getSelectedIndex(value) {
+        const items = this.props.items;
 
-    getSelectedIndex(items, value) {
-
-        for (let i = items.length - 1; i >= 0; i--) {
+        for (let i = 0, len = items.length; i < len; i++) {
             if (items[i].value === value) {
                 return i;
             }
         }
-
-        return;
     }
 
     renderPopup(isShow) {
 
-        const {items} = this.props;
+        const items = this.props.items;
 
         ReactDOM.render(
             <SeparatePopup
                 show={isShow}
-                selectedIndex={this.state.selectedIndex}
+                selectedIndex={this.getSelectedIndex(this.state.value)}
                 items={items}
                 onChange={this.onChange}
                 onHide={() => {
@@ -85,24 +68,29 @@ class EnhancedSelect extends Component {
                 }} />,
             this.container
         );
-
     }
 
     renderResult() {
 
-        const {value, items} = this.props;
-        const {selectedIndex} = this.state;
+        const {placeholder, items} = this.props;
+        const value = this.state.value;
 
-        return value ? (
-            <div className={cx().part('result').build()}>
-                {items[selectedIndex].name}
+        let selectedItem = items[this.getSelectedIndex(value)];
+
+        return selectedItem && value ? (
+            <div className={cx.getPartClassName('result')}>
+                {selectedItem.name}
             </div>
-        ) : null;
+        ) : (
+            <div className={cx.getPartClassName('label-placeholder')}>
+                {placeholder}
+            </div>
+        );
     }
 
     renderLabel() {
 
-        const {label} = this.props;
+        const label = this.props.label;
 
         return label ? (
             <label className={cx().part('label').build()}>
@@ -112,22 +100,20 @@ class EnhancedSelect extends Component {
     }
 
     renderHiddenInput() {
-
-        const {items, name} = this.props;
-        const {selectedIndex} = this.state;
-
         return (
             <input
                 type="hidden"
                 name={name}
-                value={selectedIndex == null ? '' : items[selectedIndex].value} />
+                value={this.state.value} />
         );
     }
 
     render() {
 
         return (
-            <div className={cx(this.props).build()} onClick={this.onClick}>
+            <div
+                className={cx(this.props).build()}
+                onClick={() => this.renderPopup(true)}>
                 {this.renderLabel()}
                 {this.renderResult()}
                 {this.renderHiddenInput()}
@@ -139,19 +125,15 @@ class EnhancedSelect extends Component {
 EnhancedSelect.displayName = 'EnhancedSelect';
 
 EnhancedSelect.propTypes = {
-    defaultValue: PropTypes.string,
-    value: PropTypes.string,
+    ...InputComponent.propTypes,
     label: PropTypes.string,
-    onChange: PropTypes.func,
     items: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
         value: PropTypes.string
-    })).isRequired,
-    itemBorder: PropTypes.bool
+    })).isRequired
 };
 
 EnhancedSelect.defaultProps = {
+    ...InputComponent.defaultProps,
     defaultValue: ''
 };
-
-module.exports = require('./createInputComponent').create(EnhancedSelect);

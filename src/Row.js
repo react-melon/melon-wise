@@ -1,49 +1,51 @@
 /**
- * @file main
- * @author cxtom(cxtom2010@gmail.com)
+ * @file melon-wise/FlexRow
+ * @author cxtom(cxtom2008@gmail.com)
  */
 
-const React = require('react');
+import React, {PropTypes, Component, Children, cloneElement} from 'react';
+import {create} from 'melon-core/classname/cxBuilder';
+import Span from './row/Span';
 
-const PropTypes = React.PropTypes;
+const cx = create('FlexRow');
 
-const cx = require('melon-classname').create('Row');
+export default class FlexRow extends Component {
 
-function Row(props) {
+    render() {
 
-    const {columnNum, noGap} = props;
-    const margin = -20 / (columnNum - 1) + '%';
-    const style = noGap ? null : {
-        marginLeft: margin,
-        marginRight: margin
-    };
+        const props = this.props;
 
-    return (
-        <div {...props} className={cx(props).build()} style={style}>
-            {React.Children.map(props.children, function (child, index) {
-                return React.cloneElement(child, {
-                    key: index,
-                    columnNum,
-                    noGap
-                });
-            })}
-        </div>
-    );
+        const {columnNum, noGap, ...rest} = props;
+        const margin = -20 / (columnNum - 1) + '%';
+        const style = noGap ? null : {
+            marginLeft: margin,
+            marginRight: margin
+        };
 
+        return (
+            <div {...rest} className={cx(props).build()} style={style}>
+                {Children.map(props.children, function (child, index) {
+                    return cloneElement(child, {
+                        key: index,
+                        columnNum,
+                        noGap
+                    });
+                })}
+            </div>
+        );
+    }
 }
 
-Row.displayName = 'Row';
+FlexRow.displayName = 'FlexRow';
 
-Row.propTypes = {
+FlexRow.propTypes = {
     columnNum: PropTypes.number,
     noGap: PropTypes.bool
 };
 
-Row.defaultProps = {
+FlexRow.defaultProps = {
     columnNum: 12,
     noGap: false
 };
 
-Row.Span = require('./row/Span');
-
-module.exports = Row;
+FlexRow.Span = Span;

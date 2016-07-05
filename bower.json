@@ -1,9 +1,9 @@
 {
   "name": "melon-wise",
-  "version": "0.0.17",
+  "version": "0.3.0",
   "homepage": "https://github.com/cxtom/melon-wise",
   "authors": [
-    "cxtom2010@gmail.com"
+    "cxtom2008@gmail.com"
   ],
   "description": "react ui components on mobile",
   "main": "src",
@@ -31,7 +31,7 @@
     "module.conf"
   ],
   "dependencies": {
-    "react": "~0.14.6",
-    "melon-classname": "~0.1.6"
+    "react": "~0.14.8",
+    "melon-core": "^0.3.1"
   }
 }

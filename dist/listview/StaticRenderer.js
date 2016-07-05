@@ -1,11 +1,18 @@
-define('melon-wise/lib/listview/StaticRenderer', [
-    'require',
-    'exports',
-    'module',
-    'react'
-], function (require, exports, module) {
+(function (global, factory) {
+    if (typeof define === 'function' && define.amd) {
+        define('melon-wise/lib/listview/StaticRenderer', [
+            'module',
+            'react'
+        ], factory);
+    } else if (typeof exports !== 'undefined') {
+        factory(module, require('react'));
+    } else {
+        var mod = { exports: {} };
+        factory(mod, global.react);
+        global.StaticRenderer = mod.exports;
+    }
+}(this, function (module, React) {
     'use strict';
-    var React = require('react');
     var StaticRenderer = React.createClass({
         displayName: 'StaticRenderer',
         propTypes: {
@@ -20,4 +27,4 @@ define('melon-wise/lib/listview/StaticRenderer', [
         }
     });
     module.exports = StaticRenderer;
-});
+}));
