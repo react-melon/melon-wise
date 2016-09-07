@@ -6,7 +6,7 @@
 import React, {PropTypes, Component} from 'react';
 import {create} from 'melon-core/classname/cxBuilder';
 
-import Tappable from './Tappable';
+import Tappable from 'react-tappable/lib/Tappable';
 import Title from './Title';
 
 const cx = create('NavigationBar');

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Melon Mobile</title>
 
     <meta name="format-detection" content="telephone=no">
     <!-- iOS mobile-web-app -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="百度帮帮贷" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="百度帮帮贷">
     <!-- Android mobile-web-app -->
-    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes">
     <!-- Windows mobile-web-app -->
     <meta name="msapplication-tap-highlight" content="no">
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
@@ -21,49 +21,6 @@
 </head>
 <body>
 <div id="app"></div>
-<script src="http://s1.bdstatic.com/r/www/cache/ecom/esl/2-1-4/esl.js"></script>
-<script>
-require.config({
-    baseUrl: '/example',
-    paths: {
-        'react': '../dep/react/react',
-        'react-dom': '../dep/react/react-dom',
-        'melon-wise': '../src/',
-        'melon-core': '../dep/melon-core/dist',
-        'tappable': '../dep/tappable/source/tappable'
-    }
-});
-
-require(['react', 'react-dom', 'common/App', 'common/config'], function (React, ReactDOM, App, config) {
-
-    function dispatch() {
-
-        var hash = window.location.hash;
-        var name = hash ? hash.slice(1) : 'MonthPicker';
-
-        require([name], function (Component) {
-            ReactDOM.render(
-                React.createElement(
-                    App,
-                    {
-                        components: config.components,
-                        name: name,
-                        Component: Component
-                    }
-                ),
-                document.getElementById('app')
-            );
-        });
-
-    }
-
-    window.onhashchange = function () {
-        dispatch();
-    };
-
-    dispatch();
-
-});
-</script>
+<script src="bundle.js"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@
 
 import React, {PropTypes, Component} from 'react';
 import {create} from 'melon-core/classname/cxBuilder';
-import CSSTransitionGroup from './CSSTransitionGroup';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 import * as windowScrollHelper from './popup/windowScrollHelper';
 import Mask from './Mask';
 
@@ -77,13 +77,20 @@ export default class Popup extends Component {
 
         const show = this.state.show;
 
+        const type = transitionType === 'translate'
+            ? transitionType + '-' + translateFrom
+            : transitionType;
+
+        const transitionName = 'transition-' + type;
+
         return (
-            <div {...others} className={cx(props).addStates({show}).build()}>
+            <div className={cx(props).addStates({show}).build()}>
                 <CSSTransitionGroup
                     component="div"
-                    transitionTimeout={transitionTimeout || 400}
-                    transitionType={transitionType || 'instant'}
-                    translateFrom={translateFrom || 'bottom'}>
+                    {...others}
+                    transitionName={transitionName}
+                    transitionEnterTimeout={transitionTimeout || 4000}
+                    transitionLeaveTimeout={transitionTimeout || 4000}>
                     {show ? <div className={cx.getPartClassName('body')}>
                         {children}
                     </div> : null}
@@ -109,12 +116,14 @@ Popup.propTypes = {
     onShow: PropTypes.func,
     maskClickClose: PropTypes.bool,
     mask: PropTypes.bool,
-    onMaskClick: PropTypes.func
+    onMaskClick: PropTypes.func,
+    translateFrom: PropTypes.string
 };
 
 Popup.defaultProps = {
     ...CSSTransitionGroup.defaultProps,
     maskClickClose: true,
     show: false,
-    mask: true
+    mask: true,
+    translateFrom: 'bottom'
 };

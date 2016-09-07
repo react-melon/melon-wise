@@ -1,38 +1,45 @@
-var babelHelpers = require('./babelHelpers');
 (function (global, factory) {
-    if (typeof define === 'function' && define.amd) {
-        define('melon-wise/lib/Title', [
-            'exports',
-            'react',
-            'melon-core/classname/cxBuilder'
-        ], factory);
-    } else if (typeof exports !== 'undefined') {
-        factory(exports, require('react'), require('melon-core/classname/cxBuilder'));
+    if (typeof define === "function" && define.amd) {
+        define(['exports', 'react', 'melon-core/classname/cxBuilder', './babelHelpers'], factory);
+    } else if (typeof exports !== "undefined") {
+        factory(exports, require('react'), require('melon-core/classname/cxBuilder'), require('./babelHelpers'));
     } else {
-        var mod = { exports: {} };
-        factory(mod.exports, global.react, global.cxBuilder);
+        var mod = {
+            exports: {}
+        };
+        factory(mod.exports, global.react, global.cxBuilder, global.babelHelpers);
         global.Title = mod.exports;
     }
-}(this, function (exports, _react, _cxBuilder) {
+})(this, function (exports, _react, _cxBuilder, babelHelpers) {
     'use strict';
-    Object.defineProperty(exports, '__esModule', { value: true });
+
+    exports.__esModule = true;
     exports.default = Title;
+
     var _react2 = babelHelpers.interopRequireDefault(_react);
+
+    /**
+     * @file melon/Title
+     * @author leon(ludafa@outlook.com)
+     */
+
     var cx = (0, _cxBuilder.create)('Title');
+
     function Title(props) {
         var level = props.level;
         var rest = babelHelpers.objectWithoutProperties(props, ['level']);
-        return _react2.default.createElement('h' + level, babelHelpers.extends({}, rest, { className: cx(props).build() }));
+
+
+        return _react2['default'].createElement('h' + level, babelHelpers['extends']({}, rest, {
+            className: cx(props).build()
+        }));
     }
+
     Title.propsTypes = {
-        level: _react2.default.PropTypes.oneOf([
-            1,
-            2,
-            3,
-            4,
-            5,
-            6
-        ]).isRequired
+        level: _react2['default'].PropTypes.oneOf([1, 2, 3, 4, 5, 6]).isRequired
     };
-    Title.defaultProps = { level: 1 };
-}));
+
+    Title.defaultProps = {
+        level: 1
+    };
+});

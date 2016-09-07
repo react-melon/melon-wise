@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import MonthPicker from 'melon-wise/MonthPicker';
+import MonthPicker from '../src/MonthPicker';
 
 const View = React.createClass({
 

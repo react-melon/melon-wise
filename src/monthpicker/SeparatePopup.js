@@ -5,7 +5,7 @@
 
 import React, {PropTypes} from 'react';
 import Popup from '../Popup';
-import Tappable from '../Tappable';
+import Tappable from 'react-tappable/lib/Tappable';
 import {create} from 'melon-core/classname/cxBuilder';
 import LockBody from '../common/LockBody';
 

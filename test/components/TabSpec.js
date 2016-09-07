@@ -5,7 +5,6 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import expect from 'expect';
 import TestUtils from 'react-addons-test-utils';
 
 import Tab from '../../src/Tab';
@@ -14,7 +13,6 @@ import TabItem from '../../src/tab/Item';
 import then from '../util/then';
 import tap from '../util/tap';
 
-/* globals before after */
 
 describe('Tab', function () {
 
@@ -25,15 +23,9 @@ describe('Tab', function () {
         let selectedItem;
         let panel;
 
-        let changeSpy;
-        let beforeChangeSpy;
-
         beforeEach(() => {
-            changeSpy = expect.createSpy();
-            beforeChangeSpy = expect.createSpy();
-
             component = TestUtils.renderIntoDocument(
-                <Tab onChange={changeSpy} onBeforeChange={beforeChangeSpy}>
+                <Tab>
                     <TabItem label="TabA">
                         PanelA
                     </TabItem>
@@ -63,7 +55,7 @@ describe('Tab', function () {
 
             expect(items.length).toBe(3);
             expect(TestUtils.isDOMComponent(selectedItem)).toBe(true);
-            expect(TestUtils.isDOMComponent(panel)).toBe(true);
+            expect(TestUtils.isDOMComponent(panel)).toBeTruthy();
         });
 
         it('change', done => {
@@ -71,8 +63,6 @@ describe('Tab', function () {
 
             /* eslint-disable max-nested-callbacks */
             then(() => {
-                expect(beforeChangeSpy).toHaveBeenCalled();
-                expect(changeSpy).toHaveBeenCalled();
                 expect(component.state.selectedIndex).toBe(1);
                 done();
             }, 15);
@@ -85,8 +75,6 @@ describe('Tab', function () {
             /* eslint-disable max-nested-callbacks */
             then(() => {
                 expect(component.state.selectedIndex).toBe(0);
-                expect(beforeChangeSpy).toNotHaveBeenCalled();
-                expect(changeSpy).toNotHaveBeenCalled();
                 done();
             }, 15);
             /* eslint-enable max-nested-callbacks */
@@ -99,12 +87,31 @@ describe('Tab', function () {
         let component;
         let items;
         let container = document.createElement('div');
+        const spy = jasmine.createSpy('change');
 
-        const TestComponent = React.createClass({
+        class TestComponent extends React.Component {
+
+            constructor(props) {
+                super(props);
+
+                this.state = {
+                    selectedIndex: 0
+                };
+
+                this.onChange = this.onChange.bind(this);
+            }
+
+            onChange({index}) {
+                this.setState({selectedIndex: index}, spy);
+            }
 
             render() {
                 return (
-                    <Tab {...this.props} ref="tab">
+                    <Tab
+                        {...this.props}
+                        selectedIndex={this.state.selectedIndex}
+                        ref="tab"
+                        onChange={this.onChange}>
                         <TabItem label="TabA">
                             PanelA
                         </TabItem>
@@ -117,9 +124,9 @@ describe('Tab', function () {
                     </Tab>
                 );
             }
-        });
+        }
 
-        before(() => {
+        beforeAll(() => {
 
             component = ReactDOM.render(
                 <TestComponent />,
@@ -129,7 +136,7 @@ describe('Tab', function () {
             items = TestUtils.scryRenderedDOMComponentsWithClass(component, 'ui-tab-item');
         });
 
-        after(() => {
+        afterAll(() => {
             ReactDOM.unmountComponentAtNode(container);
             container = null;
         });
@@ -137,64 +144,32 @@ describe('Tab', function () {
         it('init', function () {
             expect(TestUtils.isCompositeComponent(component)).toBe(true);
             expect(items.length).toBe(3);
+            const tab = component.refs.tab;
+            expect(tab.state.selectedIndex).toBe(0);
         });
 
-        it('preventDefault', done => {
-
-            const changeSpy = expect.createSpy();
-            const beforeChangeSpy = expect.createSpy();
-
-            ReactDOM.render(
-                <TestComponent
-                    onBeforeChange={e => {
-                        e.preventDefault();
-                        beforeChangeSpy();
-                    }}
-                    onChange={changeSpy} />,
-                container
-            );
+        it('controlled', done => {
 
             tap(items[1]);
 
-            const tab = component.refs.tab;
-
-            /* eslint-disable max-nested-callbacks */
             then(() => {
-                expect(tab.state.selectedIndex).toBe(0);
-                expect(beforeChangeSpy).toHaveBeenCalled();
-                expect(changeSpy).toNotHaveBeenCalled();
+                const tab = component.refs.tab;
+                expect(tab.state.selectedIndex).toBe(1);
+                expect(spy).toHaveBeenCalled();
                 done();
             }, 15);
-            /* eslint-enable max-nested-callbacks */
         });
 
-        it('recieveProps', () => {
+        it('disabled', done => {
 
-            const changeSpy = expect.createSpy();
-
-            ReactDOM.render(
-                <TestComponent
-                    selectedIndex={1}
-                    onChange={changeSpy} />,
-                container
-            );
-
-            const tab = component.refs.tab;
-
-            expect(tab.state.selectedIndex).toBe(1);
-            expect(changeSpy).toHaveBeenCalled();
-
-        });
-
-        it('disabled', () => {
-
-            expect(items[2].className).toInclude('state-disabled');
-
+            expect(items[2].className).toMatch('state-disabled');
             tap(items[2]);
 
-            const tab = component.refs.tab;
-
-            expect(tab.state.selectedIndex).toBe(1);
+            then(() => {
+                const tab = component.refs.tab;
+                expect(tab.state.selectedIndex).toBe(1);
+                done();
+            }, 15);
 
         });
     });

@@ -6,7 +6,7 @@
 import React from 'react';
 import {create} from 'melon-core/classname/cxBuilder';
 
-import Tappable from '../Tappable';
+import Tappable from 'react-tappable/lib/Tappable';
 
 const cx = create('TabItem');
 

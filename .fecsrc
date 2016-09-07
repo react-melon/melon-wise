@@ -1,15 +1,16 @@
-{
-    "eslint": {
-        "rules": {
-            "fecs-jsx-var": [
-                2,
-                {
-                    "pragma": "React"
-                }
-            ],
-            "fecs-prefer-class": ["off", "always"],
-            "fecs-use-for-of": ["off", "always"],
-            "fecs-valid-map-set": ["off", "always"]
-        }
-    }
-}
+files:
+    - src
+eslint:
+    rules:
+        fecs-valid-class-jsdoc:
+            - off
+            - always
+        fecs-use-for-of:
+            - off
+            - always
+        fecs-valid-map-set:
+            - off
+            - always
+        fecs-prefer-class:
+            - off
+            - always

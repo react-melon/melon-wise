@@ -4,13 +4,9 @@
  */
 
 import React from 'react';
-import expect from 'expect';
-import expectJSX from 'expect-jsx';
 import {createRenderer} from 'react-addons-test-utils';
 
 import Mask from '../../src/Mask';
-
-expect.extend(expectJSX);
 
 describe('Mask', function () {
 

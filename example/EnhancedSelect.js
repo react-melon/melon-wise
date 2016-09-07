@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import EnhancedSelect from 'melon-wise/EnhancedSelect';
+import EnhancedSelect from '../src/EnhancedSelect';
 
 const items = [{
     value: '01',

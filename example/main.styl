@@ -6,11 +6,17 @@ global-reset()
 @require '../src/css/**'
 @require './css/**'
 
+body
+html
+    height: 100%
+    background-color: #fbfbfb
+
 #app
-    .ui-view
-        &-main
-            padding: 4em 2em 0 2em
-            background-color: #fbfbfb
+    main
+        padding: 4em 2em 0 2em
+
+    .row
+        margin-bottom: 20px
 
 .variant-bottom-1px-border
     position: relative
